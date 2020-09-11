@@ -1,9 +1,16 @@
 package com.example.swc.weather.domain;
 
+import com.example.swc.weather.domain.exceptions.IllegalLongitudeException;
+
+import static java.lang.String.format;
+
 public class Longitude {
-    private float value;
+    private final float value;
 
     public Longitude(float value) {
+        if (value < -180 || value > 180) {
+            throw new IllegalLongitudeException(format("Longitude cannot be %s", value));
+        }
         this.value = value;
     }
 

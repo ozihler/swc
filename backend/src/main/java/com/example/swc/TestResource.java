@@ -37,8 +37,4 @@ public class TestResource {
         return ResponseEntity.ok(new WelcomeMessage("Hello World"));
     }
 
-    @GetMapping("/current-weather")
-    public OpenWeatherContentDto getWeather() throws IOException {
-       return this.openWeatherApi.getCurrentWeather(8.51f, 41.50f);
-    }
 }
