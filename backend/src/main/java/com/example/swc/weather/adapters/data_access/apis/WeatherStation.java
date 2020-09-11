@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 import java.io.IOException;
 
 @Repository
-public class WeatherRepository implements FetchCurrentWeather {
+public class WeatherStation implements FetchCurrentWeather {
     private final OpenWeatherApi openWeatherApi;
 
     @Autowired
-    public WeatherRepository(OpenWeatherApi openWeatherApi) {
+    public WeatherStation(OpenWeatherApi openWeatherApi) {
         this.openWeatherApi = openWeatherApi;
     }
 
