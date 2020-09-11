@@ -17,7 +17,7 @@ class ViewCurrentWeatherUseCaseTest {
 
         ViewCurrentWeather useCase = new ViewCurrentWeatherUseCase(fetchCurrentWeather);
 
-        var output = new TestWeatherPresenter();
+        var output = new TestCurrentWeatherPresenter();
 
         Location location = new Location(new Latitude(8.51f), new Longitude(47.10f));
 

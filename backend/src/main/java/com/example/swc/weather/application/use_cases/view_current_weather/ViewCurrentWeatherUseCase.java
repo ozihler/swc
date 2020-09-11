@@ -12,7 +12,7 @@ public class ViewCurrentWeatherUseCase implements ViewCurrentWeather {
     }
 
     @Override
-    public void callWith(Location location, WeatherPresenter output) {
+    public void callWith(Location location, CurrentWeatherPresenter output) {
         CurrentWeather currentWeather = fetchCurrentWeather.at(location);
 
         output.present(currentWeather);
