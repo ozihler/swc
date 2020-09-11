@@ -17,7 +17,6 @@ export const initialState: State = {
   loading: false
 };
 
-
 export const reducer = createReducer(
   initialState,
 
