@@ -127,6 +127,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "news"
+    }
+  },
+  "defaultProject": "news",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
