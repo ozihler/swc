@@ -1,0 +1,28 @@
+HELP.md
+.gradle
+/build/
+/backend/build
+/frontend/node_modules
+/frontend/dist
+/frontend/build
+/frontend/package-lock.json
+/backend/out
+!gradle/wrapper/gradle-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
