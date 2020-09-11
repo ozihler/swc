@@ -1,30 +1,44 @@
-import {AfterContentInit, Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {WeatherService} from "../weather.service";
+import {WeatherService} from "./weather.service";
+import {select, Store} from "@ngrx/store";
+import {State} from "./reducers/weather.reducer";
+import {loadWeathers} from "./actions/weather.actions";
+import {getTemperature, getWeatherLoading} from "./selectors/weather.selectors";
 
 @Component({
   selector: 'nw-weather',
   template: `
     <div>Current Temperature:
-      <span>{{temperature$ | async}}°</span>
+      <ng-container *ngIf="temperature$ | async as temperature">
+        {{temperature}}° C
+      </ng-container>
+      <ng-container *ngIf="loading$ | async">
+        Daten werden geladen...
+      </ng-container>
     </div>
   `,
   styles: []
 })
-export class WeatherComponent implements AfterContentInit {
+export class WeatherComponent implements OnInit {
 
-  temperature$: Observable<number> = new Observable<number>();
+  loading$: Observable<boolean>;
+  temperature$: Observable<number>;
 
-  constructor(private weatherService: WeatherService) {
-
+  constructor(private weatherService: WeatherService,
+              private store: Store<State>) {
+    this.loading$ = this.store.pipe(select(getWeatherLoading));
+    this.temperature$ = this.store.pipe(select(getTemperature));
   }
 
-  ngAfterContentInit(): void {
+  ngOnInit(): void {
+
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        position =>
-          this.temperature$ = this.weatherService.fetchCurrentTemperatureAt(position.coords.latitude, position.coords.longitude));
+      navigator.geolocation
+        .getCurrentPosition(position =>
+          this.store.dispatch(loadWeathers({data: position})));
     }
   }
 
 }
+

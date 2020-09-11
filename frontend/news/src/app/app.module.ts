@@ -6,26 +6,27 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {HelloWorldModule} from "./hello-world/hello-world.module";
 import {WeatherModule} from "./weather/weather.module";
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import { EffectsModule } from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
+import {EffectsModule} from '@ngrx/effects';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HelloWorldModule,
-        HttpClientModule,
-        WeatherModule,
-        StoreModule.forRoot({}, {}),
-        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-        EffectsModule.forRoot([])
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HelloWorldModule,
+    HttpClientModule,
+    WeatherModule,
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+    EffectsModule.forRoot([])
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
