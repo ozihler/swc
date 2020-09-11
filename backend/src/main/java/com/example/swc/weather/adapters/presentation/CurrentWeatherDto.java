@@ -1,4 +1,4 @@
-package com.example.swc.weather.adapters.presentation.dtos;
+package com.example.swc.weather.adapters.presentation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

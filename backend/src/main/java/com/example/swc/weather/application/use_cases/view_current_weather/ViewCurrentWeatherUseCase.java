@@ -1,11 +1,10 @@
 package com.example.swc.weather.application.use_cases.view_current_weather;
 
-import com.example.swc.weather.application.gateways.FetchCurrentWeather;
 import com.example.swc.weather.domain.CurrentWeather;
 import com.example.swc.weather.domain.Location;
 
 public class ViewCurrentWeatherUseCase implements ViewCurrentWeather {
-    private FetchCurrentWeather fetchCurrentWeather;
+    private final FetchCurrentWeather fetchCurrentWeather;
 
     public ViewCurrentWeatherUseCase(FetchCurrentWeather fetchCurrentWeather) {
         this.fetchCurrentWeather = fetchCurrentWeather;

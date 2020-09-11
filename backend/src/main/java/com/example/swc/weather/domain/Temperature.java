@@ -1,7 +1,7 @@
 package com.example.swc.weather.domain;
 
 public class Temperature {
-    private float value;
+    private final float value;
 
     public Temperature(float value) {
         this.value = value;

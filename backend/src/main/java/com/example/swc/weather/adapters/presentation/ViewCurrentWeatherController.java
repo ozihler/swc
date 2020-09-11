@@ -1,8 +1,6 @@
-package com.example.swc.weather.adapters.presentation.controllers;
+package com.example.swc.weather.adapters.presentation;
 
-import com.example.swc.weather.adapters.presentation.dtos.CurrentWeatherDto;
-import com.example.swc.weather.adapters.presentation.presenters.RestCurrentWeatherPresenter;
-import com.example.swc.weather.application.gateways.FetchCurrentWeather;
+import com.example.swc.weather.application.use_cases.view_current_weather.FetchCurrentWeather;
 import com.example.swc.weather.application.use_cases.view_current_weather.ViewCurrentWeather;
 import com.example.swc.weather.application.use_cases.view_current_weather.ViewCurrentWeatherUseCase;
 import com.example.swc.weather.domain.Latitude;

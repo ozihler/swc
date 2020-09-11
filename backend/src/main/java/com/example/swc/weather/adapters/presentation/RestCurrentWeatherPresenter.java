@@ -1,6 +1,5 @@
-package com.example.swc.weather.adapters.presentation.presenters;
+package com.example.swc.weather.adapters.presentation;
 
-import com.example.swc.weather.adapters.presentation.dtos.CurrentWeatherDto;
 import com.example.swc.weather.application.use_cases.view_current_weather.CurrentWeatherPresenter;
 import com.example.swc.weather.domain.CurrentWeather;
 import org.springframework.http.ResponseEntity;

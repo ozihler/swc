@@ -1,9 +1,11 @@
-package com.example.swc.weather.adapters.data_access.apis;
+package com.example.swc.weather.adapters.data_access;
 
-import com.example.swc.weather.application.gateways.FetchCurrentWeather;
+import com.example.swc.weather.application.use_cases.view_current_weather.FetchCurrentWeather;
 import com.example.swc.weather.domain.CurrentWeather;
 import com.example.swc.weather.domain.Location;
 import com.example.swc.weather.domain.Temperature;
+import com.example.swc.weather.surrounding_systems.OpenWeatherApi;
+import com.example.swc.weather.surrounding_systems.OpenWeatherApiCurrentWeatherDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -20,14 +22,14 @@ public class WeatherStation implements FetchCurrentWeather {
 
     @Override
     public CurrentWeather at(Location location) {
-        OpenWeatherContentDto dto = fetchWeatherAt(location);
+        OpenWeatherApiCurrentWeatherDto dto = fetchWeatherAt(location);
 
         return new CurrentWeather(
                 new Temperature(dto.main.temp)
         );
     }
 
-    private OpenWeatherContentDto fetchWeatherAt(Location location) {
+    private OpenWeatherApiCurrentWeatherDto fetchWeatherAt(Location location) {
         try {
             return openWeatherApi.getCurrentWeather(
                     location.getLatitude().getFloatValue(),

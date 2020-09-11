@@ -1,6 +1,5 @@
 package com.example.swc.weather.application.use_cases.view_current_weather;
 
-import com.example.swc.weather.application.gateways.FetchCurrentWeather;
 import com.example.swc.weather.domain.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

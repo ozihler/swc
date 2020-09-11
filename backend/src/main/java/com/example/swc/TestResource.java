@@ -1,12 +1,9 @@
 package com.example.swc;
 
-import com.example.swc.weather.adapters.data_access.apis.OpenWeatherApi;
-import com.example.swc.weather.adapters.data_access.apis.OpenWeatherContentDto;
+import com.example.swc.weather.surrounding_systems.OpenWeatherApi;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
 
 @RestController
 public class TestResource {
@@ -17,7 +14,12 @@ public class TestResource {
         this.openWeatherApi = openWeatherApi;
     }
 
-    public static class WelcomeMessage{
+    @GetMapping("/hello-world")
+    public ResponseEntity<WelcomeMessage> getHelloWorld() {
+        return ResponseEntity.ok(new WelcomeMessage("Hello World"));
+    }
+
+    public static class WelcomeMessage {
         private String message;
 
         public WelcomeMessage(String message) {
@@ -30,11 +32,6 @@ public class TestResource {
         public String getMessage() {
             return message;
         }
-    }
-
-    @GetMapping("/hello-world")
-    public ResponseEntity<WelcomeMessage> getHelloWorld() {
-        return ResponseEntity.ok(new WelcomeMessage("Hello World"));
     }
 
 }

@@ -1,7 +1,6 @@
-package com.example.swc.weather.adapters.data_access.apis;
+package com.example.swc.weather.surrounding_systems;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 @Service
 public class OpenWeatherApi {
@@ -25,7 +24,7 @@ public class OpenWeatherApi {
         this.baseUrl = baseUrl;
     }
 
-    public OpenWeatherContentDto getCurrentWeather(float latitude, float longitude) throws IOException {
+    public OpenWeatherApiCurrentWeatherDto getCurrentWeather(float latitude, float longitude) throws IOException {
         String uri = format("%s?appid=%s&lat=%s&lon=%s&units=metric", baseUrl, apiKey, latitude, longitude);
 
         String response = Request.Get(uri)
@@ -33,7 +32,7 @@ public class OpenWeatherApi {
                 .returnContent()
                 .toString();
 
-        return new ObjectMapper().readValue(response, OpenWeatherContentDto.class);
+        return new ObjectMapper().readValue(response, OpenWeatherApiCurrentWeatherDto.class);
     }
 
 }

@@ -2,7 +2,7 @@ package com.example.swc.weather.domain;
 
 import com.example.swc.weather.domain.exceptions.IllegalLocationException;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 public class Location {
     private final Latitude latitude;

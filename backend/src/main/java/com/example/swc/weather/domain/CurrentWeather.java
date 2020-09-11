@@ -1,9 +1,7 @@
 package com.example.swc.weather.domain;
 
-import java.util.Map;
-
 public class CurrentWeather {
-    private Temperature temperature;
+    private final Temperature temperature;
 
     public CurrentWeather(Temperature temperature) {
         this.temperature = temperature;
