@@ -15,6 +15,11 @@ export const getTemperature = createSelector(
   state => state.temperature
 );
 
+export const getError = createSelector(
+  selectWeatherState,
+  state => state.error
+)
+
 export const getCoordinates = createSelector(
   selectWeatherState,
   state => state.coordinates
