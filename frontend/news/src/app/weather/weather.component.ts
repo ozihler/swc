@@ -4,21 +4,24 @@ import {WeatherService} from "./weather.service";
 import {select, Store} from "@ngrx/store";
 import {State} from "./reducers/weather.reducer";
 import {loadWeathers} from "./actions/weather.actions";
-import {getError, getTemperature, getWeatherLoading} from "./selectors/weather.selectors";
+import {getCoordinates, getError, getTemperature, getWeatherLoading} from "./selectors/weather.selectors";
+import {Coordinates} from "./reducers/weather.reducer";
 
 @Component({
   selector: 'nw-weather',
   template: `
-    <div>Current Temperature:
-      <ng-container *ngIf="temperature$ | async as temperature">
+    <div *ngIf="coordinates$ |async as coordinates">
+      Current Temperature at {{coordinates.latitude}}, {{coordinates.longitude}}:
+      <span *ngIf="temperature$ | async as temperature">
         {{temperature}}° C
-      </ng-container>
-      <ng-container *ngIf="loading$ | async">
-        Daten werden geladen...
-      </ng-container>
-      <ng-container *ngIf="error$ | async as error">
-        Folgender Fehler trat bei der Abfrage auf: {{error}}
-      </ng-container>
+      </span>
+    </div>
+    <div *ngIf="loading$ | async">
+      <span>Daten werden geladen...</span>
+    </div>
+    <div *ngIf="error$ | async as error">
+      <p>Folgender Fehler trat bei der Abfrage auf:</p>
+      <p>{{error}}</p>
     </div>
   `,
   styles: []
@@ -28,12 +31,14 @@ export class WeatherComponent implements OnInit {
   loading$: Observable<boolean>;
   temperature$: Observable<number>;
   error$: Observable<string>;
+  coordinates$: Observable<Coordinates>;
 
   constructor(private weatherService: WeatherService,
               private store: Store<State>) {
     this.loading$ = this.store.pipe(select(getWeatherLoading));
     this.temperature$ = this.store.pipe(select(getTemperature));
     this.error$ = this.store.pipe(select(getError));
+    this.coordinates$ = this.store.pipe(select(getCoordinates));
   }
 
   ngOnInit(): void {

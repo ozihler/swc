@@ -17,12 +17,9 @@ export interface State {
 
 export const initialState: State = {
   temperature: 0,
-  coordinates: {
-    latitude: 0,
-    longitude: 0
-  },
+  coordinates: {latitude: 0, longitude: 0},
   loading: false,
-  error: undefined
+  error: ''
 };
 
 export const reducer = createReducer(

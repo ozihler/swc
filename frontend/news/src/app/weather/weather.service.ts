@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {map} from "rxjs/operators";
+import {Coordinates} from "./reducers/weather.reducer";
 
 export interface CurrentWeatherDto {
   temperature: number;
