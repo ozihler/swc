@@ -3,29 +3,39 @@ import * as WeatherActions from '../actions/weather.actions';
 
 export const weatherFeatureKey = 'weather';
 
-export interface State {
-  temperature: number;
+export interface Coordinates {
   latitude: number;
   longitude: number;
+}
+
+export interface State {
+  temperature: number;
+  coordinates: Coordinates;
   loading: boolean;
+  error: any;
 }
 
 export const initialState: State = {
   temperature: 0,
-  latitude: 0,
-  longitude: 0,
-  loading: false
+  coordinates: {
+    latitude: 0,
+    longitude: 0
+  },
+  loading: false,
+  error: undefined
 };
 
 export const reducer = createReducer(
   initialState,
 
   on(WeatherActions.loadWeathers, (state, action) => {
-    const coords = action.data.coords;
+    const coords = action.data;
     return {
       ...state,
-      latitude: coords.latitude,
-      longitude: coords.longitude,
+      coordinates: {
+        latitude: coords.latitude,
+        longitude: coords.longitude
+      },
       loading: true
     };
   }),
@@ -36,6 +46,12 @@ export const reducer = createReducer(
       loading: false,
     }
   }),
-  on(WeatherActions.loadWeathersFailure, (state, action) => state),
+  on(WeatherActions.loadWeathersFailure, (state, action) => {
+    return {
+      ...state,
+      loading: false,
+      error: action.error
+    }
+  }),
 );
 

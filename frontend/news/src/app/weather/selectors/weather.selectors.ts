@@ -13,4 +13,9 @@ export const getWeatherLoading = createSelector(
 export const getTemperature = createSelector(
   selectWeatherState,
   state => state.temperature
-)
+);
+
+export const getCoordinates = createSelector(
+  selectWeatherState,
+  state => state.coordinates
+);

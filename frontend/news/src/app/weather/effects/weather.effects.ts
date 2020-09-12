@@ -14,15 +14,18 @@ export class WeatherEffects {
   loadWeathers$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WeatherActions.loadWeathers),
-      concatMap((action) =>
-        this.weatherService
-          .fetchCurrentTemperatureAt(
-            action.data.coords.latitude,
-            action.data.coords.longitude)
-          .pipe(
-            map(temperature => loadWeathersSuccess({data: temperature})),
-            catchError(error => of(loadWeathersFailure({error})))
-          )
+      concatMap((action) => {
+          const coordinates = {
+            latitude: action.data.latitude,
+            longitude: action.data.longitude
+          }
+          return this.weatherService
+            .fetchCurrentTemperatureAt(coordinates)
+            .pipe(
+              map(temperature => loadWeathersSuccess({data: temperature})),
+              catchError(error => of(loadWeathersFailure({error})))
+            );
+        }
       ))
       ;
   });

@@ -16,11 +16,9 @@ export class WeatherService {
   constructor(private http: HttpClient) {
   }
 
-  fetchCurrentTemperatureAt(latitude: number, longitude: number): Observable<number> {
-    return this.http
-      .get<CurrentWeatherDto>(`${environment.backendBaseUrl}/current-weather?lat=${latitude}&lon=${longitude}`)
-      .pipe(
-        map(response => response.temperature)
-      );
+  fetchCurrentTemperatureAt(coordinates: Coordinates): Observable<number> {
+    const currentWeatherUrl = `${environment.backendBaseUrl}/current-weather?lat=${coordinates.latitude}&lon=${coordinates.longitude}`;
+    return this.http.get<CurrentWeatherDto>(currentWeatherUrl)
+      .pipe(map(response => response.temperature));
   }
 }

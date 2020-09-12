@@ -36,7 +36,7 @@ export class WeatherComponent implements OnInit {
     if (navigator.geolocation) {
       navigator.geolocation
         .getCurrentPosition(position =>
-          this.store.dispatch(loadWeathers({data: position})));
+          this.store.dispatch(loadWeathers({data: position.coords})));
     }
   }
 
