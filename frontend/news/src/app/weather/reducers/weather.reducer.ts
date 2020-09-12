@@ -12,7 +12,7 @@ export interface State {
   temperature: number;
   coordinates: Coordinates;
   loading: boolean;
-  error: any;
+  error: string;
 }
 
 export const initialState: State = {
