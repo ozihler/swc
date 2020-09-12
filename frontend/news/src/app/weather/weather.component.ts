@@ -2,27 +2,37 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {WeatherService} from "./weather.service";
 import {select, Store} from "@ngrx/store";
-import {State} from "./reducers/weather.reducer";
+import {Coordinates, State} from "./reducers/weather.reducer";
 import {loadWeathers} from "./actions/weather.actions";
 import {getCoordinates, getError, getTemperature, getWeatherLoading} from "./selectors/weather.selectors";
-import {Coordinates} from "./reducers/weather.reducer";
 
 @Component({
   selector: 'nw-weather',
   template: `
-    <div *ngIf="coordinates$ |async as coordinates">
-      Current Temperature at {{coordinates.latitude}}, {{coordinates.longitude}}:
-      <span *ngIf="temperature$ | async as temperature">
-        {{temperature}}° C
-      </span>
+    <div class="row">
+      <div class="col-md-1">
+        <h5 class="d-flex justify-content-center" *ngIf="coordinates$ | async as coordinates">
+          Current Temperature at {{coordinates.latitude}}, {{coordinates.longitude}}:
+        </h5>
+        <h1 class="d-flex justify-content-center" *ngIf="temperature$ | async as temperature">
+          {{temperature}}° C
+        </h1>
+      </div>
+
+      <div class="col-md-1" *ngIf="loading$ | async">
+        <ngb-alert [type]="'info'" [dismissible]="false">
+          Daten werden geladen...
+        </ngb-alert>
+      </div>
+
+      <div class="col-md-1" *ngIf="error$ | async as error">
+        <ngb-alert [type]="'danger'" [dismissible]="false">
+          <p>Folgender Fehler trat bei der Abfrage auf:</p>
+          <p>{{error}}</p>
+        </ngb-alert>
+      </div>
+
     </div>
-    <div *ngIf="loading$ | async">
-      <ngb-alert [type]="'info'" [dismissible]="false">Daten werden geladen...</ngb-alert>
-    </div>
-    <ngb-alert [type]="'danger'" [dismissible]="false" *ngIf="error$ | async as error">
-      <p>Folgender Fehler trat bei der Abfrage auf:</p>
-      <p>{{error}}</p>
-    </ngb-alert>
   `,
   styles: []
 })

@@ -27,6 +27,7 @@ export const reducer = createReducer(
 
   on(WeatherActions.loadWeathers, (state, action) => {
     const coords = action.data;
+
     return {
       ...state,
       coordinates: {
