@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromWeather from './reducers/weather.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { WeatherEffects } from './effects/weather.effects';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -14,11 +15,12 @@ import { WeatherEffects } from './effects/weather.effects';
     exports: [
         WeatherComponent
     ],
-    imports: [
-        CommonModule,
-        WeatherRoutingModule,
-        StoreModule.forFeature(fromWeather.weatherFeatureKey, fromWeather.reducer),
-        EffectsModule.forFeature([WeatherEffects])
-    ]
+  imports: [
+    CommonModule,
+    WeatherRoutingModule,
+    StoreModule.forFeature(fromWeather.weatherFeatureKey, fromWeather.reducer),
+    EffectsModule.forFeature([WeatherEffects]),
+    NgbModule
+  ]
 })
 export class WeatherModule { }

@@ -17,12 +17,12 @@ import {Coordinates} from "./reducers/weather.reducer";
       </span>
     </div>
     <div *ngIf="loading$ | async">
-      <span>Daten werden geladen...</span>
+      <ngb-alert [type]="'info'" [dismissible]="false">Daten werden geladen...</ngb-alert>
     </div>
-    <div *ngIf="error$ | async as error">
+    <ngb-alert [type]="'danger'" [dismissible]="false" *ngIf="error$ | async as error">
       <p>Folgender Fehler trat bei der Abfrage auf:</p>
       <p>{{error}}</p>
-    </div>
+    </ngb-alert>
   `,
   styles: []
 })
