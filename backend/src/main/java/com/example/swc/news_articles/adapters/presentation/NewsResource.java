@@ -1,7 +1,7 @@
 package com.example.swc.news_articles.adapters.presentation;
 
 import com.example.swc.news_articles.surrounding_systems.NewsApi;
-import com.example.swc.news_articles.surrounding_systems.TopHeadlinesDto;
+import com.example.swc.news_articles.surrounding_systems.NewsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ public class NewsResource {
     }
 
     @GetMapping("/news/top-headlines")
-    public ResponseEntity<TopHeadlinesDto> getTopHeadlines(
+    public ResponseEntity<NewsDto> getTopHeadlines(
             @RequestParam("country") String country) throws IOException {
         return ResponseEntity.ok(
                 this.newsApi.getTopHeadlines(country)

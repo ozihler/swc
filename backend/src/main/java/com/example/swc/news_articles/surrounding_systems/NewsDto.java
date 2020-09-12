@@ -21,7 +21,7 @@ class ArticlesDto {
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TopHeadlinesDto {
+public class NewsDto {
     public String status;
     public int totalResults;
     public ArticlesDto[] articles;

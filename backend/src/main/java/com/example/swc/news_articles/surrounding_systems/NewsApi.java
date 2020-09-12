@@ -19,9 +19,15 @@ public class NewsApi {
         this.baseUrl = baseUrl;
     }
 
-    public TopHeadlinesDto getTopHeadlines(String country) throws IOException {
+    public NewsDto getTopHeadlines(String country) throws IOException {
         String uri = String.format("%s/top-headlines?country=%s&apiKey=%s", baseUrl, country, apiKey);
 
-        return HttpClient.invokeGet(uri, TopHeadlinesDto.class);
+        return HttpClient.invokeGet(uri, NewsDto.class);
+    }
+
+    public NewsDto getEverything(String query, String date, String sortedBy) throws IOException {
+        String uri = String.format("%s/everything?q=%s&from=%s&sortedBy=%s&apiKey=%s", baseUrl, query, date, sortedBy, apiKey);
+
+        return HttpClient.invokeGet(uri, NewsDto.class);
     }
 }
