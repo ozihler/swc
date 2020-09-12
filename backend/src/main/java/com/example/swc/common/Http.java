@@ -5,8 +5,8 @@ import org.apache.http.client.fluent.Request;
 
 import java.io.IOException;
 
-public class HttpClient {
-    public static <T> T invokeGet(
+public class Http {
+    public static <T> T get(
             String uri,
             Class<T> targetDtoClass)
             throws IOException {
