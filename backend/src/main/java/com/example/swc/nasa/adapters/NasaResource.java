@@ -1,9 +1,6 @@
 package com.example.swc.nasa.adapters;
 
-import com.example.swc.nasa.surrounding_systems.AsteroidsDto;
-import com.example.swc.nasa.surrounding_systems.DiameterDto;
-import com.example.swc.nasa.surrounding_systems.NearEarthObjectDto;
-import com.example.swc.nasa.surrounding_systems.NewWsApi;
+import com.example.swc.nasa.surrounding_systems.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 @RestController
 public class NasaResource {
@@ -36,9 +34,11 @@ public class NasaResource {
     }
 
     @GetMapping("/nasa/asteroids/kineticEnergy")
-    public ResponseEntity<Map<String, Double>> getMissingDistance(
+    public ResponseEntity<Map<String, Map<String, Object>>> getMissingDistance(
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate) throws IOException {
+        // https://www.real-world-physics-problems.com/asteroid-impact.html#:~:text=For%20example%2C%20consider%20an%20asteroid,2.8%C3%971020%20Joules.
+
         double jouleToTonOfTnt = 0.00000000024; // 1 joule = 0.00000000024 tons of TNT
         // Density * Volume (m3) = Mass (kg)
         // Volume = (4/3)*PI*R^3
@@ -46,33 +46,67 @@ public class NasaResource {
         // g/cm3 *1000 == kg/m3 ==> 4000 kg/m3
         double density = 4000;
 
-        Map<String, Double> results = new HashMap<>();
+        Map<String, Map<String, Object>> results = new HashMap<>();
 
         AsteroidsDto data = this.newWsApi.getAsteroidData(startDate, endDate, false);
         for (Map.Entry<String, List<NearEarthObjectDto>> asteroidsPerDate : data.near_earth_objects.entrySet()) {
             for (NearEarthObjectDto asteroid : asteroidsPerDate.getValue()) {
+                Map<String, Object> asteroidDetails = new TreeMap<>();
+                asteroidDetails.put("name", asteroid.name);
+                asteroidDetails.put("averageMissDistanceInKm", asteroid.close_approach_data.stream()
+                        .map(a -> a.miss_distance)
+                        .map(a -> a.kilometers)
+                        .mapToDouble(Double::parseDouble)
+                        .average()
+                        .getAsDouble()
+                );
+
                 DiameterDto meters = asteroid.estimated_diameter.meters;
                 double averageDiameterInMeters = (meters.estimated_diameter_min + meters.estimated_diameter_max) / 2d;
                 double radius = averageDiameterInMeters / 2;
                 double volumeInCubicMeters = (4 / 3d) * Math.PI * radius;
                 double massInKg = volumeInCubicMeters * density;
 
-                double averageVelocityInMPerSecond = asteroid.close_approach_data
-                        .stream()
-                        .map(d -> d.relative_velocity)
-                        .map(r -> r.kilometers_per_second)
-                        .mapToDouble(Double::parseDouble)
-                        .average()
-                        .getAsDouble()
-                        * 1000;
+                double sum = 0;
+                long count = 0;
+                for (CloseApproachDataDto d : asteroid.close_approach_data) {
+                    sum += Double.parseDouble(d.relative_velocity.kilometers_per_second);
+                    count++;
+                }
+
+                double averageVelocityInMPerSecond;
+                if (count > 0) {
+                    averageVelocityInMPerSecond = sum / count * 1000;
+                } else {
+                    averageVelocityInMPerSecond = 0;
+                }
 
                 double kineticEnergyInJoules = 0.5 * massInKg * averageVelocityInMPerSecond * averageVelocityInMPerSecond;
                 double kineticEnergyInTonsOfTNT = kineticEnergyInJoules * jouleToTonOfTnt;
-                results.put(asteroid.id, kineticEnergyInTonsOfTNT);
+                asteroidDetails.put("kineticEnergyInTonsOfTNT", kineticEnergyInTonsOfTNT);
+
+                if (kineticEnergyInTonsOfTNT < 1.0) {
+                    asteroidDetails.put("magnitude", "BELOW_TONS");
+                } else if (kineticEnergyInTonsOfTNT / 1000 < 1.0 && kineticEnergyInTonsOfTNT > 1.0) {
+                    asteroidDetails.put("magnitude", "TONS");
+                } else if (kineticEnergyInTonsOfTNT / 1000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000 < 1.0) {
+                    asteroidDetails.put("magnitude", "KILO_TONS");
+                } else if (kineticEnergyInTonsOfTNT / 1000000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000000 < 1.0) {
+                    asteroidDetails.put("magnitude", "MEGA_TONS");
+                } else {
+                    asteroidDetails.put("magnitude", "ABOVE_MEGA_TONS");
+                }
+
+                float numberOfHiroshimaBombs = (float) kineticEnergyInTonsOfTNT / 15000f;
+
+                asteroidDetails.put("numberOfHiroshimaBombs", (float) (Math.round(numberOfHiroshimaBombs)));
+
+
+                results.put(asteroid.id, asteroidDetails);
             }
         }
-        // https://www.lpi.usra.edu/publications/books/barringer_crater_guidebook/chapter_11.pdf
-        // https://www.real-world-physics-problems.com/asteroid-impact.html#:~:text=For%20example%2C%20consider%20an%20asteroid,2.8%C3%971020%20Joules.
+
+
         return ResponseEntity.ok(results);
     }
 }
