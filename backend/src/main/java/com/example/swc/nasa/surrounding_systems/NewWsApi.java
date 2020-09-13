@@ -9,11 +9,11 @@ import java.io.IOException;
 import static java.lang.String.format;
 
 @Service
-public class NasaApi {
+public class NewWsApi {
     private final String apiKey;
     private final String baseUrl;
 
-    public NasaApi(
+    public NewWsApi(
             @Value("${nasa.api.key}") String apiKey,
             @Value("${nasa.api.baseUrl}") String baseUrl) {
         this.apiKey = apiKey;
