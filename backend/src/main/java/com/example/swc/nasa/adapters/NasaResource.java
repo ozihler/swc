@@ -53,13 +53,15 @@ public class NasaResource {
             for (NearEarthObjectDto asteroid : asteroidsPerDate.getValue()) {
                 Map<String, Object> asteroidDetails = new TreeMap<>();
                 asteroidDetails.put("name", asteroid.name);
-                asteroidDetails.put("averageMissDistanceInKm", asteroid.close_approach_data.stream()
+                double averageMissDistanceInKm = asteroid.close_approach_data.stream()
                         .map(a -> a.miss_distance)
                         .map(a -> a.kilometers)
                         .mapToDouble(Double::parseDouble)
                         .average()
-                        .getAsDouble()
-                );
+                        .getAsDouble();
+                asteroidDetails.put("averageMissDistanceInKm", averageMissDistanceInKm);
+
+                asteroidDetails.put("averageLunarDistance", (averageMissDistanceInKm / 384400));
 
                 DiameterDto meters = asteroid.estimated_diameter.meters;
                 double averageDiameterInMeters = (meters.estimated_diameter_min + meters.estimated_diameter_max) / 2d;
@@ -101,12 +103,31 @@ public class NasaResource {
 
                 asteroidDetails.put("numberOfHiroshimaBombs", (float) (Math.round(numberOfHiroshimaBombs)));
 
-
                 results.put(asteroid.id, asteroidDetails);
             }
         }
+        TreeMap<String, Object> statistics = new TreeMap<>();
 
+        double averageNrOfHiroshimaBombs = results.values()
+                .stream()
+                .map(m -> m.get("numberOfHiroshimaBombs"))
+                .mapToDouble(d -> (float) d)
+                .average()
+                .getAsDouble();
 
+        statistics.put("averageNrOfHiroshimaBombs", averageNrOfHiroshimaBombs);
+
+        double numberOfHiroshimaBombs = results.values()
+                .stream()
+                .map(m -> m.get("numberOfHiroshimaBombs"))
+                .mapToDouble(d -> (float) d)
+                .map(n -> Math.pow(n - averageNrOfHiroshimaBombs, 2))
+                .sum();
+        double standardDeviation = Math.sqrt(numberOfHiroshimaBombs / results.entrySet().size());
+
+        statistics.put("sdInNrOfHiroshimaBombs", standardDeviation);
+
+        results.put("statistics", statistics);
         return ResponseEntity.ok(results);
     }
 }
