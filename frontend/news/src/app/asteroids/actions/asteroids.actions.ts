@@ -1,7 +1,13 @@
-import { createAction, props } from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 
 export const loadAsteroids = createAction(
-  '[Asteroids] Load Asteroids'
+  '[Asteroids] Load Asteroids',
+  props<{
+    data: {
+      startDate: Date,
+      endDate: Date
+    }
+  }>()
 );
 
 export const loadAsteroidsSuccess = createAction(

@@ -1,4 +1,4 @@
-package com.example.swc.nasa.surrounding_systems;
+package com.example.swc.asteroids.surrounding_systems;
 
 import java.util.List;
 import java.util.Map;

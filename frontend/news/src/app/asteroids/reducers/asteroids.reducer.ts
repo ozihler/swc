@@ -1,5 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import * as AsteroidsActions from '../actions/asteroids.actions';
+import {act} from "@ngrx/effects";
 
 export const asteroidsFeatureKey = 'asteroids';
 
@@ -47,6 +48,8 @@ export const reducer = createReducer(
   on(AsteroidsActions.loadAsteroidsSuccess, (state, action) => {
     return {
       ...state,
+      asteroids: action.data.asteroids,
+      statistics: action.data.asteroids,
       isLoading: false
     }
   }),

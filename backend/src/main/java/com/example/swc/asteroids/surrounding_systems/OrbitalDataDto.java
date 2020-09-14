@@ -1,4 +1,4 @@
-package com.example.swc.nasa.surrounding_systems;
+package com.example.swc.asteroids.surrounding_systems;
 
 public class OrbitalDataDto {
     public String orbit_id;

@@ -1,4 +1,4 @@
-package com.example.swc.nasa.surrounding_systems;
+package com.example.swc.asteroids.surrounding_systems;
 
 public class RelativeVelocityDto {
     public String kilometers_per_second;

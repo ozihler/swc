@@ -1,4 +1,4 @@
-package com.example.swc.nasa.surrounding_systems;
+package com.example.swc.asteroids.surrounding_systems;
 
 import com.example.swc.common.Http;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +14,8 @@ public class NewWsApi {
     private final String baseUrl;
 
     public NewWsApi(
-            @Value("${nasa.api.key}") String apiKey,
-            @Value("${nasa.api.baseUrl}") String baseUrl) {
+            @Value("${asteroids.api.key}") String apiKey,
+            @Value("${asteroids.api.baseUrl}") String baseUrl) {
         this.apiKey = apiKey;
         this.baseUrl = baseUrl;
     }

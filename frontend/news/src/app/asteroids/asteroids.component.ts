@@ -9,6 +9,17 @@ import {loadAsteroids} from "./actions/asteroids.actions";
   selector: 'nw-asteroids',
   template: `
     <div *ngIf="isLoading$ | async">Lade Asteroidendaten</div>
+    <div *ngIf="!(isLoading$ | async)">
+      <div *ngFor="let asteroid of asteroids$ | async">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{asteroid.name}} ({{asteroid.id}})</h5>
+              <p class="card-text">Average Distance: {{asteroid.averageLunarDistance}} ld
+                ({{asteroid.averageMissDistanceInKm}} km)</p>
+            </div>
+        </div>
+      </div>
+    </div>
   `,
   styles: []
 })
@@ -22,7 +33,16 @@ export class AsteroidsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadAsteroids());
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 7);
+    this.store.dispatch(loadAsteroids({
+      data: {
+        startDate: startDate,
+        endDate: endDate
+      }
+    }));
+
   }
 
 }

@@ -1,6 +1,6 @@
-package com.example.swc.nasa.adapters;
+package com.example.swc.asteroids.adapters;
 
-import com.example.swc.nasa.surrounding_systems.*;
+import com.example.swc.asteroids.surrounding_systems.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,22 +8,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 @RestController
-public class NasaResource {
+public class AsteroidsResource {
 
     private NewWsApi newWsApi;
 
     @Autowired
-    public NasaResource(NewWsApi newWsApi) {
+    public AsteroidsResource(NewWsApi newWsApi) {
         this.newWsApi = newWsApi;
     }
 
-    @GetMapping("/nasa/asteroids")
+    @GetMapping("/asteroids")
     public ResponseEntity<AsteroidsDto> getAsteroids(
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate,
@@ -33,8 +30,8 @@ public class NasaResource {
         return ResponseEntity.ok(data);
     }
 
-    @GetMapping("/nasa/asteroids/kineticEnergy")
-    public ResponseEntity<Map<String, Map<String, Object>>> getMissingDistance(
+    @GetMapping("/asteroids/kineticEnergy")
+    public ResponseEntity<Map<String, List<Map<String, Object>>>> getMissingDistance(
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate) throws IOException {
         // https://www.real-world-physics-problems.com/asteroid-impact.html#:~:text=For%20example%2C%20consider%20an%20asteroid,2.8%C3%971020%20Joules.
@@ -46,12 +43,13 @@ public class NasaResource {
         // g/cm3 *1000 == kg/m3 ==> 4000 kg/m3
         double density = 4000;
 
-        Map<String, Map<String, Object>> results = new HashMap<>();
+        Map<String, List<Map<String, Object>>> results = new HashMap<>();
 
         AsteroidsDto data = this.newWsApi.getAsteroidData(startDate, endDate, false);
         for (Map.Entry<String, List<NearEarthObjectDto>> asteroidsPerDate : data.near_earth_objects.entrySet()) {
             for (NearEarthObjectDto asteroid : asteroidsPerDate.getValue()) {
                 Map<String, Object> asteroidDetails = new TreeMap<>();
+                asteroidDetails.put("id", asteroid.id);
                 asteroidDetails.put("name", asteroid.name);
                 double averageMissDistanceInKm = asteroid.close_approach_data.stream()
                         .map(a -> a.miss_distance)
@@ -103,13 +101,19 @@ public class NasaResource {
 
                 asteroidDetails.put("numberOfHiroshimaBombs", (float) (Math.round(numberOfHiroshimaBombs)));
 
-                results.put(asteroid.id, asteroidDetails);
+                List<Map<String, Object>> asteroids = results.get("asteroids");
+                if (asteroids == null) {
+                    asteroids = new ArrayList<>();
+                }
+                asteroids.add(asteroidDetails);
+                results.put("asteroids", asteroids);
             }
         }
         TreeMap<String, Object> statistics = new TreeMap<>();
 
         double averageNrOfHiroshimaBombs = results.values()
                 .stream()
+                .flatMap(Collection::stream)
                 .map(m -> m.get("numberOfHiroshimaBombs"))
                 .mapToDouble(d -> (float) d)
                 .average()
@@ -119,16 +123,17 @@ public class NasaResource {
 
         double numberOfHiroshimaBombs = results.values()
                 .stream()
+                .flatMap(Collection::stream)
                 .map(m -> m.get("numberOfHiroshimaBombs"))
                 .mapToDouble(d -> (float) d)
                 .map(n -> Math.pow(n - averageNrOfHiroshimaBombs, 2))
                 .sum();
 
-        double standardDeviation = Math.sqrt(numberOfHiroshimaBombs / results.entrySet().size());
+        double standardDeviation = Math.sqrt(numberOfHiroshimaBombs / results.get("asteroids").size());
 
         statistics.put("sdInNrOfHiroshimaBombs", standardDeviation);
 
-        results.put("statistics", statistics);
+        results.put("statistics", List.of(statistics));
         return ResponseEntity.ok(results);
     }
 }
