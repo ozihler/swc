@@ -16,7 +16,7 @@ import {Asteroid} from "../reducers/asteroids.reducer";
           ({{asteroid.magnitude}})
         </p>
         <p class="card-text">
-          {{asteroid.numberOfHiroshimaBombs}} Hiroshima Bombs (around {{asteroid.numberOfHiroshimaDeaths}} deaths)
+          {{asteroid.numberOfHiroshimaBombs}} Hiroshima Bombs (around {{asteroid.numberOfHiroshimaDeaths| number:'1.0'}} deaths)
         </p>
 
         <nw-explosion-icon *ngFor="let r of getRating(asteroid.numberOfHiroshimaBombs)"></nw-explosion-icon>

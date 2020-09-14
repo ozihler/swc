@@ -6,21 +6,28 @@ import {Observable} from "rxjs";
 import {loadAsteroids} from "./actions/asteroids.actions";
 import {FormBuilder} from "@angular/forms";
 
+export interface Dates {
+  startDate: Date;
+  endDate: Date;
+}
+
 @Component({
   selector: 'nw-asteroids',
   template: `
     <div *ngIf="isLoading$ | async">Lade Asteroidendaten</div>
     <div *ngIf="!(isLoading$ | async)">
-      <div class="card">
-        Start Datum: <input type="date"/>
-        End Datum: <input type="date"/>
-      </div>
+      <nw-date-search-fields
+        (datesSelectedEvent)="updateAsteroids($event)">
+
+      </nw-date-search-fields>
+
       <div class="card-columns">
         <nw-asteroid-info
           *ngFor="let asteroid of asteroids$ | async"
           [asteroid]="asteroid">
         </nw-asteroid-info>
       </div>
+
     </div>
   `,
   styles: []
@@ -30,8 +37,7 @@ export class AsteroidsComponent implements OnInit {
   isLoading$: Observable<boolean>;
 
   constructor(
-    private store: Store<State>,
-    private formBuilder: FormBuilder
+    private store: Store<State>
   ) {
     this.asteroids$ = store.pipe(select(getAsteroids));
     this.isLoading$ = store.pipe(select(isLoading));
@@ -41,12 +47,15 @@ export class AsteroidsComponent implements OnInit {
     const endDate = new Date();
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - 7);
+    this.updateAsteroids({startDate: startDate, endDate: endDate});
+  }
+
+  updateAsteroids(dates: Dates): void {
     this.store.dispatch(loadAsteroids({
       data: {
-        startDate: startDate,
-        endDate: endDate
+        startDate: dates.startDate,
+        endDate: dates.endDate
       }
     }));
-
   }
 }

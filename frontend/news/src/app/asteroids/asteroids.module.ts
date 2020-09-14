@@ -10,13 +10,16 @@ import {AsteroidsEffects} from './effects/asteroids.effects';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {ExplosionIconComponent} from './explosion-icon/explosion-icon.component';
 import { AsteroidInfoComponent } from './asteroid-info/asteroid-info.component';
+import { DateSearchFieldsComponent } from './date-search-fields/date-search-fields.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
   declarations: [
     AsteroidsComponent,
     ExplosionIconComponent,
-    AsteroidInfoComponent
+    AsteroidInfoComponent,
+    DateSearchFieldsComponent
   ],
 
   imports: [
@@ -24,7 +27,8 @@ import { AsteroidInfoComponent } from './asteroid-info/asteroid-info.component';
     FontAwesomeModule,
     AsteroidsRoutingModule,
     StoreModule.forFeature(fromAsteroids.asteroidsFeatureKey, fromAsteroids.reducer),
-    EffectsModule.forFeature([AsteroidsEffects])
+    EffectsModule.forFeature([AsteroidsEffects]),
+    ReactiveFormsModule
   ]
 })
 export class AsteroidsModule {
