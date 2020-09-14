@@ -26,14 +26,16 @@ public class AsteroidsResource {
             @RequestParam("endDate") String endDate,
             @RequestParam("isDetailed") boolean isDetailed
     ) throws IOException {
-        AsteroidsDto data = this.newWsApi.getAsteroidData(startDate, endDate, isDetailed);
+        AsteroidsDto data = this.newWsApi.getAsteroidData(startDate, endDate, isDetailed, false);
         return ResponseEntity.ok(data);
     }
 
     @GetMapping("/asteroids/kineticEnergy")
     public ResponseEntity<Map<String, List<Map<String, Object>>>> getMissingDistance(
             @RequestParam("startDate") String startDate,
-            @RequestParam("endDate") String endDate) throws IOException {
+            @RequestParam("endDate") String endDate,
+            @RequestParam("useTestData") boolean useTestData) throws IOException {
+
         // https://www.real-world-physics-problems.com/asteroid-impact.html#:~:text=For%20example%2C%20consider%20an%20asteroid,2.8%C3%971020%20Joules.
 
         double jouleToTonOfTnt = 0.00000000024; // 1 joule = 0.00000000024 tons of TNT
@@ -45,7 +47,7 @@ public class AsteroidsResource {
 
         Map<String, List<Map<String, Object>>> results = new HashMap<>();
 
-        AsteroidsDto data = this.newWsApi.getAsteroidData(startDate, endDate, false);
+        AsteroidsDto data = this.newWsApi.getAsteroidData(startDate, endDate, false, useTestData);
         for (Map.Entry<String, List<NearEarthObjectDto>> asteroidsPerDate : data.near_earth_objects.entrySet()) {
             for (NearEarthObjectDto asteroid : asteroidsPerDate.getValue()) {
                 Map<String, Object> asteroidDetails = new TreeMap<>();

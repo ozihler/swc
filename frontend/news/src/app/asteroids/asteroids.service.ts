@@ -23,7 +23,9 @@ export class AsteroidsService {
       environment.asteroidsUrl
     }/kineticEnergy?startDate=${
       AsteroidsService.formatDate(startDate)}&endDate=${
-      AsteroidsService.formatDate(endDate)}`;
+      AsteroidsService.formatDate(endDate)}&useTestData=${
+      environment.useTestData
+    }`;
 
     return this.http.get<Asteroids>(url);
   }

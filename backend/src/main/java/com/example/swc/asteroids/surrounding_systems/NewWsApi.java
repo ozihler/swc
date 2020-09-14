@@ -1,9 +1,12 @@
 package com.example.swc.asteroids.surrounding_systems;
 
 import com.example.swc.common.Http;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
 import java.io.IOException;
 
 import static java.lang.String.format;
@@ -26,10 +29,20 @@ public class NewWsApi {
     public AsteroidsDto getAsteroidData(
             String startDate,
             String endDate,
-            boolean detailed) throws IOException {
+            boolean detailed,
+            boolean useTestData) throws IOException {
+        if (useTestData) {
+            return loadTestData();
+        }
+
         String uri = format("%s?start_date=%s&end_date=%s&detailed=%s&api_key=%s", baseUrl, startDate, endDate, detailed, apiKey);
 
         return Http.get(uri, AsteroidsDto.class);
+    }
+
+    private AsteroidsDto loadTestData() throws IOException {
+        File backupAsteroids = ResourceUtils.getFile("classpath:backup_data/backup_asteroids.json");
+        return new ObjectMapper().readValue(backupAsteroids, AsteroidsDto.class);
     }
 
 

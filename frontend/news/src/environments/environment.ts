@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   backendBaseUrl: 'http://localhost:8080/api',
-  asteroidsUrl: '/asteroids'
+  asteroidsUrl: '/asteroids',
+  useTestData: true
 };
 
 /*
