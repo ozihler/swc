@@ -1,17 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { AsteroidsRoutingModule } from './asteroids-routing.module';
-import { AsteroidsComponent } from './asteroids.component';
-import { StoreModule } from '@ngrx/store';
+import {AsteroidsRoutingModule} from './asteroids-routing.module';
+import {AsteroidsComponent} from './asteroids.component';
+import {StoreModule} from '@ngrx/store';
 import * as fromAsteroids from './reducers/asteroids.reducer';
-import { EffectsModule } from '@ngrx/effects';
-import { AsteroidsEffects } from './effects/asteroids.effects';
+import {EffectsModule} from '@ngrx/effects';
+import {AsteroidsEffects} from './effects/asteroids.effects';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {ExplosionIconComponent} from './explosion-icon/explosion-icon.component';
 
 
 @NgModule({
-  declarations: [AsteroidsComponent],
+  declarations: [
+    AsteroidsComponent,
+    ExplosionIconComponent
+  ],
+
   imports: [
     CommonModule,
     FontAwesomeModule,
@@ -20,4 +25,5 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     EffectsModule.forFeature([AsteroidsEffects])
   ]
 })
-export class AsteroidsModule { }
+export class AsteroidsModule {
+}

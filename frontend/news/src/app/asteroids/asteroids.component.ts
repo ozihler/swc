@@ -27,8 +27,11 @@ import {faBomb} from "@fortawesome/free-solid-svg-icons";
             <p class="card-text">
               {{asteroid.numberOfHiroshimaBombs}} Hiroshima Bombs
             </p>
-            <fa-icon [icon]="faBomb"
-                     *ngFor="let r of getRating(asteroid.numberOfHiroshimaBombs)"></fa-icon>
+
+            <nw-explosion-icon
+              *ngFor="let r of getRating(asteroid.numberOfHiroshimaBombs)">
+
+            </nw-explosion-icon>
           </div>
         </div>
       </div>
