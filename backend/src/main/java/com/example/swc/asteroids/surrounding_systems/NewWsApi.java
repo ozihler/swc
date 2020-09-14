@@ -32,7 +32,7 @@ public class NewWsApi {
             boolean detailed,
             boolean useTestData) throws IOException {
         if (useTestData) {
-            return loadTestData();
+            return testData();
         }
 
         String uri = format("%s?start_date=%s&end_date=%s&detailed=%s&api_key=%s", baseUrl, startDate, endDate, detailed, apiKey);
@@ -40,7 +40,7 @@ public class NewWsApi {
         return Http.get(uri, AsteroidsDto.class);
     }
 
-    private AsteroidsDto loadTestData() throws IOException {
+    private AsteroidsDto testData() throws IOException {
         File backupAsteroids = ResourceUtils.getFile("classpath:backup_data/backup_asteroids.json");
         return new ObjectMapper().readValue(backupAsteroids, AsteroidsDto.class);
     }
