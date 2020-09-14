@@ -12,25 +12,11 @@ import {faBomb} from "@fortawesome/free-solid-svg-icons";
     <div *ngIf="isLoading$ | async">Lade Asteroidendaten</div>
     <div *ngIf="!(isLoading$ | async)">
       <div class="card-columns">
-        <div class="card"
-             *ngFor="let asteroid of asteroids$ | async">
-          <div class="card-body">
-            <h5 class="card-title">{{asteroid.name}} ({{asteroid.id}})</h5>
-            <p class="card-text">
-              Average Distance: {{asteroid.averageLunarDistance | number:'1.1-2'}} ld
-              ({{asteroid.averageMissDistanceInKm| number:'1.1-2'}} km)
-            </p>
-            <p class="card-text">
-              Kinetic Energy (Tons of TNT) {{asteroid.kineticEnergyInTonsOfTNT| number:'1.1-2'}} t
-              ({{asteroid.magnitude}})
-            </p>
-            <p class="card-text">
-              {{asteroid.numberOfHiroshimaBombs}} Hiroshima Bombs (around {{asteroid.numberOfHiroshimaDeaths}} deaths)
-            </p>
+          <nw-asteroid-info
+            *ngFor="let asteroid of asteroids$ | async"
+            [asteroid]="asteroid">
 
-            <nw-explosion-icon *ngFor="let r of getRating(asteroid.numberOfHiroshimaBombs)"></nw-explosion-icon>
-          </div>
-        </div>
+          </nw-asteroid-info>
       </div>
     </div>
   `,
@@ -58,9 +44,5 @@ export class AsteroidsComponent implements OnInit {
       }
     }));
 
-  }
-
-  getRating(nr: number) {
-    return new Array(nr);
   }
 }

@@ -9,12 +9,14 @@ import {EffectsModule} from '@ngrx/effects';
 import {AsteroidsEffects} from './effects/asteroids.effects';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {ExplosionIconComponent} from './explosion-icon/explosion-icon.component';
+import { AsteroidInfoComponent } from './asteroid-info/asteroid-info.component';
 
 
 @NgModule({
   declarations: [
     AsteroidsComponent,
-    ExplosionIconComponent
+    ExplosionIconComponent,
+    AsteroidInfoComponent
   ],
 
   imports: [
