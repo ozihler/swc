@@ -10,8 +10,9 @@ import {loadAsteroids} from "./actions/asteroids.actions";
   template: `
     <div *ngIf="isLoading$ | async">Lade Asteroidendaten</div>
     <div *ngIf="!(isLoading$ | async)">
-      <div class="row" *ngFor="let asteroid of asteroids$ | async">
-        <div class="card" style="width: 18rem;">
+      <div class="card-columns">
+        <div class="card"
+             *ngFor="let asteroid of asteroids$ | async">
           <div class="card-body">
             <h5 class="card-title">{{asteroid.name}} ({{asteroid.id}})</h5>
             <p class="card-text">
