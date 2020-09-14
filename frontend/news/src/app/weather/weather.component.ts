@@ -20,19 +20,23 @@ import {getCoordinates, getError, getTemperature, getWeatherLoading} from "./sel
         </h1>
       </div>
 
-      <div class="col-md-1" *ngIf="loading$ | async">
+      <div class="d-flex justify-content-center" *ngIf="loading$ | async">
         <ngb-alert [type]="'info'" [dismissible]="false">
           Daten werden geladen...
         </ngb-alert>
       </div>
 
-      <div class="col-md-1" *ngIf="error$ | async as error">
+      <div class="d-flex justify-content-center" *ngIf="error$ | async as error">
         <ngb-alert [type]="'danger'" [dismissible]="false">
           <p>Folgender Fehler trat bei der Abfrage auf:</p>
           <p>{{error}}</p>
         </ngb-alert>
       </div>
 
+    </div>
+
+    <div class="card text-center">
+      todo Mars Weather
     </div>
   `,
   styles: []
