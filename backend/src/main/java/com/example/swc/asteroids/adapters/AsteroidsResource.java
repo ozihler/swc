@@ -99,15 +99,23 @@ public class AsteroidsResource {
                     asteroidDetails.put("magnitude", "ABOVE_MEGA_TONS");
                 }
 
-                float numberOfHiroshimaBombs = (float) kineticEnergyInTonsOfTNT / 15000f;
+                float numberOfHiroshimaBombs = (Math.round((float) kineticEnergyInTonsOfTNT / 15000f));
+                if (numberOfHiroshimaBombs < 1.0) {
+                    continue;
+                }
 
-                asteroidDetails.put("numberOfHiroshimaBombs", (float) (Math.round(numberOfHiroshimaBombs)));
+                asteroidDetails.put("numberOfHiroshimaBombs", numberOfHiroshimaBombs);
+
+                int numberOfHiroshimaDeaths = ((int) numberOfHiroshimaBombs) * 100000;
+                asteroidDetails.put("numberOfHiroshimaDeaths", numberOfHiroshimaDeaths);
 
                 List<Map<String, Object>> asteroids = results.get("asteroids");
                 if (asteroids == null) {
                     asteroids = new ArrayList<>();
                 }
                 asteroids.add(asteroidDetails);
+
+                asteroids.sort((map1, map2) -> -((Float) map1.get("numberOfHiroshimaBombs")).compareTo((float) map2.get("numberOfHiroshimaBombs")));
                 results.put("asteroids", asteroids);
             }
         }

@@ -1,6 +1,5 @@
 import {createReducer, on} from '@ngrx/store';
 import * as AsteroidsActions from '../actions/asteroids.actions';
-import {act} from "@ngrx/effects";
 
 export const asteroidsFeatureKey = 'asteroids';
 
@@ -11,7 +10,8 @@ export interface Asteroid {
   kineticEnergyInTonsOfTNT: number,
   magnitude: string,
   name: string,
-  numberOfHiroshimaBombs: number
+  numberOfHiroshimaBombs: number,
+  numberOfHiroshimaDeaths: number
 }
 
 export interface Statistics {

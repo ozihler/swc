@@ -9,10 +9,12 @@ import {getCoordinates, getError, getTemperature, getWeatherLoading} from "./sel
 @Component({
   selector: 'nw-weather',
   template: `
-    <div class="row">
+    <div class="card">
       <div class="col-md-1">
         <h5 class="d-flex justify-content-center" *ngIf="coordinates$ | async as coordinates">
-          Current Temperature at {{coordinates.latitude}}, {{coordinates.longitude}}:
+          Current Temperature at
+          {{coordinates.latitude| number: '1.1-2'}},
+          {{coordinates.longitude| number: '1.1-2'}}:
         </h5>
         <h1 class="d-flex justify-content-center" *ngIf="temperature$ | async as temperature">
           {{temperature}}° C
