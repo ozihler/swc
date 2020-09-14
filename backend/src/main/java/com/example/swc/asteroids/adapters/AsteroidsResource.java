@@ -13,7 +13,7 @@ import java.util.*;
 @RestController
 public class AsteroidsResource {
 
-    private NewWsApi newWsApi;
+    private final NewWsApi newWsApi;
 
     @Autowired
     public AsteroidsResource(NewWsApi newWsApi) {
