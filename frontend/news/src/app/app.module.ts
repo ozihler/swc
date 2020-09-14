@@ -13,6 +13,7 @@ import {EffectsModule} from '@ngrx/effects';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {AsteroidsModule} from "./asteroids/asteroids.module";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HelloWorldModule,
     HttpClientModule,

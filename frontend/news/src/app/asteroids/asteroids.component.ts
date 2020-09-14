@@ -4,6 +4,7 @@ import {select, Store} from "@ngrx/store";
 import {getAsteroids, isLoading} from "./selectors/asteroids.selectors";
 import {Observable} from "rxjs";
 import {loadAsteroids} from "./actions/asteroids.actions";
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'nw-asteroids',
@@ -28,7 +29,10 @@ export class AsteroidsComponent implements OnInit {
   asteroids$: Observable<Asteroid[]>;
   isLoading$: Observable<boolean>;
 
-  constructor(private store: Store<State>) {
+  constructor(
+    private store: Store<State>,
+    private formBuilder: FormBuilder
+  ) {
     this.asteroids$ = store.pipe(select(getAsteroids));
     this.isLoading$ = store.pipe(select(isLoading));
   }
