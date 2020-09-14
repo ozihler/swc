@@ -4,6 +4,7 @@ import {select, Store} from "@ngrx/store";
 import {getAsteroids, isLoading} from "./selectors/asteroids.selectors";
 import {Observable} from "rxjs";
 import {loadAsteroids} from "./actions/asteroids.actions";
+import {faBomb} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'nw-asteroids',
@@ -26,6 +27,8 @@ import {loadAsteroids} from "./actions/asteroids.actions";
             <p class="card-text">
               {{asteroid.numberOfHiroshimaBombs}} Hiroshima Bombs
             </p>
+            <fa-icon [icon]="faBomb"
+                     *ngFor="let r of getRating(asteroid.numberOfHiroshimaBombs)"></fa-icon>
           </div>
         </div>
       </div>
@@ -36,10 +39,12 @@ import {loadAsteroids} from "./actions/asteroids.actions";
 export class AsteroidsComponent implements OnInit {
   asteroids$: Observable<Asteroid[]>;
   isLoading$: Observable<boolean>;
+  faBomb: any;
 
   constructor(private store: Store<State>) {
     this.asteroids$ = store.pipe(select(getAsteroids));
     this.isLoading$ = store.pipe(select(isLoading));
+    this.faBomb = faBomb;
   }
 
   ngOnInit(): void {
@@ -55,4 +60,7 @@ export class AsteroidsComponent implements OnInit {
 
   }
 
+  getRating(nr: number) {
+    return new Array(nr);
+  }
 }

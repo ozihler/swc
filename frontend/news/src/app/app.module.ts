@@ -12,6 +12,7 @@ import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {AsteroidsModule} from "./asteroids/asteroids.module";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {AsteroidsModule} from "./asteroids/asteroids.module";
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     EffectsModule.forRoot([]),
-    NgbModule
+    NgbModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
