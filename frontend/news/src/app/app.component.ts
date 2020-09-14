@@ -4,9 +4,17 @@ import {Component} from '@angular/core';
   selector: 'nw-root',
   template: `
     <nw-weather></nw-weather>
-    <a routerLink="/hello-world">Hello World</a>
-    <router-outlet></router-outlet>
-  `,
+    <nav class="navbar navbar-expand-sm bg-light">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/hello-world">Hello World</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/asteroids">Asteroids</a>
+        </li>
+      </ul>
+    </nav>
+    <router-outlet></router-outlet>`,
   styles: []
 })
 export class AppComponent {

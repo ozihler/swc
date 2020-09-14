@@ -11,6 +11,7 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AsteroidsModule} from "./asteroids/asteroids.module";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HelloWorldModule,
     HttpClientModule,
     WeatherModule,
+    AsteroidsModule,
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     EffectsModule.forRoot([]),
