@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 
 import {AsteroidsRoutingModule} from './asteroids-routing.module';
 import {AsteroidsComponent} from './asteroids.component';
@@ -9,8 +9,8 @@ import {EffectsModule} from '@ngrx/effects';
 import {AsteroidsEffects} from './effects/asteroids.effects';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {ExplosionIconComponent} from './explosion-icon/explosion-icon.component';
-import { AsteroidInfoComponent } from './asteroid-info/asteroid-info.component';
-import { DateSearchFieldsComponent } from './date-search-fields/date-search-fields.component';
+import {AsteroidInfoComponent} from './asteroid-info/asteroid-info.component';
+import {DateSearchFieldsComponent} from './date-search-fields/date-search-fields.component';
 import {ReactiveFormsModule} from "@angular/forms";
 
 
@@ -29,6 +29,9 @@ import {ReactiveFormsModule} from "@angular/forms";
     StoreModule.forFeature(fromAsteroids.asteroidsFeatureKey, fromAsteroids.reducer),
     EffectsModule.forFeature([AsteroidsEffects]),
     ReactiveFormsModule
+  ],
+  exports: [
+
   ]
 })
 export class AsteroidsModule {

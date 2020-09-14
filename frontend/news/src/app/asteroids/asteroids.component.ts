@@ -4,7 +4,6 @@ import {select, Store} from "@ngrx/store";
 import {getAsteroids, isLoading} from "./selectors/asteroids.selectors";
 import {Observable} from "rxjs";
 import {loadAsteroids} from "./actions/asteroids.actions";
-import {FormBuilder} from "@angular/forms";
 
 export interface Dates {
   startDate: Date;
@@ -14,13 +13,12 @@ export interface Dates {
 @Component({
   selector: 'nw-asteroids',
   template: `
+    <nw-date-search-fields
+      (datesSelectedEvent)="updateAsteroids($event)">
+    </nw-date-search-fields>
+
     <div *ngIf="isLoading$ | async">Lade Asteroidendaten</div>
     <div *ngIf="!(isLoading$ | async)">
-      <nw-date-search-fields
-        (datesSelectedEvent)="updateAsteroids($event)">
-
-      </nw-date-search-fields>
-
       <div class="card-columns">
         <nw-asteroid-info
           *ngFor="let asteroid of asteroids$ | async"
