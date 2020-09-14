@@ -10,11 +10,14 @@ import {loadAsteroids} from "./actions/asteroids.actions";
   template: `
     <div *ngIf="isLoading$ | async">Lade Asteroidendaten</div>
     <div *ngIf="!(isLoading$ | async)">
+      <div class="card">
+        Start Datum: <input type="date"/>
+        End Datum: <input type="date"/>
+      </div>
       <div class="card-columns">
         <nw-asteroid-info
           *ngFor="let asteroid of asteroids$ | async"
           [asteroid]="asteroid">
-
         </nw-asteroid-info>
       </div>
     </div>
