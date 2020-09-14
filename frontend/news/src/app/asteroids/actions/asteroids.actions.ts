@@ -1,15 +1,15 @@
 import { createAction, props } from '@ngrx/store';
 
-export const loadAsteroidss = createAction(
-  '[Asteroids] Load Asteroidss'
+export const loadAsteroids = createAction(
+  '[Asteroids] Load Asteroids'
 );
 
-export const loadAsteroidssSuccess = createAction(
-  '[Asteroids] Load Asteroidss Success',
+export const loadAsteroidsSuccess = createAction(
+  '[Asteroids] Load Asteroids Success',
   props<{ data: any }>()
 );
 
-export const loadAsteroidssFailure = createAction(
-  '[Asteroids] Load Asteroidss Failure',
+export const loadAsteroidsFailure = createAction(
+  '[Asteroids] Load Asteroids Failure',
   props<{ error: any }>()
 );

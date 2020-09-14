@@ -1,7 +1,7 @@
 import * as fromAsteroids from './asteroids.actions';
 
-describe('loadAsteroidss', () => {
+describe('loadAsteroids', () => {
   it('should return an action', () => {
-    expect(fromAsteroids.loadAsteroidss().type).toBe('[Asteroids] Load Asteroidss');
+    expect(fromAsteroids.loadAsteroids().type).toBe('[Asteroids] Load Asteroids');
   });
 });

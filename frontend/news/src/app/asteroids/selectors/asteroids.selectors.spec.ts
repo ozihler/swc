@@ -1,9 +1,9 @@
 import * as fromAsteroids from '../reducers/asteroids.reducer';
-import { selectAsteroidsState } from './asteroids.selectors';
+import { selectAsteroidstate } from './asteroids.selectors';
 
 describe('Asteroids Selectors', () => {
   it('should select the feature state', () => {
-    const result = selectAsteroidsState({
+    const result = selectAsteroidstate({
       [fromAsteroids.asteroidsFeatureKey]: {}
     });
 
