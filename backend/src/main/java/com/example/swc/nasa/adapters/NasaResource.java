@@ -59,8 +59,8 @@ public class NasaResource {
                         .mapToDouble(Double::parseDouble)
                         .average()
                         .getAsDouble();
-                asteroidDetails.put("averageMissDistanceInKm", averageMissDistanceInKm);
 
+                asteroidDetails.put("averageMissDistanceInKm", averageMissDistanceInKm);
                 asteroidDetails.put("averageLunarDistance", (averageMissDistanceInKm / 384400));
 
                 DiameterDto meters = asteroid.estimated_diameter.meters;
@@ -123,6 +123,7 @@ public class NasaResource {
                 .mapToDouble(d -> (float) d)
                 .map(n -> Math.pow(n - averageNrOfHiroshimaBombs, 2))
                 .sum();
+
         double standardDeviation = Math.sqrt(numberOfHiroshimaBombs / results.entrySet().size());
 
         statistics.put("sdInNrOfHiroshimaBombs", standardDeviation);

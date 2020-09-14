@@ -11,3 +11,11 @@ ng new news
 -g // don't initialise git
 --strict // use strict type checks
 ```
+
+# Init a new feature (ngrx)
+```
+ng g feature books/book --module books/books --group --api
+--module: attach feature to this module
+--group: actions/reducers/effects have their own sub folder
+--api: basic scaffolding for fetching data from an API
+```
