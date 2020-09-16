@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  backendBaseUrl: 'http://localhost:8080/api',
+  backendBaseUrl: `${location.origin}/api`.replace("4200", "8080"),
   asteroidsUrl: '/asteroids',
   useTestData: false
 };

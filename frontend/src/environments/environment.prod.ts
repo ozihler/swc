@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  backendBaseUrl: 'http://localhost:8080/api',
+  backendBaseUrl: `${location.origin}/api`,
   asteroidsUrl: '/asteroids',
   useTestData: false
 };
