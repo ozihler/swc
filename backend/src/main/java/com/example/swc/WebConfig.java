@@ -6,12 +6,16 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedMethods("GET", "PUT", "POST", "DELETE");
+
+        registry.addMapping("/api/**")
+                .allowedOrigins("*")
+                .allowedMethods("OPTION", "GET", "POST", "PUT", "DELETE", "HEAD")
+                .allowCredentials(true);
+                
+
     }
 }

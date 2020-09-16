@@ -20,7 +20,7 @@ public class AsteroidsResource {
         this.newWsApi = newWsApi;
     }
 
-    @GetMapping("/asteroids")
+    @GetMapping("/api/asteroids")
     public ResponseEntity<AsteroidsDto> getAsteroids(
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate,
@@ -30,7 +30,7 @@ public class AsteroidsResource {
         return ResponseEntity.ok(data);
     }
 
-    @GetMapping("/asteroids/kineticEnergy")
+    @GetMapping("/api/asteroids/kineticEnergy")
     public ResponseEntity<Map<String, List<Map<String, Object>>>> getMissingDistance(
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate,

@@ -16,7 +16,7 @@ public class WeatherResource {
         this.viewCurrentWeatherController = viewCurrentWeatherController;
     }
 
-    @GetMapping("/current-weather")
+    @GetMapping("/api/current-weather")
     public ResponseEntity<CurrentWeatherDto>
     getCurrentWeather(@RequestParam("lat") float lat,
                       @RequestParam("lon") float lon) {

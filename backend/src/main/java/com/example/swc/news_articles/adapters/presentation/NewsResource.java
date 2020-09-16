@@ -20,7 +20,7 @@ public class NewsResource {
         this.newsApi = newsApi;
     }
 
-    @GetMapping("/news/top-headlines")
+    @GetMapping("/api/news/top-headlines")
     public ResponseEntity<NewsDto> getTopHeadlines(
             @RequestParam("country") String country) throws IOException {
         return ResponseEntity.ok(
