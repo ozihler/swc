@@ -1,6 +1,6 @@
 package com.example.swc;
 
-import com.example.swc.weather.surrounding_systems.OpenWeatherApi;
+import com.example.swc.weather_earth.surrounding_systems.OpenWeatherApi;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
