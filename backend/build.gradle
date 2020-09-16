@@ -29,6 +29,8 @@ test {
 }
 
 
-build.doLast{
+build.doLast {
     delete "${projectDir}/src/main/resources/static"
 }
+
+
