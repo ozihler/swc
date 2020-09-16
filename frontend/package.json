@@ -6,7 +6,7 @@
     "startLocal": "ng serve",
     "start": "ng serve --configuration=production",
     "buildLocal": "ng build",
-    "build": "ng build --configuration=production",
+    "build": "ng build --prod=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
