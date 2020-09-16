@@ -8,14 +8,5 @@ node {
   npmVersion = '6.14.8'
   download = true
 }
+processResources.dependsOn 'npm_run_build'
 
-//processResources.dependsOn 'npm_run_build'
-
-/*
-processResources {
-
-  from('dist/news') {
-    into 'static'
-  }
-}
- */
