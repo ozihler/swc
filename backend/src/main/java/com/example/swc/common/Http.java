@@ -12,31 +12,26 @@ public class Http {
             Class<T> targetDtoClass)
             throws IOException {
 
-        String response = Request.Get(uri)
-                .execute()
-                .returnContent()
-                .toString();
-
         return new ObjectMapper()
-                .readValue(
-                        response,
+                .readValue(getAsString(uri),
                         targetDtoClass);
     }
 
 
-    public static <T> T getTyped(
+    public static <T> T getAndMapToType(
             String uri,
-            TypeReference<T> targetDtoClass)
+            TypeReference<T> targetType)
             throws IOException {
 
-        String response = Request.Get(uri)
+        return new ObjectMapper()
+                .readValue(getAsString(uri),
+                        targetType);
+    }
+
+    public static String getAsString(String uri) throws IOException {
+        return Request.Get(uri)
                 .execute()
                 .returnContent()
                 .toString();
-
-        return new ObjectMapper()
-                .readValue(
-                        response,
-                        targetDtoClass);
     }
 }

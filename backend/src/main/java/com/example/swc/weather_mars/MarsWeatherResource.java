@@ -40,8 +40,7 @@ public class MarsWeatherResource {
     @GetMapping("/api/mars-weather")
     public ResponseEntity<MarsWeatherDto> getCurrentMarsWeather() throws IOException {
         String url = String.format("%s?api_key=%s&feedtype=json&ver=1.0", baseUrl, api_key);
-        System.err.println(url);
-        Map<String, Object> object = Http.getTyped(url, new TypeReference<>() {
+        Map<String, Object> object = Http.getAndMapToType(url, new TypeReference<>() {
         });
 
 
