@@ -15,26 +15,28 @@ import {AsteroidsModule} from "./asteroids/asteroids.module";
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MarsWeatherModule} from "./mars-weather/mars-weather.module";
+import {DisasterFeedModule} from "./disaster-feed/disaster-feed.module";
 
 @NgModule({
   declarations: [
     AppComponent
   ],
-    imports: [
-        BrowserModule,
-        ReactiveFormsModule,
-        AppRoutingModule,
-        HelloWorldModule,
-        HttpClientModule,
-        WeatherModule,
-        AsteroidsModule,
-        StoreModule.forRoot({}, {}),
-        StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-        EffectsModule.forRoot([]),
-        NgbModule,
-        FontAwesomeModule,
-        MarsWeatherModule
-    ],
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    HelloWorldModule,
+    HttpClientModule,
+    WeatherModule,
+    MarsWeatherModule,
+    AsteroidsModule,
+    DisasterFeedModule,
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+    EffectsModule.forRoot([]),
+    NgbModule,
+    FontAwesomeModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
