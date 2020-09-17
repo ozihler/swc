@@ -39,6 +39,8 @@ public class MarsWeatherResource {
 
     @GetMapping("/api/mars-weather")
     public ResponseEntity<MarsWeatherDto> getCurrentMarsWeather() throws IOException {
+        //TODO FIXME refactor to Ports/Adapters
+
         String url = String.format("%s?api_key=%s&feedtype=json&ver=1.0", baseUrl, api_key);
         Map<String, Object> object = Http.getAndMapToType(url, new TypeReference<>() {
         });
