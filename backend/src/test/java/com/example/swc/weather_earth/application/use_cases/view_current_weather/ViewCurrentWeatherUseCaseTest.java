@@ -1,5 +1,8 @@
 package com.example.swc.weather_earth.application.use_cases.view_current_weather;
 
+import com.example.swc.domain.Latitude;
+import com.example.swc.domain.Location;
+import com.example.swc.domain.Longitude;
 import com.example.swc.weather_earth.domain.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

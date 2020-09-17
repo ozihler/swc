@@ -1,6 +1,9 @@
 package com.example.swc.weather_mars;
 
 import com.example.swc.common.Http;
+import com.example.swc.domain.Location;
+import com.example.swc.domain.Latitude;
+import com.example.swc.domain.Longitude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +43,12 @@ public class MarsWeatherResource {
         System.err.println(url);
         Map<String, Object> object = Http.getTyped(url, new TypeReference<>() {
         });
-        MarsWeatherDto marsWeather = new MarsWeatherDto();
 
+
+        MarsWeatherDto marsWeather = new MarsWeatherDto();
+        Location inSightLandingSiteLocation = new Location(new Latitude(4.5024f), new Longitude(135.6234f));
+        marsWeather.location.latitude = inSightLandingSiteLocation.getLatitude().getFloatValue();
+        marsWeather.location.longitude = inSightLandingSiteLocation.getLongitude().getFloatValue();
 
         for (Map.Entry<String, Object> o : object.entrySet()) {
             try {

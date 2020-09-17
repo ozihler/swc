@@ -1,4 +1,4 @@
-package com.example.swc.weather_earth.domain;
+package com.example.swc.domain;
 
 import com.example.swc.weather_earth.domain.exceptions.IllegalLocationException;
 
