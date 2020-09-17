@@ -1,6 +1,6 @@
 package com.example.swc.asteroids.surrounding_systems;
 
-import com.example.swc.common.Http;
+import com.example.swc.common.HttpRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class NewWsApi {
 
         String uri = format("%s?start_date=%s&end_date=%s&detailed=%s&api_key=%s", baseUrl, startDate, endDate, detailed, apiKey);
 
-        return Http.get(uri, AsteroidsDto.class);
+        return new HttpRequest<AsteroidsDto>(uri).get(AsteroidsDto.class);
     }
 
     private AsteroidsDto testData() throws IOException {

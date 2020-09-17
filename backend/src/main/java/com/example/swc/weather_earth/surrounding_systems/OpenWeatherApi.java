@@ -1,6 +1,6 @@
 package com.example.swc.weather_earth.surrounding_systems;
 
-import com.example.swc.common.Http;
+import com.example.swc.common.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class OpenWeatherApi {
     public OpenWeatherApiCurrentWeatherDto getCurrentWeather(float latitude, float longitude) throws IOException {
         String uri = format("%s?appid=%s&lat=%s&lon=%s&units=metric", baseUrl, apiKey, latitude, longitude);
 
-        return Http.get(uri, OpenWeatherApiCurrentWeatherDto.class);
+        return new HttpRequest<OpenWeatherApiCurrentWeatherDto>(uri).get(OpenWeatherApiCurrentWeatherDto.class);
     }
 
 }

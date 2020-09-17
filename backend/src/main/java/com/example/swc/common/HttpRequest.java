@@ -6,29 +6,28 @@ import org.apache.http.client.fluent.Request;
 
 import java.io.IOException;
 
-public class Http {
-    public static <T> T get(
-            String uri,
-            Class<T> targetDtoClass)
-            throws IOException {
+public class HttpRequest<T> {
 
+    private String uri;
+
+    public HttpRequest(String uri) {
+        this.uri = uri;
+    }
+
+    public T get(Class<T> targetDtoClass) throws IOException {
         return new ObjectMapper()
-                .readValue(getAsString(uri),
+                .readValue(getAsString(),
                         targetDtoClass);
     }
 
 
-    public static <T> T getAndMapToType(
-            String uri,
-            TypeReference<T> targetType)
-            throws IOException {
-
+    public T getAsType(TypeReference<T> targetType) throws IOException {
         return new ObjectMapper()
-                .readValue(getAsString(uri),
+                .readValue(getAsString(),
                         targetType);
     }
 
-    public static String getAsString(String uri) throws IOException {
+    public String getAsString() throws IOException {
         return Request.Get(uri)
                 .execute()
                 .returnContent()
