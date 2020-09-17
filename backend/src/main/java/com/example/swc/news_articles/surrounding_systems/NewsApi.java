@@ -1,6 +1,6 @@
 package com.example.swc.news_articles.surrounding_systems;
 
-import com.example.swc.common.Http;
+import com.example.swc.common.HttpRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +22,12 @@ public class NewsApi {
     public NewsDto getTopHeadlines(String country) throws IOException {
         String uri = String.format("%s/top-headlines?country=%s&apiKey=%s", baseUrl, country, apiKey);
 
-        return Http.get(uri, NewsDto.class);
+        return new HttpRequest<NewsDto>(uri).get(NewsDto.class);
     }
 
     public NewsDto getEverything(String query, String date, String sortedBy) throws IOException {
         String uri = String.format("%s/everything?q=%s&from=%s&sortedBy=%s&apiKey=%s", baseUrl, query, date, sortedBy, apiKey);
 
-        return Http.get(uri, NewsDto.class);
+        return new HttpRequest<NewsDto>(uri).get(NewsDto.class);
     }
 }

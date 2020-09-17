@@ -1,6 +1,6 @@
 package com.example.swc.weather_mars;
 
-import com.example.swc.common.Http;
+import com.example.swc.common.HttpRequest;
 import com.example.swc.domain.Location;
 import com.example.swc.domain.Latitude;
 import com.example.swc.domain.Longitude;
@@ -42,7 +42,8 @@ public class MarsWeatherResource {
         //TODO FIXME refactor to Ports/Adapters
 
         String url = String.format("%s?api_key=%s&feedtype=json&ver=1.0", baseUrl, api_key);
-        Map<String, Object> object = Http.getAndMapToType(url, new TypeReference<>() {
+
+        Map<String, Object> object = new HttpRequest<Map<String, Object>>(url).getAsType(new TypeReference<Map<String, Object>>() {
         });
 
 
