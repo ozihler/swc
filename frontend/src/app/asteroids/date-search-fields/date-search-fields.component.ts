@@ -28,7 +28,6 @@ export class DateSearchFieldsComponent implements OnInit {
               private datePipe: DatePipe) {
     let startDate = datePipe.transform(this.currentSearch.startDate, 'yyyy-MM-dd');
 
-    console.log("Start Date", startDate);
     this.form = formBuilder.group(
       {
         startDate: startDate,

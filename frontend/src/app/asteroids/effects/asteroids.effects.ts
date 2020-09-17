@@ -16,8 +16,6 @@ export class AsteroidsEffects {
     return this.actions$.pipe(
       ofType(AsteroidsActions.loadAsteroids),
       exhaustMap((action) => {
-        console.log("asteroid.effects.data: ", action.data);
-
         return this.asteroidsService.fetchAsteroids(action.data.startDate, action.data.endDate)
           .pipe(
             map(asteroids => loadAsteroidsSuccess({
@@ -26,7 +24,7 @@ export class AsteroidsEffects {
                 statistics: asteroids.statistics
               }
             })),
-            catchError(error=> of(loadWeathersFailure({error})))
+            catchError(error => of(loadWeathersFailure({error})))
           );
       })
     )

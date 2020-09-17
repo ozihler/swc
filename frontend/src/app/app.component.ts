@@ -4,6 +4,7 @@ import {Component} from '@angular/core';
   selector: 'nw-root',
   template: `
     <nw-weather></nw-weather>
+    <nw-mars-weather></nw-mars-weather>
     <nav class="navbar navbar-expand-sm bg-light">
       <ul class="navbar-nav">
         <li class="nav-item">

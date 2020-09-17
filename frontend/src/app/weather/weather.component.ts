@@ -34,10 +34,6 @@ import {getCoordinates, getError, getTemperature, getWeatherLoading} from "./sel
       </div>
 
     </div>
-
-    <div class="card text-center">
-      todo Mars Weather
-    </div>
   `,
   styles: []
 })

@@ -39,7 +39,6 @@ export const reducer = createReducer(
   initialState,
 
   on(AsteroidsActions.loadAsteroids, state => {
-    console.log(state);
     return {
       ...state,
       isLoading: true
