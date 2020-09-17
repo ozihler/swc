@@ -18,7 +18,7 @@ import java.util.Map;
 @RestController
 public class MarsWeatherResource {
 
-    private final String api_key;
+    private final String apiKey;
     private final String baseUrl;
 
     /**
@@ -26,14 +26,14 @@ public class MarsWeatherResource {
      * AT.av = Average Temperature in Fahrenheit
      * Season = winter, spring, summer, fall
      *
-     * @param api_key
+     * @param apiKey
      * @param baseUrl
      */
     public MarsWeatherResource(
-            @Value("${mars.weather.api.key}") String api_key,
+            @Value("${mars.weather.api.key}") String apiKey,
             @Value("${mars.weather.api.baseUrl}") String baseUrl
     ) {
-        this.api_key = api_key;
+        this.apiKey = apiKey;
         this.baseUrl = baseUrl;
     }
 
@@ -41,7 +41,7 @@ public class MarsWeatherResource {
     public ResponseEntity<MarsWeatherDto> getCurrentMarsWeather() throws IOException {
         //TODO FIXME refactor to Ports/Adapters
 
-        String url = String.format("%s?api_key=%s&feedtype=json&ver=1.0", baseUrl, api_key);
+        String url = String.format("%s?api_key=%s&feedtype=json&ver=1.0", baseUrl, apiKey);
 
         Map<String, Object> object = new HttpRequest<Map<String, Object>>(url).getAsType(new TypeReference<Map<String, Object>>() {
         });
