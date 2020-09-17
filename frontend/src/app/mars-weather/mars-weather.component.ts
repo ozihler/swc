@@ -40,7 +40,7 @@ import {loadMarsWeathers} from "./actions/mars-weather.actions";
 })
 export class MarsWeatherComponent implements OnInit {
   loading$: Observable<boolean>;
-  error$: Observable<any>;
+  error$: Observable<string>;
   marsWeather$: Observable<MarsWeather>;
 
   constructor(private store: Store<State>) {
