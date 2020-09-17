@@ -10,10 +10,10 @@ import {loadMarsWeathers} from "./actions/mars-weather.actions";
   selector: 'nw-mars-weather',
   template: `
 
-    <div class="card text-center">
+    <div class="card text-center" *ngIf="!(loading$|async)">
       <div *ngIf="marsWeather$ | async as marsWeather">
         <h5 class="d-flex justify-content-center">
-          Current Temperature at landing site of InSight on Mars ({{marsWeather.location.latitude| number: '1.1-2'}},
+          Temperature at landing site of InSight on Mars ({{marsWeather.location.latitude| number: '1.1-2'}},
           {{marsWeather.location.longitude| number: '1.1-2'}}):
         </h5>
         <h1 class="d-flex justify-content-center">
