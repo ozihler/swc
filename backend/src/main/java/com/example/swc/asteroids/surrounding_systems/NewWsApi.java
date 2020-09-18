@@ -49,7 +49,7 @@ public class NewWsApi {
         }
     }
 
-    private AsteroidsApiDataDto testData() throws IOException {
+    protected AsteroidsApiDataDto testData() throws IOException {
         File backupAsteroids = ResourceUtils.getFile("classpath:backup_data/backup_asteroids.json");
         return new ObjectMapper().readValue(backupAsteroids, AsteroidsApiDataDto.class);
     }
