@@ -35,7 +35,7 @@ public class AsteroidsResource {
     }
 
     @GetMapping("/api/asteroids/kineticEnergy")
-    public ResponseEntity<Map<String, List<Map<String, Object>>>> getMissingDistance(
+    public ResponseEntity<Map<String, List<Map<String, Object>>>> getDestructiveInformationOfAsteroids(
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate,
             @RequestParam("useTestData") boolean useTestData) { // Long method
@@ -107,9 +107,6 @@ public class AsteroidsResource {
                     }
 
                     float numberOfHiroshimaBombs = (Math.round((float) kineticEnergyInTonsOfTNT / 15000f)); // Magic Number
-                    if (numberOfHiroshimaBombs < 1.0) {
-                        continue;
-                    }
 
                     asteroidDetails.put("numberOfHiroshimaBombs", numberOfHiroshimaBombs);
 
