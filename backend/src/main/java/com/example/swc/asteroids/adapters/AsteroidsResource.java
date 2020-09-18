@@ -112,35 +112,6 @@ public class AsteroidsResource {
                 }
             }
 
-
-            TreeMap<String, Object> statistics = new TreeMap<>();
-
-            float sum = 0;
-            long count = 0;
-            for (List<Map<String, Object>> maps : results.values()) {
-                for (Map<String, Object> map : maps) {
-                    sum += (float) map.get("numberOfHiroshimaBombs");
-                    count++;
-                }
-            }
-
-            double averageNrOfHiroshimaBombs = count > 0 ? sum / count : 0.0; // duplicated code
-
-            statistics.put("averageNrOfHiroshimaBombs", averageNrOfHiroshimaBombs);
-
-            double numberOfHiroshimaBombs = 0.0;
-            for (List<Map<String, Object>> maps : results.values()) {
-                for (Map<String, Object> m : maps) {
-                    numberOfHiroshimaBombs += Math.pow((float) m.get("numberOfHiroshimaBombs") - averageNrOfHiroshimaBombs, 2);
-                }
-            }
-
-            double standardDeviation = Math.sqrt(numberOfHiroshimaBombs / results.get("asteroids").size());
-
-            statistics.put("sdInNrOfHiroshimaBombs", standardDeviation);
-
-            results.put("statistics", List.of(statistics));
-
             return ResponseEntity.ok(results);
 
         } catch (ParseException e) {
