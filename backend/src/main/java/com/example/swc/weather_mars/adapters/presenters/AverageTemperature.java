@@ -1,4 +1,4 @@
-package com.example.swc.weather_mars;
+package com.example.swc.weather_mars.adapters.presenters;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
