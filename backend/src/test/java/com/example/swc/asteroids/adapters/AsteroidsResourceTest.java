@@ -65,6 +65,43 @@ class AsteroidsResourceTest {
                 actualAverageMissDistanceInKm
         );
     }
+
+    @Test
+    void testAverageLunarDistance() {
+        var asteroidsResource = new AsteroidsResource(
+                new TestNewWsApi("", "", "classpath:test_data/test_asteroids.json")
+        );
+
+        ResponseEntity<Map<String, List<Map<String, Object>>>> response = asteroidsResource.getDestructiveInformationOfAsteroids(
+                "2020-09-07",
+                "2020-09-08",
+                false
+        );
+
+        var expectedAverageMissDistanceInKm = Set.of(
+                28900622.06721149/384400d,
+                29428735.534641825/384400d,
+                28524696.487624039/384400d,
+                7208071.387689618/384400d,
+                45576240.477071092/384400d,
+                19802196.225351155/384400d,
+                49767255.023890832/384400d,
+                12357224.642686937/384400d
+        );
+
+        var actualAverageMissDistanceInKm = response.getBody()
+                .get("asteroids")
+                .stream()
+                .map(a -> a.get("averageLunarDistance"))
+                .map(a -> Double.parseDouble(a.toString()))
+                .collect(toSet());
+
+        assertEquals(
+                expectedAverageMissDistanceInKm,
+                actualAverageMissDistanceInKm
+        );
+    }
+
     @Test
     void testAllIdsCollected() {
         var asteroidsResource = new AsteroidsResource(
