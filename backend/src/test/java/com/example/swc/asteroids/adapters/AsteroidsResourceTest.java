@@ -176,7 +176,7 @@ class AsteroidsResourceTest {
         var radius = averageDiameterInMeters / 2d;
         var volumeInCubicMeters = (4 / 3d) * Math.PI * radius;
         var massInKg = volumeInCubicMeters * 4000;
-        var averageVelocityInMPerSeconds = 16.8314904753*1000;
+        var averageVelocityInMPerSeconds = 16.8314904753 * 1000;
         var kineticEnergyInJoules = 0.5 * massInKg * averageVelocityInMPerSeconds * averageVelocityInMPerSeconds;
         var expected = kineticEnergyInJoules * 0.00000000024;
 
@@ -185,6 +185,80 @@ class AsteroidsResourceTest {
                 .stream()
                 .map(a -> a.get("kineticEnergyInTonsOfTNT"))
                 .mapToDouble((a -> Double.parseDouble(a.toString())))
+                .findAny()
+                .getAsDouble();
+
+        assertEquals(
+                expected,
+                actual
+        );
+    }
+
+    @Test
+    void numberOfHiroshimaBombs() {
+        var asteroidsResource = new AsteroidsResource(
+                new TestNewWsApi("", "", "classpath:test_data/test_asteroids_2.json")
+        );
+
+
+        ResponseEntity<Map<String, List<Map<String, Object>>>> response = asteroidsResource.getDestructiveInformationOfAsteroids(
+                "2020-09-07",
+                "2020-09-08",
+                false
+        );
+
+
+        var averageDiameterInMeters = (238.6464490278 + 533.6296826151) / 2d;
+        var radius = averageDiameterInMeters / 2d;
+        var volumeInCubicMeters = (4 / 3d) * Math.PI * radius;
+        var massInKg = volumeInCubicMeters * 4000;
+        var averageVelocityInMPerSeconds = 16.8314904753 * 1000;
+        var kineticEnergyInJoules = 0.5 * massInKg * averageVelocityInMPerSeconds * averageVelocityInMPerSeconds;
+        var kineticEnergyInTonsOfTnt = kineticEnergyInJoules * 0.00000000024;
+        var expected = Math.round((float) kineticEnergyInTonsOfTnt / 15000f);
+
+        var actual = response.getBody()
+                .get("asteroids")
+                .stream()
+                .map(a -> a.get("numberOfHiroshimaBombs"))
+                .mapToDouble((a -> Float.parseFloat(a.toString())))
+                .findAny()
+                .getAsDouble();
+
+        assertEquals(
+                expected,
+                actual
+        );
+    }
+
+    @Test
+    void numberOfHiroshimaDeaths() {
+        var asteroidsResource = new AsteroidsResource(
+                new TestNewWsApi("", "", "classpath:test_data/test_asteroids_2.json")
+        );
+
+
+        ResponseEntity<Map<String, List<Map<String, Object>>>> response = asteroidsResource.getDestructiveInformationOfAsteroids(
+                "2020-09-07",
+                "2020-09-08",
+                false
+        );
+
+
+        var averageDiameterInMeters = (238.6464490278 + 533.6296826151) / 2d;
+        var radius = averageDiameterInMeters / 2d;
+        var volumeInCubicMeters = (4 / 3d) * Math.PI * radius;
+        var massInKg = volumeInCubicMeters * 4000;
+        var averageVelocityInMPerSeconds = 16.8314904753 * 1000;
+        var kineticEnergyInJoules = 0.5 * massInKg * averageVelocityInMPerSeconds * averageVelocityInMPerSeconds;
+        var kineticEnergyInTonsOfTnt = kineticEnergyInJoules * 0.00000000024;
+        var expected = Math.round((float) kineticEnergyInTonsOfTnt / 15000f) * 100000;
+
+        var actual = response.getBody()
+                .get("asteroids")
+                .stream()
+                .map(a -> a.get("numberOfHiroshimaDeaths"))
+                .mapToDouble((a -> Integer.parseInt(a.toString())))
                 .findAny()
                 .getAsDouble();
 

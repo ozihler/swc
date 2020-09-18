@@ -92,17 +92,7 @@ public class AsteroidsResource {
                     double kineticEnergyInTonsOfTNT = kineticEnergyInJoules * 0.00000000024;         // 1 joule = 0.00000000024 tons of TNT
                     asteroidDetails.put("kineticEnergyInTonsOfTNT", kineticEnergyInTonsOfTNT);
 
-                    if (kineticEnergyInTonsOfTNT < 1.0) {
-                        asteroidDetails.put("magnitude", "BELOW_TONS");
-                    } else if (kineticEnergyInTonsOfTNT / 1000 < 1.0 && kineticEnergyInTonsOfTNT > 1.0) {
-                        asteroidDetails.put("magnitude", "TONS");
-                    } else if (kineticEnergyInTonsOfTNT / 1000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000 < 1.0) {
-                        asteroidDetails.put("magnitude", "KILO_TONS");
-                    } else if (kineticEnergyInTonsOfTNT / 1000000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000000 < 1.0) { // complicated boolean expression
-                        asteroidDetails.put("magnitude", "MEGA_TONS");
-                    } else {
-                        asteroidDetails.put("magnitude", "ABOVE_MEGA_TONS");
-                    }
+                    addMagnitude(asteroidDetails, kineticEnergyInTonsOfTNT);
 
                     float numberOfHiroshimaBombs = (Math.round((float) kineticEnergyInTonsOfTNT / 15000f)); // Magic Number
 
@@ -157,6 +147,20 @@ public class AsteroidsResource {
             throw new IllegalArgumentException("Could not parse date: ", e);
         } catch (IOException i) {
             throw new RuntimeException(i);
+        }
+    }
+
+    private void addMagnitude(Map<String, Object> asteroidDetails, double kineticEnergyInTonsOfTNT) {
+        if (kineticEnergyInTonsOfTNT < 1.0) {
+            asteroidDetails.put("magnitude", "BELOW_TONS");
+        } else if (kineticEnergyInTonsOfTNT / 1000 < 1.0 && kineticEnergyInTonsOfTNT > 1.0) {
+            asteroidDetails.put("magnitude", "TONS");
+        } else if (kineticEnergyInTonsOfTNT / 1000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000 < 1.0) {
+            asteroidDetails.put("magnitude", "KILO_TONS");
+        } else if (kineticEnergyInTonsOfTNT / 1000000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000000 < 1.0) { // complicated boolean expression
+            asteroidDetails.put("magnitude", "MEGA_TONS");
+        } else {
+            asteroidDetails.put("magnitude", "ABOVE_MEGA_TONS");
         }
     }
 }
