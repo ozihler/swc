@@ -100,7 +100,7 @@ public class AsteroidsResource {
                         asteroidDetails.put("magnitude", "TONS");
                     } else if (kineticEnergyInTonsOfTNT / 1000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000 < 1.0) {
                         asteroidDetails.put("magnitude", "KILO_TONS");
-                    } else if (kineticEnergyInTonsOfTNT / 1000000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000000 < 1.0) {
+                    } else if (kineticEnergyInTonsOfTNT / 1000000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000000 < 1.0) { // complicated boolean expression
                         asteroidDetails.put("magnitude", "MEGA_TONS");
                     } else {
                         asteroidDetails.put("magnitude", "ABOVE_MEGA_TONS");
