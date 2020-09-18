@@ -43,26 +43,15 @@ import {EMPTY, Observable} from "rxjs";
     </div>
 
     <div>
-      {{liveData$ | async}}
     </div>
   `,
   styles: []
 })
 export class DisasterFeedComponent implements OnInit, OnDestroy {
 
-  feeds: Feed[] = [
-    {
-      title: "Trump reelected!",
-      message: "Trump got reelected in November... 4 more years of disaster"
-    },
-    {
-      title: "Biden hits the bucket!",
-      message: "Biden dies after Trump got reelected."
-    }
-  ]
+  feeds: any[] = [];
   showButton: boolean = true;
   disasterFeedForm: FormGroup;
-  liveData$: Observable<any>;
 
   constructor(private formBuilder: FormBuilder,
               private disasterFeedService: DisasterFeedService) {
@@ -71,19 +60,6 @@ export class DisasterFeedComponent implements OnInit, OnDestroy {
         title: '',
         message: ''
       }
-    );
-
-
-    this.liveData$ = this.disasterFeedService.messages$.pipe(
-      map((rows: any) => rows.data),
-      catchError(error => {
-        throw error
-      }),
-      tap({
-          error: error => console.log('[Live component] Error:', error),
-          complete: () => console.log('[Live component] Connection Closed')
-        }
-      )
     );
 
   }
@@ -98,10 +74,9 @@ export class DisasterFeedComponent implements OnInit, OnDestroy {
 
   submitDisasterFeed() {
     let feed = this.disasterFeedForm.value as Feed;
-    console.log(feed)
     this.disasterFeedService.sendMessage(feed);
-    this.disasterFeedForm.reset();
-    this.showButton = true;
+    //  this.disasterFeedForm.reset();
+    // this.showButton = true;
   }
 
   ngOnDestroy(): void {

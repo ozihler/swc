@@ -1,31 +1,29 @@
 import {Injectable} from '@angular/core';
 import {webSocket, WebSocketSubject} from "rxjs/webSocket";
 import {EMPTY, Subject} from "rxjs";
-import {catchError, switchAll, tap} from "rxjs/operators";
+import {catchError, map, switchAll, tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DisasterFeedService {
 
-  url = 'ws://localhost:8080/disasterfeed';
+  url = 'ws://localhost:8081/disasterfeed';
   socket$: WebSocketSubject<any>;
-  private messagesSubject$ = new Subject();
-  // @ts-ignore
-  public messages$ = this.messagesSubject$.pipe(switchAll(), catchError(e => {
-    throw e
-  }));
-
+  messages: any[] = [];
 
   constructor() {
     this.socket$ = webSocket(this.url);
-    this.socket$.subscribe(data => console.log(data));
-    const messages = this.socket$.pipe(
-      tap({
-        error: error => console.log(error),
-      }), catchError(_ => EMPTY));
-    this.messagesSubject$.next(messages);
+    this.socket$.
+    subscribe(
+      msg => {
+        console.log("Received from server: ", msg);
+        this.messages.push(msg);
+      },
+      err => console.error("Error: ", err)
+    );
   }
+
   sendMessage(msg: any) {
     this.socket$.next(msg);
   }
