@@ -11,7 +11,7 @@ public class ViewCurrentMarsWeatherUseCase implements ViewCurrentMarsWeather {
 
     @Override
     public void invokeWith(MarsWeatherPresenter output) {
-        MarsWeather marsWeather = this.fetchMarsWeather.forToday();
+        MarsWeather marsWeather = fetchMarsWeather.forToday();
 
         output.present(marsWeather);
     }
