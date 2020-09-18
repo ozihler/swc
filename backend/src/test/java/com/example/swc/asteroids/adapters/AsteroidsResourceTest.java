@@ -31,7 +31,7 @@ class AsteroidsResourceTest {
 
 
     @Test
-    void test() {
+    void testAverageMissDistanceInKm() {
         var asteroidsResource = new AsteroidsResource(
                 new TestNewWsApi("", "", "classpath:test_data/test_asteroids.json")
         );
@@ -63,6 +63,40 @@ class AsteroidsResourceTest {
         assertEquals(
                 expectedAverageMissDistanceInKm,
                 actualAverageMissDistanceInKm
+        );
+    }
+    @Test
+    void testAllIdsCollected() {
+        var asteroidsResource = new AsteroidsResource(
+                new TestNewWsApi("", "", "classpath:test_data/test_asteroids.json")
+        );
+
+        ResponseEntity<Map<String, List<Map<String, Object>>>> response = asteroidsResource.getDestructiveInformationOfAsteroids(
+                "2020-09-07",
+                "2020-09-08",
+                false
+        );
+
+        var expected = Set.of(
+                "54053725",
+                "3696305",
+                "54051304",
+                "54053746",
+                "3394070",
+                "3599542",
+                "3727273",
+                "54050992"
+        );
+
+        var actual = response.getBody()
+                .get("asteroids")
+                .stream()
+                .map(a -> a.get("id"))
+                .collect(toSet());
+
+        assertEquals(
+                expected,
+                actual
         );
     }
 
