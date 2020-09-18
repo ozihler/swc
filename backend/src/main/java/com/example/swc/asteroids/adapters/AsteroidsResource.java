@@ -83,11 +83,9 @@ public class AsteroidsResource {
                         count++;
                     }
 
-                    double averageVelocityInMPerSecond;
+                    double averageVelocityInMPerSecond = 0;
                     if (count > 0) {
                         averageVelocityInMPerSecond = (sum / count) * 1000;
-                    } else {
-                        averageVelocityInMPerSecond = 0;
                     }
 
                     double kineticEnergyInJoules = 0.5 * massInKg * averageVelocityInMPerSecond * averageVelocityInMPerSecond;
