@@ -1,10 +1,10 @@
 package com.example.swc.weather_mars.adapters.controllers;
 
 import com.example.swc.weather_mars.adapters.presenters.MarsWeatherDto;
-import com.example.swc.weather_mars.application.use_cases.FetchMarsWeather;
 import com.example.swc.weather_mars.adapters.presenters.RestMarsWeatherPresenter;
-import com.example.swc.weather_mars.application.use_cases.ViewCurrentMarsWeatherUseCase;
+import com.example.swc.weather_mars.application.use_cases.FetchMarsWeather;
 import com.example.swc.weather_mars.application.use_cases.ViewCurrentMarsWeather;
+import com.example.swc.weather_mars.application.use_cases.ViewCurrentMarsWeatherUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

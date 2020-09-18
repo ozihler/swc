@@ -1,8 +1,6 @@
 package com.example.swc.weather_mars.domain;
 
 import com.example.swc.domain.Location;
-import com.example.swc.weather_mars.domain.Season;
-import com.example.swc.weather_mars.domain.Temperature;
 
 public class MarsWeather {
     private final Location location;

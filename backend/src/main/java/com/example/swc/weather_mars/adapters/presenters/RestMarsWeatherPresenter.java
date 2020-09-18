@@ -1,7 +1,7 @@
 package com.example.swc.weather_mars.adapters.presenters;
 
-import com.example.swc.weather_mars.domain.MarsWeather;
 import com.example.swc.weather_mars.application.use_cases.MarsWeatherPresenter;
+import com.example.swc.weather_mars.domain.MarsWeather;
 import org.springframework.http.ResponseEntity;
 
 public class RestMarsWeatherPresenter implements MarsWeatherPresenter {
