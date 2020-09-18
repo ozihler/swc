@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Feed} from "./feed";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {DisasterFeedService} from './disaster-feed.service';
+import {catchError, map, tap} from "rxjs/operators";
+import {EMPTY, Observable} from "rxjs";
 
 
 @Component({
@@ -38,10 +41,14 @@ import {FormBuilder, FormGroup} from "@angular/forms";
         </ul>
       </div>
     </div>
+
+    <div>
+      {{liveData$ | async}}
+    </div>
   `,
   styles: []
 })
-export class DisasterFeedComponent implements OnInit {
+export class DisasterFeedComponent implements OnInit, OnDestroy {
 
   feeds: Feed[] = [
     {
@@ -55,17 +62,34 @@ export class DisasterFeedComponent implements OnInit {
   ]
   showButton: boolean = true;
   disasterFeedForm: FormGroup;
+  liveData$: Observable<any>;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              private disasterFeedService: DisasterFeedService) {
     this.disasterFeedForm = formBuilder.group(
       {
         title: '',
         message: ''
       }
     );
+
+
+    this.liveData$ = this.disasterFeedService.messages$.pipe(
+      map((rows: any) => rows.data),
+      catchError(error => {
+        throw error
+      }),
+      tap({
+          error: error => console.log('[Live component] Error:', error),
+          complete: () => console.log('[Live component] Connection Closed')
+        }
+      )
+    );
+
   }
 
   ngOnInit(): void {
+
   }
 
   showSubmitDisasterFeedForm() {
@@ -73,8 +97,14 @@ export class DisasterFeedComponent implements OnInit {
   }
 
   submitDisasterFeed() {
-    console.log(this.disasterFeedForm.value)
+    let feed = this.disasterFeedForm.value as Feed;
+    console.log(feed)
+    this.disasterFeedService.sendMessage(feed);
     this.disasterFeedForm.reset();
     this.showButton = true;
+  }
+
+  ngOnDestroy(): void {
+    this.disasterFeedService.close();
   }
 }

@@ -25,4 +25,6 @@ public class SwcApplication implements ErrorController {
     public String getErrorPath() {
         return PATH;
     }
+
+
 }
