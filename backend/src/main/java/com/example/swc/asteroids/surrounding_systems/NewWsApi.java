@@ -8,6 +8,8 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static java.lang.String.format;
 
@@ -26,23 +28,30 @@ public class NewWsApi {
     // Idea: find all dangerous asteroids (is_potentially_hazardous_asteroid)
     // with a diameter of xy m, velocity xy, etc.
 
-    public AsteroidsDto getAsteroidData(
-            String startDate,
-            String endDate,
+    public AsteroidsApiDataDto getAsteroidData(
+            Date startDate,
+            Date endDate,
             boolean detailed,
             boolean useTestData) throws IOException {
         if (useTestData) {
             return testData();
         }
 
-        String uri = format("%s?start_date=%s&end_date=%s&detailed=%s&api_key=%s", baseUrl, startDate, endDate, detailed, apiKey);
+        String startDateAsString = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
+        String endDateAsString = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
 
-        return new HttpRequest<AsteroidsDto>(uri).get(AsteroidsDto.class);
+        String uri = format("%s?start_date=%s&end_date=%s&detailed=%s&api_key=%s", baseUrl, startDateAsString, endDateAsString, detailed, apiKey);
+
+        try {
+            return new HttpRequest<AsteroidsApiDataDto>(uri).get(AsteroidsApiDataDto.class);
+        } catch (IOException e) {
+            return testData();
+        }
     }
 
-    private AsteroidsDto testData() throws IOException {
+    private AsteroidsApiDataDto testData() throws IOException {
         File backupAsteroids = ResourceUtils.getFile("classpath:backup_data/backup_asteroids.json");
-        return new ObjectMapper().readValue(backupAsteroids, AsteroidsDto.class);
+        return new ObjectMapper().readValue(backupAsteroids, AsteroidsApiDataDto.class);
     }
 
 
