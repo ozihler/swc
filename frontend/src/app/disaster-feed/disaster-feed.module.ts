@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromDisasterFeed from './reducers/disaster-feed.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { DisasterFeedEffects } from './effects/disaster-feed.effects';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { DisasterFeedEffects } from './effects/disaster-feed.effects';
     CommonModule,
     DisasterFeedRoutingModule,
     StoreModule.forFeature(fromDisasterFeed.disasterFeedFeatureKey, fromDisasterFeed.reducer),
-    EffectsModule.forFeature([DisasterFeedEffects])
+    EffectsModule.forFeature([DisasterFeedEffects]),
+    ReactiveFormsModule
   ]
 })
 export class DisasterFeedModule { }
