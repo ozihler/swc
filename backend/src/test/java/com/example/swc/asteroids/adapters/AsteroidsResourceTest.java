@@ -6,18 +6,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AsteroidsResourceTest {
 
-    private AsteroidsResource asteroidsResource;
 
     private class TestNewWsApi extends NewWsApi {
-        public TestNewWsApi(String apiKey, String baseUrl) {
-            super(apiKey, baseUrl);
+        public TestNewWsApi(String apiKey, String baseUrl, String testDataLocation) {
+            super(apiKey, baseUrl, testDataLocation);
         }
 
         @Override
@@ -27,24 +25,32 @@ class AsteroidsResourceTest {
     }
 
 
-    @BeforeEach
-    void setUp() {
-        asteroidsResource = new AsteroidsResource(
-                new TestNewWsApi("","")
-        );
-    }
-
     @Test
     void test() {
 
     }
 
     @Test
-    void throwsException() {
+    void throwsIllegalArgumentException() {
+
+        var asteroidsResource = new AsteroidsResource(
+                new TestNewWsApi("", "", "classpath:backup_data/backup_asteroids.json")
+        );
         assertThrows(IllegalArgumentException.class, () -> asteroidsResource.getMissingDistance("", "", true));
         assertThrows(IllegalArgumentException.class, () -> asteroidsResource.getMissingDistance("2020-01-01", "", false));
         assertThrows(IllegalArgumentException.class, () -> asteroidsResource.getMissingDistance("", "2020-01-01", true));
         assertThrows(IllegalArgumentException.class, () -> asteroidsResource.getMissingDistance("dsafdsaf", "2020-01-01", false));
         assertThrows(IllegalArgumentException.class, () -> asteroidsResource.getMissingDistance("2020-01-01", "fdsadsaf", true));
     }
+
+    @Test
+    void throwsRuntimeException() {
+        var asteroidsResource = new AsteroidsResource(
+                new TestNewWsApi("", "", "unkown.json")
+        );
+
+        assertThrows(RuntimeException.class, () -> asteroidsResource.getMissingDistance("2000-01-01", "2000-01-01", true));
+
+    }
+
 }

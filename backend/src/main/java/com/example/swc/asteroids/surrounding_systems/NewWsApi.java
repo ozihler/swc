@@ -17,12 +17,15 @@ import static java.lang.String.format;
 public class NewWsApi {
     private final String apiKey;
     private final String baseUrl;
+    private final String testDataLocation;
 
     public NewWsApi(
             @Value("${asteroids.api.key}") String apiKey,
-            @Value("${asteroids.api.baseUrl}") String baseUrl) {
+            @Value("${asteroids.api.baseUrl}") String baseUrl,
+            @Value("${asteroids.testDataLocation}") String testDataLocation) {
         this.apiKey = apiKey;
         this.baseUrl = baseUrl;
+        this.testDataLocation = testDataLocation;
     }
 
     // Idea: find all dangerous asteroids (is_potentially_hazardous_asteroid)
@@ -50,7 +53,7 @@ public class NewWsApi {
     }
 
     protected AsteroidsApiDataDto testData() throws IOException {
-        File backupAsteroids = ResourceUtils.getFile("classpath:backup_data/backup_asteroids.json");
+        File backupAsteroids = ResourceUtils.getFile(testDataLocation);
         return new ObjectMapper().readValue(backupAsteroids, AsteroidsApiDataDto.class);
     }
 
