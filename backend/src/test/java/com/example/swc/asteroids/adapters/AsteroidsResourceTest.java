@@ -10,10 +10,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toSet;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AsteroidsResourceTest {
 
@@ -79,14 +79,14 @@ class AsteroidsResourceTest {
         );
 
         var expectedAverageMissDistanceInKm = Set.of(
-                28900622.06721149/384400d,
-                29428735.534641825/384400d,
-                28524696.487624039/384400d,
-                7208071.387689618/384400d,
-                45576240.477071092/384400d,
-                19802196.225351155/384400d,
-                49767255.023890832/384400d,
-                12357224.642686937/384400d
+                28900622.06721149 / 384400d,
+                29428735.534641825 / 384400d,
+                28524696.487624039 / 384400d,
+                7208071.387689618 / 384400d,
+                45576240.477071092 / 384400d,
+                19802196.225351155 / 384400d,
+                49767255.023890832 / 384400d,
+                12357224.642686937 / 384400d
         );
 
         var actualAverageMissDistanceInKm = response.getBody()
@@ -156,6 +156,42 @@ class AsteroidsResourceTest {
         );
 
         assertThrows(RuntimeException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("2000-01-01", "2000-01-01", true));
+    }
+
+    @Test
+    void kineticEnergy() {
+        var asteroidsResource = new AsteroidsResource(
+                new TestNewWsApi("", "", "classpath:test_data/test_asteroids_2.json")
+        );
+
+
+        ResponseEntity<Map<String, List<Map<String, Object>>>> response = asteroidsResource.getDestructiveInformationOfAsteroids(
+                "2020-09-07",
+                "2020-09-08",
+                false
+        );
+
+
+        var averageDiameterInMeters = (238.6464490278 + 533.6296826151) / 2d;
+        var radius = averageDiameterInMeters / 2d;
+        var volumeInCubicMeters = (4 / 3d) * Math.PI * radius;
+        var massInKg = volumeInCubicMeters * 4000;
+        var averageVelocityInMPerSeconds = 16.8314904753*1000;
+        var kineticEnergyInJoules = 0.5 * massInKg * averageVelocityInMPerSeconds * averageVelocityInMPerSeconds;
+        var expected = kineticEnergyInJoules * 0.00000000024;
+
+        var actual = response.getBody()
+                .get("asteroids")
+                .stream()
+                .map(a -> a.get("kineticEnergyInTonsOfTNT"))
+                .mapToDouble((a -> Double.parseDouble(a.toString())))
+                .findAny()
+                .getAsDouble();
+
+        assertEquals(
+                expected,
+                actual
+        );
     }
 
 }

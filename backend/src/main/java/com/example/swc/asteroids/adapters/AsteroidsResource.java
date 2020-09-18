@@ -85,7 +85,7 @@ public class AsteroidsResource {
 
                     double averageVelocityInMPerSecond;
                     if (count > 0) {
-                        averageVelocityInMPerSecond = sum / count * 1000;
+                        averageVelocityInMPerSecond = (sum / count) * 1000;
                     } else {
                         averageVelocityInMPerSecond = 0;
                     }
