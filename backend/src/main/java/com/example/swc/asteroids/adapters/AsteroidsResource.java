@@ -121,10 +121,10 @@ public class AsteroidsResource {
         }
     }
 
-    private void addMagnitude(Map<String, Object> asteroidDetails, double kineticEnergyInTonsOfTNT) {
+    public static void addMagnitude(Map<String, Object> asteroidDetails, double kineticEnergyInTonsOfTNT) {
         if (kineticEnergyInTonsOfTNT < 1.0) {
             asteroidDetails.put("magnitude", "BELOW_TONS");
-        } else if (kineticEnergyInTonsOfTNT / 1000 < 1.0 && kineticEnergyInTonsOfTNT > 1.0) {
+        } else if (kineticEnergyInTonsOfTNT / 1000 < 1.0 && kineticEnergyInTonsOfTNT >= 1.0) {
             asteroidDetails.put("magnitude", "TONS");
         } else if (kineticEnergyInTonsOfTNT / 1000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000 < 1.0) {
             asteroidDetails.put("magnitude", "KILO_TONS");

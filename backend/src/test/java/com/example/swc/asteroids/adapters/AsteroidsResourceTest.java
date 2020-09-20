@@ -6,10 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -268,4 +265,28 @@ class AsteroidsResourceTest {
         );
     }
 
+    @Test
+    void addMagnitude() {
+        HashMap<String, Object> asteroidDetails = new HashMap<>();
+        AsteroidsResource.addMagnitude(asteroidDetails, 0.0);
+        assertEquals("BELOW_TONS", asteroidDetails.get("magnitude"));
+        AsteroidsResource.addMagnitude(asteroidDetails, 0.9999);
+        assertEquals("BELOW_TONS", asteroidDetails.get("magnitude"));
+        AsteroidsResource.addMagnitude(asteroidDetails, 1.0);
+        assertEquals("TONS", asteroidDetails.get("magnitude"));
+        AsteroidsResource.addMagnitude(asteroidDetails, 999.9999);
+        assertEquals("TONS", asteroidDetails.get("magnitude"));
+        AsteroidsResource.addMagnitude(asteroidDetails, 1000.0);
+        assertEquals("KILO_TONS", asteroidDetails.get("magnitude"));
+        AsteroidsResource.addMagnitude(asteroidDetails, 999999.9999);
+        assertEquals("KILO_TONS", asteroidDetails.get("magnitude"));
+        AsteroidsResource.addMagnitude(asteroidDetails, 1000000.0);
+        assertEquals("MEGA_TONS", asteroidDetails.get("magnitude"));
+        AsteroidsResource.addMagnitude(asteroidDetails, 999999999.9999);
+        assertEquals("MEGA_TONS", asteroidDetails.get("magnitude"));
+        AsteroidsResource.addMagnitude(asteroidDetails, 1000000000.0);
+        assertEquals("ABOVE_MEGA_TONS", asteroidDetails.get("magnitude"));
+        AsteroidsResource.addMagnitude(asteroidDetails, 10000000000.0);
+        assertEquals("ABOVE_MEGA_TONS", asteroidDetails.get("magnitude"));
+    }
 }
