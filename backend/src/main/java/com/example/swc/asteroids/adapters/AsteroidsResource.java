@@ -72,19 +72,13 @@ public class AsteroidsResource {
                     asteroidDetails.put("averageMissDistanceInKm", missDistances.getAverageMissDistanceInKm());
                     asteroidDetails.put("averageLunarDistance", missDistances.getAverageLunarMissingDistance());
 
-                    Measures measures = new Measures(
-                            asteroid.estimated_diameter.meters.estimated_diameter_min,
-                            asteroid.estimated_diameter.meters.estimated_diameter_max);
+                    KineticEnergy kineticEnergy = toKineticEnergy(asteroid);
 
-                    Velocities velocities = toVelocities(asteroid.close_approach_data);
+                    asteroidDetails.put("kineticEnergyInTonsOfTNT", kineticEnergy.getKineticEnergyInTonsOfTNT());
 
-                    double kineticEnergyInJoules = 0.5 * measures.massInKg() * velocities.averageVelocityInMetersPerSecond() * velocities.averageVelocityInMetersPerSecond();
-                    double kineticEnergyInTonsOfTNT = kineticEnergyInJoules * 0.00000000024;         // 1 joule = 0.00000000024 tons of TNT
-                    asteroidDetails.put("kineticEnergyInTonsOfTNT", kineticEnergyInTonsOfTNT);
+                    addMagnitude(asteroidDetails, kineticEnergy.getKineticEnergyInTonsOfTNT());
 
-                    addMagnitude(asteroidDetails, kineticEnergyInTonsOfTNT);
-
-                    float numberOfHiroshimaBombs = (Math.round((float) kineticEnergyInTonsOfTNT / 15000f)); // Magic Number
+                    float numberOfHiroshimaBombs = (Math.round((float) kineticEnergy.getKineticEnergyInTonsOfTNT() / 15000f)); // Magic Number
 
                     asteroidDetails.put("numberOfHiroshimaBombs", numberOfHiroshimaBombs);
 
@@ -107,6 +101,16 @@ public class AsteroidsResource {
         } catch (IOException i) {
             throw new RuntimeException(i);
         }
+    }
+
+    private KineticEnergy toKineticEnergy(NearEarthObjectDto asteroid) {
+        Measures measures = new Measures(
+                asteroid.estimated_diameter.meters.estimated_diameter_min,
+                asteroid.estimated_diameter.meters.estimated_diameter_max);
+
+        Velocities velocities = toVelocities(asteroid.close_approach_data);
+
+        return new KineticEnergy(measures, velocities);
     }
 
     private Velocities toVelocities(List<CloseApproachDataDto> close_approach_data) {
