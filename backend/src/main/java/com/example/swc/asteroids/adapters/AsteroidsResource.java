@@ -55,8 +55,6 @@ public class AsteroidsResource {
             @RequestParam("useTestData") boolean useTestData) { // Long method
 
         try { // Deeply-nested control flow
-            double density = 4000;
-
             Map<String, List<Map<String, Object>>> results = new HashMap<>(); // Primitive Obsession
 
             AsteroidsApiDataDto dataFromApi = this.newWsApi.getAsteroidData(new RetrievalDate(startDate).toDate(), new RetrievalDate(endDate).toDate(), false, useTestData);
