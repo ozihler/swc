@@ -7,11 +7,11 @@ public class HiroshimaBombs {
         numberOfHiroshimaBombs = Math.round((float) kineticEnergy.getKineticEnergyInTonsOfTNT() / 15000f);
     }
 
-    public int getNumberOfBombs() {
-        return numberOfHiroshimaBombs;
+    public float getNumberOfBombs() {
+        return (float) numberOfHiroshimaBombs;
     }
 
     public int getNumberOfDeaths() {
-        return getNumberOfBombs() * 100000;
+        return ((int) getNumberOfBombs() * 100000);
     }
 }
