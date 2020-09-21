@@ -1,5 +1,6 @@
 package com.example.swc.asteroids.adapters;
 
+import com.example.swc.asteroids.domain.IllegalRetrievalDateException;
 import com.example.swc.asteroids.surrounding_systems.AsteroidsApiDataDto;
 import com.example.swc.asteroids.surrounding_systems.NewWsApi;
 import org.junit.jupiter.api.Test;
@@ -135,15 +136,15 @@ class AsteroidsResourceTest {
     }
 
     @Test
-    void throwsIllegalArgumentException() {
+    void throwsIllegalRetrievalDateException() {
         var asteroidsResource = new AsteroidsResource(
                 new TestNewWsApi("", "", "classpath:backup_data/backup_asteroids.json")
         );
-        assertThrows(IllegalArgumentException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("", "", true));
-        assertThrows(IllegalArgumentException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("2020-01-01", "", false));
-        assertThrows(IllegalArgumentException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("", "2020-01-01", true));
-        assertThrows(IllegalArgumentException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("dsafdsaf", "2020-01-01", false));
-        assertThrows(IllegalArgumentException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("2020-01-01", "fdsadsaf", true));
+        assertThrows(IllegalRetrievalDateException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("", "", true));
+        assertThrows(IllegalRetrievalDateException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("2020-01-01", "", false));
+        assertThrows(IllegalRetrievalDateException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("", "2020-01-01", true));
+        assertThrows(IllegalRetrievalDateException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("dsafdsaf", "2020-01-01", false));
+        assertThrows(IllegalRetrievalDateException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("2020-01-01", "fdsadsaf", true));
     }
 
     @Test
