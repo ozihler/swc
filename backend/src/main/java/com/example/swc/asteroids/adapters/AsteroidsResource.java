@@ -69,11 +69,8 @@ public class AsteroidsResource {
 
                     MissDistances missDistances = toMissDistances(asteroid.close_approach_data);
 
-                    double averageMissDistanceInKm = missDistances.getAverageMissDistanceInKm();
-
-                    asteroidDetails.put("averageMissDistanceInKm", averageMissDistanceInKm);
-                    double averageLunarMissingDistance = getAverageLunarMissingDistance(averageMissDistanceInKm);
-                    asteroidDetails.put("averageLunarDistance", averageLunarMissingDistance); // Magic Number
+                    asteroidDetails.put("averageMissDistanceInKm", missDistances.getAverageMissDistanceInKm());
+                    asteroidDetails.put("averageLunarDistance", missDistances.getAverageLunarMissingDistance());
 
                     DiameterDto meters = asteroid.estimated_diameter.meters;
                     double averageDiameterInMeters = (meters.estimated_diameter_min + meters.estimated_diameter_max) / 2d;
@@ -122,10 +119,6 @@ public class AsteroidsResource {
         } catch (IOException i) {
             throw new RuntimeException(i);
         }
-    }
-
-    private double getAverageLunarMissingDistance(double averageMissDistanceInKm) {
-        return averageMissDistanceInKm / 384400;
     }
 
     private MissDistances toMissDistances(List<CloseApproachDataDto> closeApproachData) {
