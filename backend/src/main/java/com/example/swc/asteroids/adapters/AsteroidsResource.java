@@ -78,12 +78,9 @@ public class AsteroidsResource {
 
                     addMagnitude(asteroidDetails, kineticEnergy.getKineticEnergyInTonsOfTNT());
 
-                    float numberOfHiroshimaBombs = (Math.round((float) kineticEnergy.getKineticEnergyInTonsOfTNT() / 15000f)); // Magic Number
-
-                    asteroidDetails.put("numberOfHiroshimaBombs", numberOfHiroshimaBombs);
-
-                    int numberOfHiroshimaDeaths = ((int) numberOfHiroshimaBombs) * 100000;
-                    asteroidDetails.put("numberOfHiroshimaDeaths", numberOfHiroshimaDeaths);
+                    HiroshimaBombs hiroshimaBombs = new HiroshimaBombs(kineticEnergy);
+                    asteroidDetails.put("numberOfHiroshimaBombs", hiroshimaBombs.getNumberOfBombs());
+                    asteroidDetails.put("numberOfHiroshimaDeaths", hiroshimaBombs.getNumberOfDeaths());
 
                     List<Map<String, Object>> asteroids = results.get("asteroids");
                     if (asteroids == null) {
