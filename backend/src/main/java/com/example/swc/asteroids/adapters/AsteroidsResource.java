@@ -1,6 +1,6 @@
 package com.example.swc.asteroids.adapters;
 
-import com.example.swc.asteroids.domain.RetrievalDate;
+import com.example.swc.asteroids.domain.*;
 import com.example.swc.asteroids.surrounding_systems.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 public class AsteroidsResource {
@@ -66,14 +67,13 @@ public class AsteroidsResource {
                     asteroidDetails.put("id", asteroid.id);
                     asteroidDetails.put("name", asteroid.name);
 
-                    double result = 0;
-                    for (CloseApproachDataDto a : asteroid.close_approach_data) {
-                        result += Double.parseDouble(a.miss_distance.kilometers);
-                    }
-                    double averageMissDistanceInKm = asteroid.close_approach_data.size() > 0 ? result / asteroid.close_approach_data.size() : 0.0;
+                    MissDistances missDistances = toMissDistances(asteroid.close_approach_data);
+
+                    double averageMissDistanceInKm = missDistances.getAverageMissDistanceInKm();
 
                     asteroidDetails.put("averageMissDistanceInKm", averageMissDistanceInKm);
-                    asteroidDetails.put("averageLunarDistance", (averageMissDistanceInKm / 384400)); // Magic Number
+                    double averageLunarMissingDistance = getAverageLunarMissingDistance(averageMissDistanceInKm);
+                    asteroidDetails.put("averageLunarDistance", averageLunarMissingDistance); // Magic Number
 
                     DiameterDto meters = asteroid.estimated_diameter.meters;
                     double averageDiameterInMeters = (meters.estimated_diameter_min + meters.estimated_diameter_max) / 2d;
@@ -122,6 +122,18 @@ public class AsteroidsResource {
         } catch (IOException i) {
             throw new RuntimeException(i);
         }
+    }
+
+    private double getAverageLunarMissingDistance(double averageMissDistanceInKm) {
+        return averageMissDistanceInKm / 384400;
+    }
+
+    private MissDistances toMissDistances(List<CloseApproachDataDto> closeApproachData) {
+        return new MissDistances(
+                closeApproachData.stream()
+                        .map(a -> a.miss_distance)
+                        .map(MissDistance::new)
+                        .collect(toList()));
     }
 
     public static void addMagnitude(Map<String, Object> asteroidDetails, double kineticEnergyInTonsOfTNT) {
