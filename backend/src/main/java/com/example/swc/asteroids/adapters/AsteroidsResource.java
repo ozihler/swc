@@ -73,10 +73,6 @@ public class AsteroidsResource {
                     asteroidDetails.put("averageLunarDistance", missDistances.getAverageLunarMissingDistance());
 
                     DiameterDto meters = asteroid.estimated_diameter.meters;
-                    double averageDiameterInMeters = (meters.estimated_diameter_min + meters.estimated_diameter_max) / 2d;
-                    double radius = averageDiameterInMeters / 2;
-                    double volumeInCubicMeters = (4 / 3d) * Math.PI * radius;
-                    double massInKg = volumeInCubicMeters * density;
 
                     double sum = 0;
                     long count = 0;
@@ -90,7 +86,9 @@ public class AsteroidsResource {
                         averageVelocityInMPerSecond = (sum / count) * 1000;
                     }
 
-                    double kineticEnergyInJoules = 0.5 * massInKg * averageVelocityInMPerSecond * averageVelocityInMPerSecond;
+                    Measures measures = new Measures(meters.estimated_diameter_min, meters.estimated_diameter_max);
+
+                    double kineticEnergyInJoules = 0.5 * measures.massInKg() * averageVelocityInMPerSecond * averageVelocityInMPerSecond;
                     double kineticEnergyInTonsOfTNT = kineticEnergyInJoules * 0.00000000024;         // 1 joule = 0.00000000024 tons of TNT
                     asteroidDetails.put("kineticEnergyInTonsOfTNT", kineticEnergyInTonsOfTNT);
 
