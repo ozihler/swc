@@ -74,21 +74,15 @@ public class AsteroidsResource {
 
                     DiameterDto meters = asteroid.estimated_diameter.meters;
 
-                    double sum = 0;
-                    long count = 0;
+                    List<Velocity> velocitiesList = new ArrayList<>();
                     for (CloseApproachDataDto d : asteroid.close_approach_data) {
-                        sum += Double.parseDouble(d.relative_velocity.kilometers_per_second);
-                        count++;
+                        double kilometersPerSecond = Double.parseDouble(d.relative_velocity.kilometers_per_second);
+                        velocitiesList.add(new Velocity(kilometersPerSecond));
                     }
-
-                    double averageVelocityInMPerSecond = 0;
-                    if (count > 0) {
-                        averageVelocityInMPerSecond = (sum / count) * 1000;
-                    }
-
+                    Velocities velocities = new Velocities(velocitiesList);
                     Measures measures = new Measures(meters.estimated_diameter_min, meters.estimated_diameter_max);
 
-                    double kineticEnergyInJoules = 0.5 * measures.massInKg() * averageVelocityInMPerSecond * averageVelocityInMPerSecond;
+                    double kineticEnergyInJoules = 0.5 * measures.massInKg() * velocities.averageVelocityInMetersPerSecond() * velocities.averageVelocityInMetersPerSecond();
                     double kineticEnergyInTonsOfTNT = kineticEnergyInJoules * 0.00000000024;         // 1 joule = 0.00000000024 tons of TNT
                     asteroidDetails.put("kineticEnergyInTonsOfTNT", kineticEnergyInTonsOfTNT);
 
