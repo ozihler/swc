@@ -74,12 +74,7 @@ public class AsteroidsResource {
 
                     DiameterDto meters = asteroid.estimated_diameter.meters;
 
-                    List<Velocity> velocitiesList = new ArrayList<>();
-                    for (CloseApproachDataDto d : asteroid.close_approach_data) {
-                        double kilometersPerSecond = Double.parseDouble(d.relative_velocity.kilometers_per_second);
-                        velocitiesList.add(new Velocity(kilometersPerSecond));
-                    }
-                    Velocities velocities = new Velocities(velocitiesList);
+                    Velocities velocities = toVelocities(asteroid.close_approach_data);
                     Measures measures = new Measures(meters.estimated_diameter_min, meters.estimated_diameter_max);
 
                     double kineticEnergyInJoules = 0.5 * measures.massInKg() * velocities.averageVelocityInMetersPerSecond() * velocities.averageVelocityInMetersPerSecond();
@@ -111,6 +106,16 @@ public class AsteroidsResource {
         } catch (IOException i) {
             throw new RuntimeException(i);
         }
+    }
+
+    private Velocities toVelocities(List<CloseApproachDataDto> close_approach_data) {
+        List<Velocity> velocitiesList = new ArrayList<>();
+        for (CloseApproachDataDto d : close_approach_data) {
+            double kilometersPerSecond = Double.parseDouble(d.relative_velocity.kilometers_per_second);
+            velocitiesList.add(new Velocity(kilometersPerSecond));
+        }
+        Velocities velocities = new Velocities(velocitiesList);
+        return velocities;
     }
 
     private MissDistances toMissDistances(List<CloseApproachDataDto> closeApproachData) {
