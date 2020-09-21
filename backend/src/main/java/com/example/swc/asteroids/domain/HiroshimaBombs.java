@@ -1,14 +1,14 @@
 package com.example.swc.asteroids.domain;
 
 public class HiroshimaBombs {
-    private KineticEnergy kineticEnergy;
+    private int numberOfHiroshimaBombs;
 
     public HiroshimaBombs(KineticEnergy kineticEnergy) {
-        this.kineticEnergy = kineticEnergy;
+        numberOfHiroshimaBombs = Math.round((float) kineticEnergy.getKineticEnergyInTonsOfTNT() / 15000f);
     }
 
     public int getNumberOfBombs() {
-        return Math.round((float) kineticEnergy.getKineticEnergyInTonsOfTNT() / 15000f);
+        return numberOfHiroshimaBombs;
     }
 
     public int getNumberOfDeaths() {
