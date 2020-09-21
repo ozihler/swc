@@ -74,7 +74,9 @@ public class AsteroidsResource {
 
                     asteroidDetails.put("kineticEnergyInTonsOfTNT", kineticEnergy.getKineticEnergyInTonsOfTNT());
 
-                    addMagnitude(asteroidDetails, kineticEnergy.getKineticEnergyInTonsOfTNT());
+                    Magnitude magnitude = new Magnitude(kineticEnergy.getKineticEnergyInTonsOfTNT());
+
+                    asteroidDetails.put("magnitude", magnitude.getValue());
 
                     HiroshimaBombs hiroshimaBombs = new HiroshimaBombs(kineticEnergy);
                     asteroidDetails.put("numberOfHiroshimaBombs", hiroshimaBombs.getNumberOfBombs());
@@ -125,17 +127,4 @@ public class AsteroidsResource {
                         .collect(toList()));
     }
 
-    public static void addMagnitude(Map<String, Object> asteroidDetails, double kineticEnergyInTonsOfTNT) {
-        if (kineticEnergyInTonsOfTNT < 1.0) {
-            asteroidDetails.put("magnitude", "BELOW_TONS");
-        } else if (kineticEnergyInTonsOfTNT / 1000 < 1.0 && kineticEnergyInTonsOfTNT >= 1.0) {
-            asteroidDetails.put("magnitude", "TONS");
-        } else if (kineticEnergyInTonsOfTNT / 1000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000 < 1.0) {
-            asteroidDetails.put("magnitude", "KILO_TONS");
-        } else if (kineticEnergyInTonsOfTNT / 1000000 >= 1.0 && kineticEnergyInTonsOfTNT / 1000000000 < 1.0) { // complicated boolean expression
-            asteroidDetails.put("magnitude", "MEGA_TONS");
-        } else {
-            asteroidDetails.put("magnitude", "ABOVE_MEGA_TONS");
-        }
-    }
 }

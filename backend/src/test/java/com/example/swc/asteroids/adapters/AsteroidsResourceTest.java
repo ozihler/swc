@@ -1,6 +1,7 @@
 package com.example.swc.asteroids.adapters;
 
 import com.example.swc.asteroids.domain.IllegalRetrievalDateException;
+import com.example.swc.asteroids.domain.Magnitude;
 import com.example.swc.asteroids.surrounding_systems.AsteroidsApiDataDto;
 import com.example.swc.asteroids.surrounding_systems.NewWsApi;
 import org.junit.jupiter.api.Test;
@@ -269,25 +270,36 @@ class AsteroidsResourceTest {
     @Test
     void addMagnitude() {
         HashMap<String, Object> asteroidDetails = new HashMap<>();
-        AsteroidsResource.addMagnitude(asteroidDetails, 0.0);
+
+        asteroidDetails.put("magnitude", new Magnitude(0.0).getValue());
         assertEquals("BELOW_TONS", asteroidDetails.get("magnitude"));
-        AsteroidsResource.addMagnitude(asteroidDetails, 0.9999);
+
+        asteroidDetails.put("magnitude", new Magnitude(0.9999).getValue());
         assertEquals("BELOW_TONS", asteroidDetails.get("magnitude"));
-        AsteroidsResource.addMagnitude(asteroidDetails, 1.0);
+
+        asteroidDetails.put("magnitude", new Magnitude(1.0).getValue());
         assertEquals("TONS", asteroidDetails.get("magnitude"));
-        AsteroidsResource.addMagnitude(asteroidDetails, 999.9999);
+
+        asteroidDetails.put("magnitude", new Magnitude(999.9999).getValue());
         assertEquals("TONS", asteroidDetails.get("magnitude"));
-        AsteroidsResource.addMagnitude(asteroidDetails, 1000.0);
+
+        asteroidDetails.put("magnitude", new Magnitude(1000.0).getValue());
         assertEquals("KILO_TONS", asteroidDetails.get("magnitude"));
-        AsteroidsResource.addMagnitude(asteroidDetails, 999999.9999);
+
+        asteroidDetails.put("magnitude", new Magnitude(999999.9999).getValue());
         assertEquals("KILO_TONS", asteroidDetails.get("magnitude"));
-        AsteroidsResource.addMagnitude(asteroidDetails, 1000000.0);
+
+        asteroidDetails.put("magnitude", new Magnitude(1000000.0).getValue());
         assertEquals("MEGA_TONS", asteroidDetails.get("magnitude"));
-        AsteroidsResource.addMagnitude(asteroidDetails, 999999999.9999);
+
+        asteroidDetails.put("magnitude", new Magnitude(999999999.9999).getValue());
         assertEquals("MEGA_TONS", asteroidDetails.get("magnitude"));
-        AsteroidsResource.addMagnitude(asteroidDetails, 1000000000.0);
+        Magnitude magnitude1 = new Magnitude(1000000000.0);
+
+        asteroidDetails.put("magnitude", magnitude1.getValue());
         assertEquals("ABOVE_MEGA_TONS", asteroidDetails.get("magnitude"));
-        AsteroidsResource.addMagnitude(asteroidDetails, 10000000000.0);
+
+        asteroidDetails.put("magnitude", new Magnitude(10000000000.0).getValue());
         assertEquals("ABOVE_MEGA_TONS", asteroidDetails.get("magnitude"));
     }
 }
