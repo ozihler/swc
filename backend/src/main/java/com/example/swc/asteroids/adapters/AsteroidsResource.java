@@ -109,13 +109,12 @@ public class AsteroidsResource {
     }
 
     private Velocities toVelocities(List<CloseApproachDataDto> close_approach_data) {
-        List<Velocity> velocitiesList = new ArrayList<>();
-        for (CloseApproachDataDto d : close_approach_data) {
-            double kilometersPerSecond = Double.parseDouble(d.relative_velocity.kilometers_per_second);
-            velocitiesList.add(new Velocity(kilometersPerSecond));
-        }
-        Velocities velocities = new Velocities(velocitiesList);
-        return velocities;
+        return new Velocities(close_approach_data.stream()
+                .map(d -> d.relative_velocity)
+                .map(d -> d.kilometers_per_second)
+                .mapToDouble(Double::parseDouble)
+                .mapToObj(Velocity::new)
+                .collect(toList()));
     }
 
     private MissDistances toMissDistances(List<CloseApproachDataDto> closeApproachData) {
