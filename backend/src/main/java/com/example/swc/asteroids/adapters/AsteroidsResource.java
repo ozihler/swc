@@ -72,10 +72,11 @@ public class AsteroidsResource {
                     asteroidDetails.put("averageMissDistanceInKm", missDistances.getAverageMissDistanceInKm());
                     asteroidDetails.put("averageLunarDistance", missDistances.getAverageLunarMissingDistance());
 
-                    DiameterDto meters = asteroid.estimated_diameter.meters;
+                    Measures measures = new Measures(
+                            asteroid.estimated_diameter.meters.estimated_diameter_min,
+                            asteroid.estimated_diameter.meters.estimated_diameter_max);
 
                     Velocities velocities = toVelocities(asteroid.close_approach_data);
-                    Measures measures = new Measures(meters.estimated_diameter_min, meters.estimated_diameter_max);
 
                     double kineticEnergyInJoules = 0.5 * measures.massInKg() * velocities.averageVelocityInMetersPerSecond() * velocities.averageVelocityInMetersPerSecond();
                     double kineticEnergyInTonsOfTNT = kineticEnergyInJoules * 0.00000000024;         // 1 joule = 0.00000000024 tons of TNT
