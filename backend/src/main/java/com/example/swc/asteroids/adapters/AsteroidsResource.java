@@ -1,10 +1,6 @@
 package com.example.swc.asteroids.adapters;
 
-import com.example.swc.asteroids.adapters.data_access.AsteroidsRepository;
-import com.example.swc.asteroids.adapters.data_access.FetchAsteroids;
-import com.example.swc.asteroids.adapters.presentation.RestAsteroidPresenter;
-import com.example.swc.asteroids.application.use_cases.ViewDestructiveInformationOfAsteroidsUseCase;
-import com.example.swc.asteroids.application.use_cases.port.ViewDestructiveInformationOfAsteroids;
+import com.example.swc.asteroids.adapters.presentation.ViewDestructiveInformationOfAsteroidsController;
 import com.example.swc.asteroids.domain.*;
 import com.example.swc.asteroids.surrounding_systems.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +16,12 @@ import java.util.*;
 public class AsteroidsResource {
 
     private final NewWsApi newWsApi;
-    private final FetchAsteroids fetchAsteroids;
+    private final ViewDestructiveInformationOfAsteroidsController controller;
 
     @Autowired
-    public AsteroidsResource(NewWsApi newWsApi) {
+    public AsteroidsResource(NewWsApi newWsApi, ViewDestructiveInformationOfAsteroidsController controller) {
         this.newWsApi = newWsApi;
-        fetchAsteroids = new AsteroidsRepository(newWsApi);
+        this.controller = controller;
     }
 
     @GetMapping("/api/asteroids")
@@ -59,16 +55,7 @@ public class AsteroidsResource {
             @RequestParam("endDate") String endDateString,
             @RequestParam("useTestData") boolean useTestData) {
 
-        RetrievalDate startDate = new RetrievalDate(startDateString);
-        RetrievalDate endDate = new RetrievalDate(endDateString);
-
-        RestAsteroidPresenter output = new RestAsteroidPresenter();
-
-        ViewDestructiveInformationOfAsteroids useCase = new ViewDestructiveInformationOfAsteroidsUseCase(fetchAsteroids);
-
-        useCase.invokeWith(startDate, endDate, useTestData, output);
-
-        return output.getResponse();
+        return controller.getDestructiveInformationOfAsteroids(startDateString, endDateString, useTestData);
     }
 
 }

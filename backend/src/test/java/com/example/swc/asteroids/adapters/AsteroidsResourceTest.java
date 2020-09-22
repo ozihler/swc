@@ -1,5 +1,7 @@
 package com.example.swc.asteroids.adapters;
 
+import com.example.swc.asteroids.adapters.data_access.AsteroidsRepository;
+import com.example.swc.asteroids.adapters.presentation.ViewDestructiveInformationOfAsteroidsController;
 import com.example.swc.asteroids.domain.IllegalRetrievalDateException;
 import com.example.swc.asteroids.domain.Magnitude;
 import com.example.swc.asteroids.surrounding_systems.AsteroidsApiDataDto;
@@ -31,8 +33,9 @@ class AsteroidsResourceTest {
 
     @Test
     void testAverageMissDistanceInKm() {
+        final TestNewWsApi newWsApi = new TestNewWsApi("", "", "classpath:test_data/test_asteroids.json");
         var asteroidsResource = new AsteroidsResource(
-                new TestNewWsApi("", "", "classpath:test_data/test_asteroids.json")
+                newWsApi, new ViewDestructiveInformationOfAsteroidsController(new AsteroidsRepository(newWsApi))
         );
 
         ResponseEntity<Map<String, List<Map<String, Object>>>> response = asteroidsResource.getDestructiveInformationOfAsteroids(
@@ -67,8 +70,9 @@ class AsteroidsResourceTest {
 
     @Test
     void testAverageLunarDistance() {
+        final TestNewWsApi newWsApi = new TestNewWsApi("", "", "classpath:test_data/test_asteroids.json");
         var asteroidsResource = new AsteroidsResource(
-                new TestNewWsApi("", "", "classpath:test_data/test_asteroids.json")
+                newWsApi, new ViewDestructiveInformationOfAsteroidsController(new AsteroidsRepository(newWsApi))
         );
 
         ResponseEntity<Map<String, List<Map<String, Object>>>> response = asteroidsResource.getDestructiveInformationOfAsteroids(
@@ -103,8 +107,9 @@ class AsteroidsResourceTest {
 
     @Test
     void testAllIdsCollected() {
+        final TestNewWsApi newWsApi = new TestNewWsApi("", "", "classpath:test_data/test_asteroids.json");
         var asteroidsResource = new AsteroidsResource(
-                new TestNewWsApi("", "", "classpath:test_data/test_asteroids.json")
+                newWsApi, new ViewDestructiveInformationOfAsteroidsController(new AsteroidsRepository(newWsApi))
         );
 
         ResponseEntity<Map<String, List<Map<String, Object>>>> response = asteroidsResource.getDestructiveInformationOfAsteroids(
@@ -138,8 +143,9 @@ class AsteroidsResourceTest {
 
     @Test
     void throwsIllegalRetrievalDateException() {
+        final TestNewWsApi newWsApi = new TestNewWsApi("", "", "classpath:backup_data/backup_asteroids.json");
         var asteroidsResource = new AsteroidsResource(
-                new TestNewWsApi("", "", "classpath:backup_data/backup_asteroids.json")
+                newWsApi, new ViewDestructiveInformationOfAsteroidsController(new AsteroidsRepository(newWsApi))
         );
         assertThrows(IllegalRetrievalDateException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("", "", true));
         assertThrows(IllegalRetrievalDateException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("2020-01-01", "", false));
@@ -150,8 +156,9 @@ class AsteroidsResourceTest {
 
     @Test
     void throwsRuntimeException() {
+        final TestNewWsApi newWsApi = new TestNewWsApi("", "", "unkown.json");
         var asteroidsResource = new AsteroidsResource(
-                new TestNewWsApi("", "", "unkown.json")
+                newWsApi, new ViewDestructiveInformationOfAsteroidsController(new AsteroidsRepository(newWsApi))
         );
 
         assertThrows(RuntimeException.class, () -> asteroidsResource.getDestructiveInformationOfAsteroids("2000-01-01", "2000-01-01", true));
@@ -159,8 +166,9 @@ class AsteroidsResourceTest {
 
     @Test
     void kineticEnergy() {
+        final TestNewWsApi newWsApi = new TestNewWsApi("", "", "classpath:test_data/test_asteroids_2.json");
         var asteroidsResource = new AsteroidsResource(
-                new TestNewWsApi("", "", "classpath:test_data/test_asteroids_2.json")
+                newWsApi, new ViewDestructiveInformationOfAsteroidsController(new AsteroidsRepository(newWsApi))
         );
 
 
@@ -195,8 +203,9 @@ class AsteroidsResourceTest {
 
     @Test
     void numberOfHiroshimaBombs() {
+        final TestNewWsApi newWsApi = new TestNewWsApi("", "", "classpath:test_data/test_asteroids_2.json");
         var asteroidsResource = new AsteroidsResource(
-                new TestNewWsApi("", "", "classpath:test_data/test_asteroids_2.json")
+                newWsApi, new ViewDestructiveInformationOfAsteroidsController(new AsteroidsRepository(newWsApi))
         );
 
 
@@ -232,8 +241,9 @@ class AsteroidsResourceTest {
 
     @Test
     void numberOfHiroshimaDeaths() {
+        final TestNewWsApi newWsApi = new TestNewWsApi("", "", "classpath:test_data/test_asteroids_2.json");
         var asteroidsResource = new AsteroidsResource(
-                new TestNewWsApi("", "", "classpath:test_data/test_asteroids_2.json")
+                newWsApi, new ViewDestructiveInformationOfAsteroidsController(new AsteroidsRepository(newWsApi))
         );
 
 
