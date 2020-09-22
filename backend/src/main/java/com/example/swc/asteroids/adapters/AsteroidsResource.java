@@ -3,7 +3,8 @@ package com.example.swc.asteroids.adapters;
 import com.example.swc.asteroids.adapters.data_access.AsteroidsRepository;
 import com.example.swc.asteroids.adapters.data_access.FetchAsteroids;
 import com.example.swc.asteroids.adapters.presentation.RestAsteroidPresenter;
-import com.example.swc.asteroids.application.use_cases.ViewDestructiveInformationOfAsteroids;
+import com.example.swc.asteroids.application.use_cases.ViewDestructiveInformationOfAsteroidsUseCase;
+import com.example.swc.asteroids.application.use_cases.port.ViewDestructiveInformationOfAsteroids;
 import com.example.swc.asteroids.domain.*;
 import com.example.swc.asteroids.surrounding_systems.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class AsteroidsResource {
 
         RestAsteroidPresenter output = new RestAsteroidPresenter();
 
-        ViewDestructiveInformationOfAsteroids useCase = new ViewDestructiveInformationOfAsteroids(fetchAsteroids);
+        ViewDestructiveInformationOfAsteroids useCase = new ViewDestructiveInformationOfAsteroidsUseCase(fetchAsteroids);
 
         useCase.invokeWith(useTestData, startDate, endDate, output);
 

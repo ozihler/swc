@@ -2,16 +2,18 @@ package com.example.swc.asteroids.application.use_cases;
 
 import com.example.swc.asteroids.adapters.data_access.FetchAsteroids;
 import com.example.swc.asteroids.adapters.presentation.AsteroidPresenter;
+import com.example.swc.asteroids.application.use_cases.port.ViewDestructiveInformationOfAsteroids;
 import com.example.swc.asteroids.domain.Asteroids;
 import com.example.swc.asteroids.domain.RetrievalDate;
 
-public class ViewDestructiveInformationOfAsteroids {
+public class ViewDestructiveInformationOfAsteroidsUseCase implements ViewDestructiveInformationOfAsteroids {
     private FetchAsteroids fetchAsteroids;
 
-    public ViewDestructiveInformationOfAsteroids(FetchAsteroids fetchAsteroids) {
+    public ViewDestructiveInformationOfAsteroidsUseCase(FetchAsteroids fetchAsteroids) {
         this.fetchAsteroids = fetchAsteroids;
     }
 
+    @Override
     public void invokeWith(boolean useTestData, RetrievalDate startDate, RetrievalDate endDate, AsteroidPresenter output) {
         Asteroids asteroids = this.fetchAsteroids.between(startDate, endDate, useTestData);
         output.present(asteroids);
