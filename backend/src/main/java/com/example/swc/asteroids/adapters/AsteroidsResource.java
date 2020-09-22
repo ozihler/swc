@@ -2,6 +2,7 @@ package com.example.swc.asteroids.adapters;
 
 import com.example.swc.asteroids.adapters.data_access.AsteroidsRepository;
 import com.example.swc.asteroids.adapters.presentation.RestAsteroidPresenter;
+import com.example.swc.asteroids.application.use_cases.ViewDestructiveInformationOfAsteroids;
 import com.example.swc.asteroids.domain.*;
 import com.example.swc.asteroids.surrounding_systems.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +62,9 @@ public class AsteroidsResource {
 
         RestAsteroidPresenter output = new RestAsteroidPresenter();
 
-        Asteroids asteroids = asteroidsRepository.fetchAsteroids(startDate, endDate, useTestData);
-        output.present(asteroids);
+        ViewDestructiveInformationOfAsteroids useCase = new ViewDestructiveInformationOfAsteroids(asteroidsRepository);
+
+        useCase.invokeWith(useTestData, startDate, endDate, output);
 
         return output.getResponse();
     }
