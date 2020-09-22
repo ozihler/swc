@@ -66,7 +66,7 @@ public class AsteroidsResource {
 
         ViewDestructiveInformationOfAsteroids useCase = new ViewDestructiveInformationOfAsteroidsUseCase(fetchAsteroids);
 
-        useCase.invokeWith(startDate, endDate, output, useTestData);
+        useCase.invokeWith(startDate, endDate, useTestData, output);
 
         return output.getResponse();
     }
