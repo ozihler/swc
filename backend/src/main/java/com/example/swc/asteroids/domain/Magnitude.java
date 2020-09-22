@@ -36,4 +36,9 @@ public class Magnitude {
     private boolean isBelowTons() {
         return kineticEnergyInTonsOfTNT < 1.0;
     }
+
+    @Override
+    public String toString() {
+        return getValue();
+    }
 }

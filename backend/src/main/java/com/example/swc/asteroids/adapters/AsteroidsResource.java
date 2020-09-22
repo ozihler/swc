@@ -57,30 +57,26 @@ public class AsteroidsResource {
         try { // Deeply-nested control flow
             Map<String, List<Map<String, Object>>> results = new HashMap<>(); // Primitive Obsession
 
-            AsteroidsApiDataDto dataFromApi = this.newWsApi.getAsteroidData(new RetrievalDate(startDate).toDate(), new RetrievalDate(endDate).toDate(), false, useTestData);
+            AsteroidsApiDataDto dataFromApi = this.newWsApi.getAsteroidData(
+                    new RetrievalDate(startDate).toDate(),
+                    new RetrievalDate(endDate).toDate(),
+                    false,
+                    useTestData);
 
             for (Map.Entry<String, List<NearEarthObjectDto>> asteroidsPerDate : dataFromApi.near_earth_objects.entrySet()) {
-                for (NearEarthObjectDto asteroid : asteroidsPerDate.getValue()) {
+                for (NearEarthObjectDto asteroidDto : asteroidsPerDate.getValue()) {
+
+                    Asteroid asteroid = toAsteroid(asteroidDto);
+
                     Map<String, Object> asteroidDetails = new TreeMap<>();
-                    asteroidDetails.put("id", asteroid.id);
-                    asteroidDetails.put("name", asteroid.name);
-
-                    MissDistances missDistances = toMissDistances(asteroid.close_approach_data);
-
-                    asteroidDetails.put("averageMissDistanceInKm", missDistances.getAverageMissDistanceInKm());
-                    asteroidDetails.put("averageLunarDistance", missDistances.getAverageLunarMissingDistance());
-
-                    KineticEnergy kineticEnergy = toKineticEnergy(asteroid);
-
-                    asteroidDetails.put("kineticEnergyInTonsOfTNT", kineticEnergy.getKineticEnergyInTonsOfTNT());
-
-                    Magnitude magnitude = new Magnitude(kineticEnergy.getKineticEnergyInTonsOfTNT());
-
-                    asteroidDetails.put("magnitude", magnitude.getValue());
-
-                    HiroshimaBombs hiroshimaBombs = new HiroshimaBombs(kineticEnergy);
-                    asteroidDetails.put("numberOfHiroshimaBombs", hiroshimaBombs.getNumberOfBombs());
-                    asteroidDetails.put("numberOfHiroshimaDeaths", hiroshimaBombs.getNumberOfDeaths());
+                    asteroidDetails.put("id", asteroid.getId().toString());
+                    asteroidDetails.put("name", asteroid.getName().toString());
+                    asteroidDetails.put("averageMissDistanceInKm", asteroid.getMissDistances().getAverageMissDistanceInKm());
+                    asteroidDetails.put("averageLunarDistance", asteroid.getMissDistances().getAverageLunarMissingDistance());
+                    asteroidDetails.put("kineticEnergyInTonsOfTNT", asteroid.getKineticEnergy().getKineticEnergyInTonsOfTNT());
+                    asteroidDetails.put("magnitude", asteroid.getKineticEnergy().getMagnitude());
+                    asteroidDetails.put("numberOfHiroshimaBombs", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfBombs());
+                    asteroidDetails.put("numberOfHiroshimaDeaths", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfDeaths());
 
                     List<Map<String, Object>> asteroids = results.get("asteroids");
                     if (asteroids == null) {
@@ -100,12 +96,21 @@ public class AsteroidsResource {
         }
     }
 
-    private KineticEnergy toKineticEnergy(NearEarthObjectDto asteroid) {
-        Measures measures = new Measures(
-                asteroid.estimated_diameter.meters.estimated_diameter_min,
-                asteroid.estimated_diameter.meters.estimated_diameter_max);
+    private Asteroid toAsteroid(NearEarthObjectDto asteroidDto) {
+        MissDistances missDistances = toMissDistances(asteroidDto.close_approach_data);
+        KineticEnergy kineticEnergy = toKineticEnergy(asteroidDto);
 
-        Velocities velocities = toVelocities(asteroid.close_approach_data);
+        Id id = new Id(asteroidDto.id);
+        Name name = new Name(asteroidDto.name);
+        return new Asteroid(id, name, missDistances, kineticEnergy);
+    }
+
+    private KineticEnergy toKineticEnergy(NearEarthObjectDto asteroidDto) {
+        Measures measures = new Measures(
+                asteroidDto.estimated_diameter.meters.estimated_diameter_min,
+                asteroidDto.estimated_diameter.meters.estimated_diameter_max);
+
+        Velocities velocities = toVelocities(asteroidDto.close_approach_data);
 
         return new KineticEnergy(measures, velocities);
     }
