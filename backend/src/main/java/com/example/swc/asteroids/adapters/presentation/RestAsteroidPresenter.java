@@ -1,5 +1,6 @@
 package com.example.swc.asteroids.adapters.presentation;
 
+import com.example.swc.asteroids.application.outbound_ports.AsteroidPresenter;
 import com.example.swc.asteroids.domain.Asteroid;
 import com.example.swc.asteroids.domain.Asteroids;
 import org.springframework.http.ResponseEntity;

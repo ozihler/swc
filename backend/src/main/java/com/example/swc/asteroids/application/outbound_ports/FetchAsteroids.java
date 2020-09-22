@@ -1,4 +1,4 @@
-package com.example.swc.asteroids.adapters.data_access;
+package com.example.swc.asteroids.application.outbound_ports;
 
 import com.example.swc.asteroids.domain.Asteroids;
 import com.example.swc.asteroids.domain.RetrievalDate;

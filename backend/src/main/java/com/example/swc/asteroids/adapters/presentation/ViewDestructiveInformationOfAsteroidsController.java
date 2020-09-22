@@ -1,6 +1,6 @@
 package com.example.swc.asteroids.adapters.presentation;
 
-import com.example.swc.asteroids.adapters.data_access.FetchAsteroids;
+import com.example.swc.asteroids.application.outbound_ports.FetchAsteroids;
 import com.example.swc.asteroids.application.use_cases.ViewDestructiveInformationOfAsteroidsUseCase;
 import com.example.swc.asteroids.application.use_cases.port.ViewDestructiveInformationOfAsteroids;
 import com.example.swc.asteroids.domain.RetrievalDate;

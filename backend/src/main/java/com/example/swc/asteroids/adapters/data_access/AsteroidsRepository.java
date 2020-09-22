@@ -1,5 +1,6 @@
 package com.example.swc.asteroids.adapters.data_access;
 
+import com.example.swc.asteroids.application.outbound_ports.FetchAsteroids;
 import com.example.swc.asteroids.domain.*;
 import com.example.swc.asteroids.surrounding_systems.AsteroidsApiDataDto;
 import com.example.swc.asteroids.surrounding_systems.CloseApproachDataDto;
