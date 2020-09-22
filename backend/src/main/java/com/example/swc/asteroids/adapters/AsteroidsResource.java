@@ -1,6 +1,7 @@
 package com.example.swc.asteroids.adapters;
 
 import com.example.swc.asteroids.adapters.data_access.AsteroidsRepository;
+import com.example.swc.asteroids.adapters.data_access.FetchAsteroids;
 import com.example.swc.asteroids.adapters.presentation.RestAsteroidPresenter;
 import com.example.swc.asteroids.application.use_cases.ViewDestructiveInformationOfAsteroids;
 import com.example.swc.asteroids.domain.*;
@@ -18,12 +19,12 @@ import java.util.*;
 public class AsteroidsResource {
 
     private final NewWsApi newWsApi;
-    private final AsteroidsRepository asteroidsRepository;
+    private final FetchAsteroids fetchAsteroids;
 
     @Autowired
     public AsteroidsResource(NewWsApi newWsApi) {
         this.newWsApi = newWsApi;
-        asteroidsRepository = new AsteroidsRepository(newWsApi);
+        fetchAsteroids = new AsteroidsRepository(newWsApi);
     }
 
     @GetMapping("/api/asteroids")
@@ -62,7 +63,7 @@ public class AsteroidsResource {
 
         RestAsteroidPresenter output = new RestAsteroidPresenter();
 
-        ViewDestructiveInformationOfAsteroids useCase = new ViewDestructiveInformationOfAsteroids(asteroidsRepository);
+        ViewDestructiveInformationOfAsteroids useCase = new ViewDestructiveInformationOfAsteroids(fetchAsteroids);
 
         useCase.invokeWith(useTestData, startDate, endDate, output);
 

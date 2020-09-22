@@ -16,7 +16,7 @@ import java.util.Map;
 import static java.util.stream.Collectors.toList;
 
 @Repository
-public class AsteroidsRepository {
+public class AsteroidsRepository implements FetchAsteroids {
 
     private NewWsApi newWsApi;
 
@@ -25,7 +25,8 @@ public class AsteroidsRepository {
         this.newWsApi = newWsApi;
     }
 
-    public Asteroids fetchAsteroids(RetrievalDate startDate, RetrievalDate endDate, boolean useTestData) {
+    @Override
+    public Asteroids between(RetrievalDate startDate, RetrievalDate endDate, boolean useTestData) {
         AsteroidsApiDataDto dataFromApi;
         try {
             dataFromApi = this.newWsApi.getAsteroidData(
