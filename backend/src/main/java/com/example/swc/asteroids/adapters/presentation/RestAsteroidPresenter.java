@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
-public class RestAsteroidPresenter {
+public class RestAsteroidPresenter implements AsteroidPresenter {
     private ResponseEntity<Map<String, List<Map<String, Object>>>> response;
 
     public RestAsteroidPresenter() {
@@ -17,6 +17,7 @@ public class RestAsteroidPresenter {
         return -((Float) map1.get("numberOfHiroshimaBombs")).compareTo((float) map2.get("numberOfHiroshimaBombs"));
     }
 
+    @Override
     public void present(Asteroids asteroids) {
         Map<String, List<Map<String, Object>>> asteroidDtos = toDtos(asteroids);
         this.response = ResponseEntity.ok(asteroidDtos);

@@ -1,7 +1,7 @@
 package com.example.swc.asteroids.application.use_cases;
 
 import com.example.swc.asteroids.adapters.data_access.FetchAsteroids;
-import com.example.swc.asteroids.adapters.presentation.RestAsteroidPresenter;
+import com.example.swc.asteroids.adapters.presentation.AsteroidPresenter;
 import com.example.swc.asteroids.domain.Asteroids;
 import com.example.swc.asteroids.domain.RetrievalDate;
 
@@ -12,7 +12,7 @@ public class ViewDestructiveInformationOfAsteroids {
         this.fetchAsteroids = fetchAsteroids;
     }
 
-    public void invokeWith(boolean useTestData, RetrievalDate startDate, RetrievalDate endDate, RestAsteroidPresenter output) {
+    public void invokeWith(boolean useTestData, RetrievalDate startDate, RetrievalDate endDate, AsteroidPresenter output) {
         Asteroids asteroids = this.fetchAsteroids.between(startDate, endDate, useTestData);
         output.present(asteroids);
     }
