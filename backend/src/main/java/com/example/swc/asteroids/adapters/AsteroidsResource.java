@@ -123,7 +123,7 @@ public class AsteroidsResource {
         return new MissDistances(
                 closeApproachData.stream()
                         .map(a -> a.miss_distance)
-                        .map(MissDistance::new)
+                        .map(miss_distance -> new MissDistance(Double.parseDouble(miss_distance.kilometers)))
                         .collect(toList()));
     }
 
