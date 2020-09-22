@@ -56,12 +56,19 @@ public class AsteroidsResource {
             @RequestParam("useTestData") boolean useTestData) { // Long method
 
 
-        Map<String, List<Map<String, Object>>> results = new HashMap<>(); // Primitive Obsession
-
         RetrievalDate startDate = new RetrievalDate(startDateString);
         RetrievalDate endDate = new RetrievalDate(endDateString);
 
         Asteroids asteroids = asteroidsRepository.fetchAsteroids(startDate, endDate, useTestData);
+
+        Map<String, List<Map<String, Object>>> results = toDtos(asteroids);
+
+        return ResponseEntity.ok(results);
+
+    }
+
+    private Map<String, List<Map<String, Object>>> toDtos(Asteroids asteroids) {
+        List<Map<String, Object>> asteroidDetailsDtos = new ArrayList<>();
 
         for (Asteroid asteroid : asteroids.getAsteroids()) {
             Map<String, Object> asteroidDetails = new TreeMap<>();
@@ -74,18 +81,30 @@ public class AsteroidsResource {
             asteroidDetails.put("numberOfHiroshimaBombs", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfBombs());
             asteroidDetails.put("numberOfHiroshimaDeaths", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfDeaths());
 
-            List<Map<String, Object>> asteroidDtos = results.get("asteroids");
-            if (asteroidDtos == null) {
-                asteroidDtos = new ArrayList<>();
-            }
-            asteroidDtos.add(asteroidDetails);
+            asteroidDetailsDtos.add(asteroidDetails);
+        }
 
-            asteroidDtos.sort((map1, map2) -> -((Float) map1.get("numberOfHiroshimaBombs")).compareTo((float) map2.get("numberOfHiroshimaBombs")));
+        Map<String, List<Map<String, Object>>> results = new HashMap<>();
+        for (Map<String, Object> asteroidDetails : asteroidDetailsDtos) {
+            List<Map<String, Object>> asteroidDtos = getAsteroidDtos(results);
+            asteroidDtos.add(asteroidDetails);
             results.put("asteroids", asteroidDtos);
         }
 
-        return ResponseEntity.ok(results);
+        getAsteroidDtos(results).sort(this::byNumberOfHiroshimaBombs);
+        return results;
+    }
 
+    private int byNumberOfHiroshimaBombs(Map<String, Object> map1, Map<String, Object> map2) {
+        return -((Float) map1.get("numberOfHiroshimaBombs")).compareTo((float) map2.get("numberOfHiroshimaBombs"));
+    }
+
+    private List<Map<String, Object>> getAsteroidDtos(Map<String, List<Map<String, Object>>> results) {
+        List<Map<String, Object>> asteroidDtos = results.get("asteroids");
+        if (asteroidDtos == null) {
+            asteroidDtos = new ArrayList<>();
+        }
+        return asteroidDtos;
     }
 
 }
