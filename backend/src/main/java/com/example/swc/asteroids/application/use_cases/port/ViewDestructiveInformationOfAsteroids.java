@@ -4,5 +4,5 @@ import com.example.swc.asteroids.adapters.presentation.AsteroidPresenter;
 import com.example.swc.asteroids.domain.RetrievalDate;
 
 public interface ViewDestructiveInformationOfAsteroids {
-    void invokeWith(boolean useTestData, RetrievalDate startDate, RetrievalDate endDate, AsteroidPresenter output);
+    void invokeWith(RetrievalDate startDate, RetrievalDate endDate, AsteroidPresenter output, boolean useTestData);
 }

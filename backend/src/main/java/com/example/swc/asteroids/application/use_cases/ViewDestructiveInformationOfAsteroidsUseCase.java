@@ -14,7 +14,7 @@ public class ViewDestructiveInformationOfAsteroidsUseCase implements ViewDestruc
     }
 
     @Override
-    public void invokeWith(boolean useTestData, RetrievalDate startDate, RetrievalDate endDate, AsteroidPresenter output) {
+    public void invokeWith(RetrievalDate startDate, RetrievalDate endDate, AsteroidPresenter output, boolean useTestData) {
         Asteroids asteroids = this.fetchAsteroids.between(startDate, endDate, useTestData);
         output.present(asteroids);
     }
