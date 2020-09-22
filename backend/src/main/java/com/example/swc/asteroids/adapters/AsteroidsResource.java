@@ -1,6 +1,7 @@
 package com.example.swc.asteroids.adapters;
 
 import com.example.swc.asteroids.adapters.data_access.AsteroidsRepository;
+import com.example.swc.asteroids.adapters.presentation.RestAsteroidPresenter;
 import com.example.swc.asteroids.domain.*;
 import com.example.swc.asteroids.surrounding_systems.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,58 +54,19 @@ public class AsteroidsResource {
     public ResponseEntity<Map<String, List<Map<String, Object>>>> getDestructiveInformationOfAsteroids(
             @RequestParam("startDate") String startDateString,
             @RequestParam("endDate") String endDateString,
-            @RequestParam("useTestData") boolean useTestData) { // Long method
+            @RequestParam("useTestData") boolean useTestData) {
 
 
         RetrievalDate startDate = new RetrievalDate(startDateString);
         RetrievalDate endDate = new RetrievalDate(endDateString);
 
+        RestAsteroidPresenter output = new RestAsteroidPresenter();
+
         Asteroids asteroids = asteroidsRepository.fetchAsteroids(startDate, endDate, useTestData);
+        output.present(asteroids);
 
-        Map<String, List<Map<String, Object>>> results = toDtos(asteroids);
+        return output.getResponse();
 
-        return ResponseEntity.ok(results);
-
-    }
-
-    private Map<String, List<Map<String, Object>>> toDtos(Asteroids asteroids) {
-        List<Map<String, Object>> asteroidDetailsDtos = new ArrayList<>();
-
-        for (Asteroid asteroid : asteroids.getAsteroids()) {
-            Map<String, Object> asteroidDetails = new TreeMap<>();
-            asteroidDetails.put("id", asteroid.getId().toString());
-            asteroidDetails.put("name", asteroid.getName().toString());
-            asteroidDetails.put("averageMissDistanceInKm", asteroid.getMissDistances().getAverageMissDistanceInKm());
-            asteroidDetails.put("averageLunarDistance", asteroid.getMissDistances().getAverageLunarMissingDistance());
-            asteroidDetails.put("kineticEnergyInTonsOfTNT", asteroid.getKineticEnergy().getKineticEnergyInTonsOfTNT());
-            asteroidDetails.put("magnitude", asteroid.getKineticEnergy().getMagnitude());
-            asteroidDetails.put("numberOfHiroshimaBombs", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfBombs());
-            asteroidDetails.put("numberOfHiroshimaDeaths", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfDeaths());
-
-            asteroidDetailsDtos.add(asteroidDetails);
-        }
-
-        Map<String, List<Map<String, Object>>> results = new HashMap<>();
-        for (Map<String, Object> asteroidDetails : asteroidDetailsDtos) {
-            List<Map<String, Object>> asteroidDtos = getAsteroidDtos(results);
-            asteroidDtos.add(asteroidDetails);
-            results.put("asteroids", asteroidDtos);
-        }
-
-        getAsteroidDtos(results).sort(this::byNumberOfHiroshimaBombs);
-        return results;
-    }
-
-    private int byNumberOfHiroshimaBombs(Map<String, Object> map1, Map<String, Object> map2) {
-        return -((Float) map1.get("numberOfHiroshimaBombs")).compareTo((float) map2.get("numberOfHiroshimaBombs"));
-    }
-
-    private List<Map<String, Object>> getAsteroidDtos(Map<String, List<Map<String, Object>>> results) {
-        List<Map<String, Object>> asteroidDtos = results.get("asteroids");
-        if (asteroidDtos == null) {
-            asteroidDtos = new ArrayList<>();
-        }
-        return asteroidDtos;
     }
 
 }
