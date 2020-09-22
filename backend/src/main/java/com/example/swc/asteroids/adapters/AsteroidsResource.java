@@ -1,5 +1,6 @@
 package com.example.swc.asteroids.adapters;
 
+import com.example.swc.asteroids.adapters.data_access.AsteroidsRepository;
 import com.example.swc.asteroids.domain.*;
 import com.example.swc.asteroids.surrounding_systems.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.*;
 
-import static java.util.stream.Collectors.toList;
-
 @RestController
 public class AsteroidsResource {
 
     private final NewWsApi newWsApi;
+    private final AsteroidsRepository asteroidsRepository;
 
     @Autowired
     public AsteroidsResource(NewWsApi newWsApi) {
         this.newWsApi = newWsApi;
+        asteroidsRepository = new AsteroidsRepository(newWsApi);
     }
 
     @GetMapping("/api/asteroids")
@@ -60,21 +61,7 @@ public class AsteroidsResource {
             RetrievalDate startDate = new RetrievalDate(startDateString);
             RetrievalDate endDate = new RetrievalDate(endDateString);
 
-            AsteroidsApiDataDto dataFromApi = this.newWsApi.getAsteroidData(
-                    startDate.toDate(),
-                    endDate.toDate(),
-                    false,
-                    useTestData);
-
-            List<Asteroid> asteroidList = new ArrayList<>();
-
-            for (Map.Entry<String, List<NearEarthObjectDto>> asteroidsPerDate : dataFromApi.near_earth_objects.entrySet()) {
-                for (NearEarthObjectDto asteroidDto : asteroidsPerDate.getValue()) {
-                    asteroidList.add(toAsteroid(asteroidDto));
-                }
-            }
-
-            Asteroids asteroids = new Asteroids(asteroidList);
+            Asteroids asteroids = asteroidsRepository.fetchAsteroids(startDate, endDate, useTestData);
 
             for (Asteroid asteroid : asteroids.getAsteroids()) {
                 Map<String, Object> asteroidDetails = new TreeMap<>();
@@ -102,44 +89,6 @@ public class AsteroidsResource {
         } catch (IOException i) {
             throw new RuntimeException(i);
         }
-    }
-
-    private Asteroid toAsteroid(NearEarthObjectDto asteroidDto) {
-        MissDistances missDistances = toMissDistances(asteroidDto.close_approach_data);
-        KineticEnergy kineticEnergy = toKineticEnergy(asteroidDto);
-
-        Id id = new Id(asteroidDto.id);
-        Name name = new Name(asteroidDto.name);
-        return new Asteroid(id, name, missDistances, kineticEnergy);
-    }
-
-    private KineticEnergy toKineticEnergy(NearEarthObjectDto asteroidDto) {
-        Measures measures = new Measures(
-                asteroidDto.estimated_diameter.meters.estimated_diameter_min,
-                asteroidDto.estimated_diameter.meters.estimated_diameter_max);
-
-        Velocities velocities = toVelocities(asteroidDto.close_approach_data);
-
-        return new KineticEnergy(measures, velocities);
-    }
-
-    private Velocities toVelocities(List<CloseApproachDataDto> close_approach_data) {
-        return new Velocities(close_approach_data.stream()
-                .map(d -> d.relative_velocity)
-                .map(d -> d.kilometers_per_second)
-                .mapToDouble(Double::parseDouble)
-                .mapToObj(Velocity::new)
-                .collect(toList()));
-    }
-
-    private MissDistances toMissDistances(List<CloseApproachDataDto> closeApproachData) {
-        return new MissDistances(
-                closeApproachData.stream()
-                        .map(a -> a.miss_distance)
-                        .map(m -> m.kilometers)
-                        .mapToDouble(Double::parseDouble)
-                        .mapToObj(MissDistance::new)
-                        .collect(toList()));
     }
 
 }
