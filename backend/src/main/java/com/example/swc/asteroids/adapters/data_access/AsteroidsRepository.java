@@ -25,12 +25,18 @@ public class AsteroidsRepository {
         this.newWsApi = newWsApi;
     }
 
-    public Asteroids fetchAsteroids(RetrievalDate startDate, RetrievalDate endDate, boolean useTestData) throws IOException {
-        AsteroidsApiDataDto dataFromApi = this.newWsApi.getAsteroidData(
-                startDate.toDate(),
-                endDate.toDate(),
-                false,
-                useTestData);
+    public Asteroids fetchAsteroids(RetrievalDate startDate, RetrievalDate endDate, boolean useTestData) {
+        AsteroidsApiDataDto dataFromApi;
+        try {
+            dataFromApi = this.newWsApi.getAsteroidData(
+                    startDate.toDate(),
+                    endDate.toDate(),
+                    false,
+                    useTestData);
+
+        } catch (IOException i) {
+            throw new RuntimeException(i);
+        }
 
         List<Asteroid> asteroidList = new ArrayList<>();
 
@@ -41,6 +47,7 @@ public class AsteroidsRepository {
         }
 
         return new Asteroids(asteroidList);
+
     }
 
     private Asteroid toAsteroid(NearEarthObjectDto asteroidDto) {

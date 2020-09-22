@@ -55,40 +55,37 @@ public class AsteroidsResource {
             @RequestParam("endDate") String endDateString,
             @RequestParam("useTestData") boolean useTestData) { // Long method
 
-        try { // Deeply-nested control flow
-            Map<String, List<Map<String, Object>>> results = new HashMap<>(); // Primitive Obsession
 
-            RetrievalDate startDate = new RetrievalDate(startDateString);
-            RetrievalDate endDate = new RetrievalDate(endDateString);
+        Map<String, List<Map<String, Object>>> results = new HashMap<>(); // Primitive Obsession
 
-            Asteroids asteroids = asteroidsRepository.fetchAsteroids(startDate, endDate, useTestData);
+        RetrievalDate startDate = new RetrievalDate(startDateString);
+        RetrievalDate endDate = new RetrievalDate(endDateString);
 
-            for (Asteroid asteroid : asteroids.getAsteroids()) {
-                Map<String, Object> asteroidDetails = new TreeMap<>();
-                asteroidDetails.put("id", asteroid.getId().toString());
-                asteroidDetails.put("name", asteroid.getName().toString());
-                asteroidDetails.put("averageMissDistanceInKm", asteroid.getMissDistances().getAverageMissDistanceInKm());
-                asteroidDetails.put("averageLunarDistance", asteroid.getMissDistances().getAverageLunarMissingDistance());
-                asteroidDetails.put("kineticEnergyInTonsOfTNT", asteroid.getKineticEnergy().getKineticEnergyInTonsOfTNT());
-                asteroidDetails.put("magnitude", asteroid.getKineticEnergy().getMagnitude());
-                asteroidDetails.put("numberOfHiroshimaBombs", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfBombs());
-                asteroidDetails.put("numberOfHiroshimaDeaths", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfDeaths());
+        Asteroids asteroids = asteroidsRepository.fetchAsteroids(startDate, endDate, useTestData);
 
-                List<Map<String, Object>> asteroidDtos = results.get("asteroids");
-                if (asteroidDtos == null) {
-                    asteroidDtos = new ArrayList<>();
-                }
-                asteroidDtos.add(asteroidDetails);
+        for (Asteroid asteroid : asteroids.getAsteroids()) {
+            Map<String, Object> asteroidDetails = new TreeMap<>();
+            asteroidDetails.put("id", asteroid.getId().toString());
+            asteroidDetails.put("name", asteroid.getName().toString());
+            asteroidDetails.put("averageMissDistanceInKm", asteroid.getMissDistances().getAverageMissDistanceInKm());
+            asteroidDetails.put("averageLunarDistance", asteroid.getMissDistances().getAverageLunarMissingDistance());
+            asteroidDetails.put("kineticEnergyInTonsOfTNT", asteroid.getKineticEnergy().getKineticEnergyInTonsOfTNT());
+            asteroidDetails.put("magnitude", asteroid.getKineticEnergy().getMagnitude());
+            asteroidDetails.put("numberOfHiroshimaBombs", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfBombs());
+            asteroidDetails.put("numberOfHiroshimaDeaths", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfDeaths());
 
-                asteroidDtos.sort((map1, map2) -> -((Float) map1.get("numberOfHiroshimaBombs")).compareTo((float) map2.get("numberOfHiroshimaBombs")));
-                results.put("asteroids", asteroidDtos);
+            List<Map<String, Object>> asteroidDtos = results.get("asteroids");
+            if (asteroidDtos == null) {
+                asteroidDtos = new ArrayList<>();
             }
+            asteroidDtos.add(asteroidDetails);
 
-            return ResponseEntity.ok(results);
-
-        } catch (IOException i) {
-            throw new RuntimeException(i);
+            asteroidDtos.sort((map1, map2) -> -((Float) map1.get("numberOfHiroshimaBombs")).compareTo((float) map2.get("numberOfHiroshimaBombs")));
+            results.put("asteroids", asteroidDtos);
         }
+
+        return ResponseEntity.ok(results);
+
     }
 
 }
