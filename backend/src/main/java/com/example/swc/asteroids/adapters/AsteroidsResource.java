@@ -56,7 +56,6 @@ public class AsteroidsResource {
             @RequestParam("endDate") String endDateString,
             @RequestParam("useTestData") boolean useTestData) {
 
-
         RetrievalDate startDate = new RetrievalDate(startDateString);
         RetrievalDate endDate = new RetrievalDate(endDateString);
 
@@ -66,7 +65,6 @@ public class AsteroidsResource {
         output.present(asteroids);
 
         return output.getResponse();
-
     }
 
 }
