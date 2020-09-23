@@ -15,9 +15,9 @@ public class MarsWeatherDtoFactory {
         marsWeather.location.longitude = INSIGHT_LANDING_SITE_LONGITUDE;
 
         marsWeather.season = seasonFrom(object);
-        List<Double> temperatures = temperaturesFrom(object);
+        List<Double> temperaturesInFahrenheit = temperaturesFrom(object);
 
-        var averageTemperatureInFahrenheit = average(temperatures);
+        var averageTemperatureInFahrenheit = average(temperaturesInFahrenheit);
         marsWeather.averageTemperatureInCelsius = asCelsius(averageTemperatureInFahrenheit);
 
         return marsWeather;
