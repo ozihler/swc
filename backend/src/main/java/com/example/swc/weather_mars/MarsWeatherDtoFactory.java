@@ -17,7 +17,7 @@ public class MarsWeatherDtoFactory {
         marsWeather.season = seasonFrom(object);
         List<Double> temperaturesInFahrenheit = temperaturesInFahrenheitFrom(object);
 
-        var averageTemperatureInFahrenheit = average(temperaturesInFahrenheit);
+        var averageTemperatureInFahrenheit = averageOf(temperaturesInFahrenheit);
         marsWeather.averageTemperatureInCelsius = asCelsius(averageTemperatureInFahrenheit);
 
         return marsWeather;
@@ -54,7 +54,7 @@ public class MarsWeatherDtoFactory {
         return season;
     }
 
-    private double average(List<Double> temperatures) {
+    private double averageOf(List<Double> temperatures) {
         return temperatures.stream().mapToDouble(a -> a).average().orElse(0.0);
     }
 
