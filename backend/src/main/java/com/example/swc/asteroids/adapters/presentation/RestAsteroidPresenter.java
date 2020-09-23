@@ -38,7 +38,7 @@ public class RestAsteroidPresenter implements AsteroidPresenter {
             asteroidDetails.put("averageMissDistanceInKm", asteroid.getMissDistances().getAverageMissDistanceInKm());
             asteroidDetails.put("averageLunarDistance", asteroid.getMissDistances().getAverageLunarMissingDistance());
             asteroidDetails.put("kineticEnergyInTonsOfTNT", asteroid.getKineticEnergy().getKineticEnergyInTonsOfTNT());
-            asteroidDetails.put("magnitude", asteroid.getKineticEnergy().getMagnitude());
+            asteroidDetails.put("magnitude", asteroid.getKineticEnergy().getMagnitude().getValue());
             asteroidDetails.put("numberOfHiroshimaBombs", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfBombs());
             asteroidDetails.put("numberOfHiroshimaDeaths", asteroid.getKineticEnergy().getHiroshimaBombs().getNumberOfDeaths());
 
