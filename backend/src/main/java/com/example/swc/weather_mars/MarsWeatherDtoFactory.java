@@ -15,7 +15,7 @@ public class MarsWeatherDtoFactory {
         marsWeather.location.longitude = INSIGHT_LANDING_SITE_LONGITUDE;
 
         marsWeather.season = seasonFrom(object);
-        List<Double> temperaturesInFahrenheit = temperaturesFrom(object);
+        List<Double> temperaturesInFahrenheit = temperaturesInFahrenheitFrom(object);
 
         var averageTemperatureInFahrenheit = average(temperaturesInFahrenheit);
         marsWeather.averageTemperatureInCelsius = asCelsius(averageTemperatureInFahrenheit);
@@ -23,7 +23,7 @@ public class MarsWeatherDtoFactory {
         return marsWeather;
     }
 
-    private List<Double> temperaturesFrom(Map<String, Object> object) {
+    private List<Double> temperaturesInFahrenheitFrom(Map<String, Object> object) {
         List<Double> temperatures = new ArrayList<>();
         for (Map.Entry<String, Object> o : object.entrySet()) {
             try {
