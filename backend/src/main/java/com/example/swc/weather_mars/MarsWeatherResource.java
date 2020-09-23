@@ -41,7 +41,7 @@ public class MarsWeatherResource {
     public ResponseEntity<MarsWeatherDto> getCurrentMarsWeather() throws IOException {
         String url = String.format("%s?api_key=%s&feedtype=json&ver=1.0", baseUrl, api_key);
 
-        Map<String, Object> object = new HttpRequest<Map<String, Object>>(url).getAsType(new TypeReference<Map<String, Object>>() {
+        Map<String, Object> object = new HttpRequest<Map<String, Object>>(url).getAsType(new TypeReference<>() {
         });
 
 
