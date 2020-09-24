@@ -1,4 +1,5 @@
 # Exercise 2 - Separation of Concerns, Primitive Obsession, Emerging SW Design
+* Introduce domain logic
 * start on 1-automated-refactoring-solved
 * start separation of concerns: 
 - split DTO from API from DTO for Resource
