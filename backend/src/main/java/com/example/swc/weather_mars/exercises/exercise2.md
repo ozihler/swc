@@ -203,3 +203,163 @@ public class MarsWeatherDtoFactory {
     }
 }
 ```
+5. Introduce MarsWeather
+```
+public class MarsWeather {
+    private final Location location;
+    private final Season season;
+    private final FahrenheitTemperatures temperatures;
+
+    public MarsWeather(
+            Location location,
+            Season season,
+            FahrenheitTemperatures temperatures) {
+        this.location = location;
+        this.season = season;
+        this.temperatures = temperatures;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Season getSeason() {
+        return season;
+    }
+
+    public FahrenheitTemperatures getTemperatures() {
+        return temperatures;
+    }
+}
+
+public class MarsWeatherDtoFactory {
+    // ...
+    public MarsWeatherDto createDtoFrom(Map<String, Object> object) {
+        List<Double> temperaturesInFahrenheit = temperaturesInFahrenheitFrom(object);
+        String seasonData = seasonFrom(object);
+
+        Location location = new Location(
+                new Latitude(INSIGHT_LANDING_SITE_LATITUDE),
+                new Longitude(INSIGHT_LANDING_SITE_LONGITUDE)
+        );
+        Season season = Season.forName(seasonData);
+        FahrenheitTemperatures temperatures =
+                FahrenheitTemperatures
+                        .from(temperaturesInFahrenheit);
+
+        MarsWeather marsWeather = new MarsWeather(
+                location,
+                season,
+                temperatures
+        );
+
+        MarsWeatherDto marsWeatherDto = new MarsWeatherDto();
+        marsWeatherDto.location.latitude = marsWeather.getLocation().getLatitude().getFloatValue();
+        marsWeatherDto.location.longitude = marsWeather.getLocation().getLongitude().getFloatValue();
+        marsWeatherDto.season = marsWeather.getSeason().name();
+        marsWeatherDto.averageTemperatureInCelsius = marsWeather.getTemperatures().inCelsius();
+
+        return marsWeatherDto;
+    }
+}
+```
+6. extract public creation methods for DTO and DomainObject and inline createDtoFrom
+```
+public class MarsWeatherDtoFactory {
+    // ...
+    public MarsWeather createDomainObjectFrom(Map<String, Object> object) {
+        List<Double> temperaturesInFahrenheit = temperaturesInFahrenheitFrom(object);
+        String seasonData = seasonFrom(object);
+
+        Location location = new Location(
+                new Latitude(INSIGHT_LANDING_SITE_LATITUDE),
+                new Longitude(INSIGHT_LANDING_SITE_LONGITUDE)
+        );
+        Season season = Season.forName(seasonData);
+        FahrenheitTemperatures temperatures =
+                FahrenheitTemperatures
+                        .from(temperaturesInFahrenheit);
+
+        MarsWeather marsWeather = new MarsWeather(
+                location,
+                season,
+                temperatures
+        );
+        return marsWeather;
+    }
+
+    public MarsWeatherDto createDtoFrom(MarsWeather marsWeather) {
+        MarsWeatherDto marsWeatherDto = new MarsWeatherDto();
+        marsWeatherDto.location.latitude = marsWeather.getLocation().getLatitude().getFloatValue();
+        marsWeatherDto.location.longitude = marsWeather.getLocation().getLongitude().getFloatValue();
+        marsWeatherDto.season = marsWeather.getSeason().name();
+        marsWeatherDto.averageTemperatureInCelsius = marsWeather.getTemperatures().inCelsius();
+
+        return marsWeatherDto;
+    }
+    //....
+}
+
+public class MarsWeatherResource {
+    // ...
+
+    @GetMapping("/api/mars-weather")
+    public ResponseEntity<MarsWeatherDto> getCurrentMarsWeather() throws IOException {
+        String url = String.format("%s?api_key=%s&feedtype=json&ver=1.0", baseUrl, api_key);
+
+        Map<String, Object> object = new HttpRequest<Map<String, Object>>(url).getAsType(new TypeReference<>() {});
+        
+        MarsWeatherDtoFactory marsWeatherDtoFactory = new MarsWeatherDtoFactory();
+        
+        MarsWeather marsWeather = marsWeatherDtoFactory.createDomainObjectFrom(object);
+
+        MarsWeatherDto dto = marsWeatherDtoFactory.createDtoFrom(marsWeather);
+
+        return ResponseEntity.ok(dto);
+    }
+    // ...
+}
+```
+7. Introduce MarsWeatherFactory and move createDomainObjectFrom there
+- also move lat/long constants there
+- also move all private methods needed there
+```
+public class MarsWeatherFactory {
+    public static final float INSIGHT_LANDING_SITE_LATITUDE = 4.5024f;
+    public static final float INSIGHT_LANDING_SITE_LONGITUDE = 135.6234f;
+
+    public MarsWeather createDomainObjectFrom(Map<String, Object> object) {
+        List<Double> temperaturesInFahrenheit = temperaturesInFahrenheitFrom(object);
+        String seasonData = seasonFrom(object);
+
+        Location location = new Location(
+                new Latitude(INSIGHT_LANDING_SITE_LATITUDE),
+                new Longitude(INSIGHT_LANDING_SITE_LONGITUDE)
+        );
+        Season season = Season.forName(seasonData);
+        FahrenheitTemperatures temperatures =
+                FahrenheitTemperatures
+                        .from(temperaturesInFahrenheit);
+
+        MarsWeather marsWeather = new MarsWeather(
+                location,
+                season,
+                temperatures
+        );
+        return marsWeather;
+    }
+    // ...
+}
+
+public class MarsWeatherDtoFactory {
+    public MarsWeatherDto createDtoFrom(MarsWeather marsWeather) {
+        MarsWeatherDto marsWeatherDto = new MarsWeatherDto();
+        marsWeatherDto.location.latitude = marsWeather.getLocation().getLatitude().getFloatValue();
+        marsWeatherDto.location.longitude = marsWeather.getLocation().getLongitude().getFloatValue();
+        marsWeatherDto.season = marsWeather.getSeason().name();
+        marsWeatherDto.averageTemperatureInCelsius = marsWeather.getTemperatures().inCelsius();
+
+        return marsWeatherDto;
+    }
+}
+```
