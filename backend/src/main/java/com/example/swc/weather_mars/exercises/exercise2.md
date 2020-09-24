@@ -10,7 +10,7 @@
         var averageTemperatureInFahrenheit = averageOf(temperaturesInFahrenheit);
         double averageTemperatureInCelsius = asCelsius(averageTemperatureInFahrenheit);
 
-
+        // Presentation logic
         MarsWeatherDto marsWeather = new MarsWeatherDto();
         marsWeather.location.latitude = INSIGHT_LANDING_SITE_LATITUDE;
         marsWeather.location.longitude = INSIGHT_LANDING_SITE_LONGITUDE;
@@ -32,7 +32,7 @@
         var averageTemperatureInFahrenheit = averageOf(temperaturesInFahrenheit);
         double averageTemperatureInCelsius = asCelsius(averageTemperatureInFahrenheit);
 
-
+        // Presentation logic
         MarsWeatherDto marsWeather = new MarsWeatherDto();
         marsWeather.location.latitude = latitude;
         marsWeather.location.longitude = longitude;
