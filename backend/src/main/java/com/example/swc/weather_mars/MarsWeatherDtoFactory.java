@@ -1,8 +1,9 @@
 package com.example.swc.weather_mars;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.*;
 
 public class MarsWeatherDtoFactory {
 
@@ -24,34 +25,44 @@ public class MarsWeatherDtoFactory {
     }
 
     private List<Double> temperaturesInFahrenheitFrom(Map<String, Object> object) {
-        List<Double> temperatures = new ArrayList<>();
-        for (Map.Entry<String, Object> o : object.entrySet()) {
-            try {
-                Integer.parseInt(o.getKey());
-                Map<String, Object> value = (Map<String, Object>) o.getValue();
-                Map<String, Object> at = (Map<String, Object>) value.get("AT");
-                double av = (Double) at.get("av");
-                temperatures.add(av);
-            } catch (NumberFormatException e) {
-                continue;
-            }
-        }
-        return temperatures;
+        return temperatureDataPointsIn(object)
+                .stream()
+                .mapToDouble(this::toTemperature)
+                .boxed()
+                .collect(toList());
+    }
+
+    private Double toTemperature(Map<String, Object> value) {
+        return (Double) ((Map<String, Object>) value.get("AT")).get("av");
     }
 
     private String seasonFrom(Map<String, Object> object) {
-        String season = "";
-        for (Map.Entry<String, Object> o : object.entrySet()) {
-            try {
-                Integer.parseInt(o.getKey());
-                Map<String, Object> value = (Map<String, Object>) o.getValue();
-                season = (String) value.get("Season");
-                break;
-            } catch (NumberFormatException e) {
-                continue;
-            }
+        return temperatureDataPointsIn(object)
+                .stream()
+                .findFirst()
+                .map(this::toSeason)
+                .orElse("");
+    }
+
+    private String toSeason(Map<String, Object> value) {
+        return (String) value.get("Season");
+    }
+
+    private List<Map<String, Object>> temperatureDataPointsIn(Map<String, Object> object) {
+        return object.entrySet()
+                .stream()
+                .filter(o -> hasTemperature(o.getKey()))
+                .map(o -> (Map<String, Object>) o.getValue())
+                .collect(toList());
+    }
+
+    private boolean hasTemperature(String dataPoint) {
+        try {
+            Integer.parseInt(dataPoint);
+        } catch (NumberFormatException e) {
+            return false;
         }
-        return season;
+        return true;
     }
 
     private double averageOf(List<Double> temperatures) {
