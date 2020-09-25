@@ -39,10 +39,11 @@ public class MarsWeatherResource {
         Map<String, Object> object = new HttpRequest<Map<String, Object>>(url).getAsType(new TypeReference<>() {
         });
 
+        MarsWeather marsWeather = new MarsWeatherFactory().createDomainObjectFrom(object);
 
-        MarsWeatherDto marsWeather = new MarsWeatherDtoFactory().createDtoFrom(object);
+        MarsWeatherDto dto = new MarsWeatherDtoFactory().createDtoFrom(marsWeather);
 
-        return ResponseEntity.ok(marsWeather);
+        return ResponseEntity.ok(dto);
     }
 
 }

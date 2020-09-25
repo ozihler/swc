@@ -17,7 +17,9 @@ class MarsWeatherDtoFactoryTest {
         var marsWeatherData = new HashMap<String, Object>();
         marsWeatherData.put("1", Map.of("Season", "Summer", "AT", Map.of("av", 100.0)));
 
-        var dto = factory.createDtoFrom(marsWeatherData);
+        MarsWeather marsWeather = new MarsWeatherFactory().createDomainObjectFrom(marsWeatherData);
+
+        var dto = factory.createDtoFrom(marsWeather);
 
         assertEquals(37.777, dto.averageTemperatureInCelsius, 0.01);
         assertEquals("Summer", dto.season);
@@ -34,7 +36,9 @@ class MarsWeatherDtoFactoryTest {
         marsWeatherData.put("2", Map.of("Season", "Summer", "AT", Map.of("av", 200.0)));
         marsWeatherData.put("3", Map.of("Season", "Summer", "AT", Map.of("av", 300.0)));
 
-        var dto = factory.createDtoFrom(marsWeatherData);
+        MarsWeather marsWeather = new MarsWeatherFactory().createDomainObjectFrom(marsWeatherData);
+
+        var dto = factory.createDtoFrom(marsWeather);
 
         assertEquals(93.333, dto.averageTemperatureInCelsius, 0.01);
     }
@@ -48,7 +52,9 @@ class MarsWeatherDtoFactoryTest {
         marsWeatherData.put("2", Map.of("Season", "Winter", "AT", Map.of("av", 200.0)));
         marsWeatherData.put("3", Map.of("Season", "Spring", "AT", Map.of("av", 300.0)));
 
-        var dto = factory.createDtoFrom(marsWeatherData);
+        MarsWeather marsWeather = new MarsWeatherFactory().createDomainObjectFrom(marsWeatherData);
+
+        var dto = factory.createDtoFrom(marsWeather);
 
         assertEquals("Summer", dto.season);
     }
@@ -62,7 +68,9 @@ class MarsWeatherDtoFactoryTest {
         marsWeatherData.put("1", Map.of("Season", "Summer", "AT", Map.of("av", 100.0)));
         marsWeatherData.put("2", Map.of("Season", "Spring", "AT", Map.of("av", 300.0)));
 
-        var dto = factory.createDtoFrom(marsWeatherData);
+        MarsWeather marsWeather = new MarsWeatherFactory().createDomainObjectFrom(marsWeatherData);
+
+        var dto = factory.createDtoFrom(marsWeather);
 
         assertEquals("Summer", dto.season);
         assertEquals(93.333, dto.averageTemperatureInCelsius, 0.01);
