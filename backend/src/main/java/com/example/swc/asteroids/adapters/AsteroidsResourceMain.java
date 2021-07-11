@@ -30,7 +30,7 @@ public class AsteroidsResourceMain {
 
             for (Map.Entry<String, List<NearEarthObjectDto>> asteroidsPerDate : dataFromApi.near_earth_objects.entrySet()) {
                 for (NearEarthObjectDto asteroid : asteroidsPerDate.getValue()) {
-                    Map<String, Object> asteroidDetails = new TreeMap<>();
+                    Map<String, Object> asteroidDetails = new LinkedHashMap<>();
                     asteroidDetails.put("id", asteroid.id);
                     asteroidDetails.put("name", asteroid.name);
 
