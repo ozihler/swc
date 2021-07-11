@@ -93,7 +93,23 @@ public class AsteroidsResourceMain {
                 }
             }
 
-            System.out.println(results);
+
+            String title = "";
+            List<Map<String, Object>> asteroids = results.get("asteroids");
+            for (String key : asteroids.get(0).keySet()) {
+                title += key + "\t|\t";
+            }
+
+
+
+            for (Map<String, Object> asteroid : asteroids) {
+                String values = "";
+                for (Object stringObjectEntry : asteroid.values()) {
+                    values += stringObjectEntry +"\t|\t";
+                }
+                title += "\n" + values;
+            }
+            System.out.println(title);
 
         } catch (IOException i) {
             throw new RuntimeException(i);
