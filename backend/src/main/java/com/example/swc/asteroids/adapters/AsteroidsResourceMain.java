@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @RestController
@@ -40,8 +41,8 @@ public class AsteroidsResourceMain {
                     }
                     double avgDist = asteroid.close_approach_data.size() > 0 ? result / asteroid.close_approach_data.size() : 0.0;
 
-                    asteroidDetails.put("averageMissDistanceInKm", avgDist);
-                    asteroidDetails.put("averageLunarDistance", (avgDist / 384400)); // Magic Number
+                    asteroidDetails.put("averageMissDistanceInKm", new DecimalFormat("#.##").format(avgDist));
+                    asteroidDetails.put("averageLunarDistance", new DecimalFormat("#.##").format(avgDist / 384400)); // Magic Number
 
                     double minDiam = asteroid.estimated_diameter.meters.estimated_diameter_min;
                     double maxDiam = asteroid.estimated_diameter.meters.estimated_diameter_max;
@@ -60,8 +61,8 @@ public class AsteroidsResourceMain {
                     }
 
                     double kineticEnergyInJoules = 0.5 * massInKg * averageVelocityInMPerSecond * averageVelocityInMPerSecond;
-                    double kineticEnergyInTonsOfTNT = kineticEnergyInJoules * 0.00000000024;         // 1 joule = 0.00000000024 tons of TNT
-                    asteroidDetails.put("kineticEnergyInTonsOfTNT", kineticEnergyInTonsOfTNT);
+                    int kineticEnergyInTonsOfTNT = (int)Math.round(kineticEnergyInJoules * 0.00000000024);         // 1 joule = 0.00000000024 tons of TNT
+                    asteroidDetails.put("kineticEnergyInTonsOfTNT", (kineticEnergyInTonsOfTNT));
 
                     if (kineticEnergyInTonsOfTNT < 1.0) {
                         asteroidDetails.put("magnitude", "BELOW_TONS");
@@ -75,11 +76,11 @@ public class AsteroidsResourceMain {
                         asteroidDetails.put("magnitude", "ABOVE_MEGA_TONS");
                     }
 
-                    float numberOfHiroshimaBombs = (Math.round((float) kineticEnergyInTonsOfTNT / 15000f)); // Magic Number
+                    float rawKineticEnergyInTonsOfTNT = (float) kineticEnergyInTonsOfTNT / 15000f;  // Magic Number
 
-                    asteroidDetails.put("numberOfHiroshimaBombs", numberOfHiroshimaBombs);
+                    asteroidDetails.put("numberOfHiroshimaBombs", new DecimalFormat("#.##").format(rawKineticEnergyInTonsOfTNT));
 
-                    int numberOfHiroshimaDeaths = ((int) numberOfHiroshimaBombs) * 100000;
+                    int numberOfHiroshimaDeaths = (int) (rawKineticEnergyInTonsOfTNT * 100000);
                     asteroidDetails.put("numberOfHiroshimaDeaths", numberOfHiroshimaDeaths);
 
                     List<Map<String, Object>> asteroids = results.get("asteroids");
@@ -88,17 +89,39 @@ public class AsteroidsResourceMain {
                     }
                     asteroids.add(asteroidDetails);
 
-                    asteroids.sort((map1, map2) -> -((Float) map1.get("numberOfHiroshimaBombs")).compareTo((float) map2.get("numberOfHiroshimaBombs")));
+                    asteroids.sort((map1, map2) -> -((Comparable) map1.get("numberOfHiroshimaDeaths")).compareTo(map2.get("numberOfHiroshimaDeaths")));
                     results.put("asteroids", asteroids);
                 }
             }
 
 
             List<Map<String, Object>> asteroids = results.get("asteroids");
-            System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s %-25s %-25s%n", asteroids.get(0).keySet().toArray());
+
+            List<String> labels = new ArrayList<>();
+
+            for (String preLabel : asteroids.get(0).keySet()) {
+                if (preLabel.equals("id")) {
+                    labels.add("ID");
+                } else if (preLabel.equals("name")) {
+                    labels.add("Name");
+                } else if (preLabel.equals("averageMissDistanceInKm")) {
+                    labels.add("Avg. Miss Distance (km)");
+                } else if (preLabel.equals("averageLunarDistance")) {
+                    labels.add("Avg. Miss Distance (LD)");
+                } else if (preLabel.equals("kineticEnergyInTonsOfTNT")) {
+                    labels.add("Energy (t)");
+                } else if (preLabel.equals("magnitude")) {
+                    labels.add("Magnitude");
+                } else if (preLabel.equals("numberOfHiroshimaBombs")) {
+                    labels.add("# Hiroshima Bombs");
+                }else if (preLabel.equals("numberOfHiroshimaDeaths")) {
+                    labels.add("# Hiroshima Deaths");
+                }
+            }
+            System.out.printf("%-15s %-15s %-25s %-25s %-15s %-15s %-20s %-20s%n", labels.toArray()); // duplicated String
 
             for (Map<String, Object> asteroid : asteroids) {
-                System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s %-25s %-25s%n",asteroid.values().toArray());
+                System.out.printf("%-15s %-15s %-25s %-25s %-15s %-15s %-20s %-20s%n",asteroid.values().toArray());
             }
 
         } catch (IOException i) {

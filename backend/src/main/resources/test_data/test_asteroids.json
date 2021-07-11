@@ -67,12 +67,12 @@
         "absolute_magnitude_h": 24.7,
         "estimated_diameter": {
           "kilometers": {
-            "estimated_diameter_min": 0.0305179233,
-            "estimated_diameter_max": 0.0682401509
+            "estimated_diameter_min": 0.00305179233,
+            "estimated_diameter_max": 0.00682401509
           },
           "meters": {
-            "estimated_diameter_min": 30.5179232594,
-            "estimated_diameter_max": 68.2401509401
+            "estimated_diameter_min": 3.05179232594,
+            "estimated_diameter_max": 6.82401509401
           },
           "miles": {
             "estimated_diameter_min": 0.0189629525,
@@ -269,8 +269,8 @@
             "estimated_diameter_max": 0.6516883822
           },
           "meters": {
-            "estimated_diameter_min": 291.4439045349,
-            "estimated_diameter_max": 651.6883821679
+            "estimated_diameter_min": 22291.4439045349,
+            "estimated_diameter_max": 22651.6883821679
           },
           "miles": {
             "estimated_diameter_min": 0.1810947904,
@@ -363,12 +363,12 @@
         "absolute_magnitude_h": 25.283,
         "estimated_diameter": {
           "kilometers": {
-            "estimated_diameter_min": 0.0233321616,
-            "estimated_diameter_max": 0.0521722995
+            "estimated_diameter_min": 0.0000033321616,
+            "estimated_diameter_max": 0.0000021722995
           },
           "meters": {
-            "estimated_diameter_min": 23.3321616477,
-            "estimated_diameter_max": 52.1722995063
+            "estimated_diameter_min": 0.0033321616477,
+            "estimated_diameter_max": 0.001722995063
           },
           "miles": {
             "estimated_diameter_min": 0.0144979286,
